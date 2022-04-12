@@ -49,6 +49,7 @@ function GetExamplePage(props: any): JSX.Element {
           </a>
         </div>
       </div>
+      <button className="round__add-button">+</button>
     </div>
   );
   return examplePage;

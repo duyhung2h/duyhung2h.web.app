@@ -1,4 +1,4 @@
-import { Route } from "react-router-dom";
+import { Route, Redirect} from "react-router-dom";
 import React from "react";
 import MainHeader from "../../components/Header";
 
@@ -12,15 +12,15 @@ function App() {
       <MainHeader>
         <p>Test if works MainHeader</p>
       </MainHeader>
-      <Route path={"/"}>
+      <Route exact path={"/"}>
         <p>Test if works App /</p>
-        {/* <GetExamplePage /> */}
+        <Redirect to="/home" />
       </Route>
-      <Route path={"/home"}>
+      <Route exact path={"/home"}>
         <p>Test if works App /home</p>
         <Home />
       </Route>
-      <Route path={"/examples"}>
+      <Route exact path={"/examples"}>
         <p>Test if works App /examples</p>
         <GetExamplePage />
       </Route>

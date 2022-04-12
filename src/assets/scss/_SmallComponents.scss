@@ -1,0 +1,18 @@
+
+
+@import url("variable.scss");
+
+
+.round__add-button {
+    background-color: $background_color !important;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px;
+    cursor: pointer;
+    border-radius: 50%;
+  }

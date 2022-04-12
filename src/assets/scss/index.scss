@@ -1,0 +1,6 @@
+
+@use "_variable.scss" as v;
+
+body{
+    background-color: v.$background_color !important;
+}
