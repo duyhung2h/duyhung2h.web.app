@@ -1,7 +1,23 @@
-import getExampleList from "../../db/example.service.js";
+import getExampleList from "../../db/example.service";
+import React from "react";
 import "../../../assets/scss/ExampleComponent.scss";
 
 function GetExamplePage(props: any): JSX.Element {
+  function GetExampleComponent(props: any) {
+    const exampleObject = props.exampleObject;
+    console.log(props.exampleObject);
+    return (
+      <div>
+        <img
+          src="app/assets/images/example1.png"
+          alt="example"
+          className="width-100"
+        />
+        <h3>{exampleObject.exampleTitle}</h3>
+        <p>{exampleObject.exampleShortDesc}</p>
+      </div>
+    );
+  }
   console.log(props);
   const examplePageContent = getExampleList()
     .map((element) => {
@@ -37,20 +53,6 @@ function GetExamplePage(props: any): JSX.Element {
   );
   return examplePage;
 }
-function GetExampleComponent(props: any) {
-  const exampleObject = props.exampleObject;
-  console.log(props.exampleObject);
-  return (
-    <div>
-      <img
-        src="app/assets/images/example1.png"
-        alt="example"
-        className="width-100"
-      />
-      <h3>{exampleObject.exampleTitle}</h3>
-      <p>{exampleObject.exampleShortDesc}</p>
-    </div>
-  );
-}
 
 export default GetExamplePage;
+// export { GetExampleComponent };

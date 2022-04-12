@@ -1,7 +1,8 @@
 import { NavLink } from "react-router-dom";
+import React from "react";
 import classes from "../../../assets/scss/Header.module.scss";
 
-const MainHeader = () => {
+const MainHeader = (props:any) => {
   return (
     <header className={classes.header}>
       <nav>
