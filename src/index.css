@@ -1,7 +1,6 @@
 @import url("assets/css/bootstrap.min.css");
 @import url("assets/scss/style_all.scss");
 @import url("assets/scss/general_styling.scss");
-@import url("assets/scss/index.scss");
 
 body {
   margin: 0;

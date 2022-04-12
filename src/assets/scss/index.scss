@@ -1,6 +1,8 @@
 
-@use "_variable.scss" as v;
+
+@import "variable";
+@import "SmallComponents";
 
 body{
-    background-color: v.$background_color !important;
+    // background-color: $background_color
 }

@@ -30,6 +30,7 @@ function GetExamplePage(props: any): JSX.Element {
     .reverse();
   const examplePage = (
     <div>
+        <button className="round__add-button">+</button>
       <div className="w3-main w3-content w3-padding row container__example-page">
         {examplePageContent}
       </div>
@@ -49,7 +50,6 @@ function GetExamplePage(props: any): JSX.Element {
           </a>
         </div>
       </div>
-      <button className="round__add-button">+</button>
     </div>
   );
   return examplePage;
