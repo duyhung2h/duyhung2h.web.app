@@ -2,3 +2,7 @@
   max-width: 1200px;
   margin-top: 100px;
 }
+.example__short-desc {
+  overflow: hidden;
+  max-height: 5ch;
+}
