@@ -20,6 +20,7 @@ function getExampleList() {
       ),
     });
   }
+  exampleList.reverse()
   return exampleList;
 }
 
