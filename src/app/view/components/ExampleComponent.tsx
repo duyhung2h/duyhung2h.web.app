@@ -3,13 +3,18 @@ import React from "react";
 import "../../../assets/scss/ExampleComponent.scss";
 
 function GetExamplePage(props: any): JSX.Element {
+  // create JSX for each example component
   function GetExampleComponent(props: any) {
     const exampleObject = props.exampleObject;
+    // handle for clicking an example item -> show a popup example article
+    const examplePageHandler = () => {
+      alert(exampleObject.exampleTitle)
+    }
     console.log(props.exampleObject);
     return (
-      <div>
+      <div onClick={examplePageHandler}>
         <img
-          src="app/assets/images/example1.png"
+          src={require("../../../assets/images/example1.png")}
           alt="example"
           className="width-100"
         />
@@ -19,6 +24,7 @@ function GetExamplePage(props: any): JSX.Element {
     );
   }
   console.log(props);
+  // from example list turn each example item into JSX
   const examplePageContent = getExampleList()
     .map((element) => {
       return (
@@ -28,9 +34,18 @@ function GetExamplePage(props: any): JSX.Element {
       );
     })
     .reverse();
+  // handle add new example button event listener
+  const addExampleButtonHandler = () => {
+    console.log("clicked");
+    
+  };
+
+  // FINAL: compile all components into an example page
   const examplePage = (
     <div>
-        <button className="round__add-button">+</button>
+      <button onClick={() => addExampleButtonHandler()} className="round__add-button">
+        +
+      </button>
       <div className="w3-main w3-content w3-padding row container__example-page">
         {examplePageContent}
       </div>
