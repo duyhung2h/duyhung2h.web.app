@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../small_components/Button";
 import classes from "../../../assets/scss/index.module.scss";
 import Card from "../small_components/Card";
@@ -10,20 +10,32 @@ const LoginComponent = (props: any) => {
   const [passwordIsValid, setPasswordIsValid] = useState(false);
   const [formIsValid, setFormIsValid] = useState(false);
 
+  // useEffect: only rerun when certain data changes (used in response of some event)
+  // only fire useEffect when enteredEmail or enteredPassword changed value in the last cycle
+  useEffect(() => {
+    const valid_identifier = setTimeout(() => {
+      console.log(
+        "writing login\n username: " +
+          enteredEmail +
+          "\n password: " +
+          enteredPassword
+      );
+      setFormIsValid(
+        enteredEmail.includes("@") && enteredPassword.trim().length > 6
+      );
+    }, 500);
+    // Clean up function
+    return () => {
+      console.log("clean up");
+      clearTimeout(valid_identifier)
+    };
+  }, [enteredEmail, enteredPassword]);
   const emailChangeHandler = (event: any) => {
     setEnteredEmail(event.target.value);
-
-    setFormIsValid(
-      event.target.value.includes("@") && enteredPassword.trim().length > 6
-    );
   };
 
   const passwordChangeHandler = (event: any) => {
     setEnteredPassword(event.target.value);
-
-    setFormIsValid(
-      event.target.value.trim().length > 6 && enteredEmail.includes("@")
-    );
   };
 
   const validateEmailHandler = () => {
