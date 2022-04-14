@@ -6,7 +6,7 @@ function getExampleList() {
     const title = "[Example #" + i + "] How to add triggers";
     const shortDesc =
       "This is a tutorial on how to add triggers using the Parser. Simply use the template python script or use your own script once you got your scenario file set up.";
-    exampleList.unshift({
+    exampleList.push({
       exampleId: i,
       exampleTitle: title,
       exampleShortDesc: shortDesc,
@@ -20,7 +20,6 @@ function getExampleList() {
       ),
     });
   }
-  exampleList.reverse()
   return exampleList;
 }
 

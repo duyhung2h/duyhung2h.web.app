@@ -10,7 +10,7 @@ import { sortList } from "../../logic_handler/ListHandler";
 const overlay_root = ReactDOM.createRoot(
   document.getElementById("overlay-root") || new HTMLElement()
 );
-function GetExamplePage(props: any): JSX.Element {
+function GetExamplePage(): JSX.Element {
   const getISFilter = () => {
     const value = "exampleTitle";
     return value;
@@ -53,22 +53,9 @@ function GetExamplePage(props: any): JSX.Element {
   }
 
   // from example list turn each example item into JSX
-  function getExampleListContent(filter?: string, asc: string = "asc") {
+  function getExampleListContent(filter: string = "exampleTitle", asc: string = "asc") {
     let listExample = getExampleList();
-    switch (filter) {
-      case "exampleTitle":
-        sortList(listExample, filter, asc);
-        // code block
-        break;
-      case "stars":
-        // code block
-        break;
-      case "date":
-        // code block
-        break;
-      default:
-      // code block
-    }
+    sortList(listExample, filter, asc);
     const examplePageContent = listExample.map((element) => {
       return (
         <div className="w3-quarter" key={element.exampleId}>
@@ -112,7 +99,7 @@ function GetExamplePage(props: any): JSX.Element {
           defaultValue="exampleTitle"
         >
           <option value="exampleTitle">Name</option>
-          <option value="stars">Stars</option>
+          <option value="exampleLikeCount">Stars</option>
           <option value="date">Date</option>
         </select>
         <select

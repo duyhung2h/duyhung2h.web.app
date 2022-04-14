@@ -1,6 +1,6 @@
 import React from "react";
 
-import classes from "./Button.module.css";
+import classes from "./../../../assets/scss/index.module.scss";
 
 const Button = (props: any) => {
   return (
@@ -8,6 +8,7 @@ const Button = (props: any) => {
       className={classes.button}
       type={props.type || "button"}
       onClick={props.onClick}
+      disabled={props.disabled}
     >
       {props.children}
     </button>

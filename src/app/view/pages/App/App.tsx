@@ -1,8 +1,8 @@
 import { Route, Redirect} from "react-router-dom";
-import React from "react";
+import React, { useState } from "react";
 import MainHeader from "../../components/Header";
 
-import GetExamplePage from "./../../components/ExampleComponent";
+import GetExamplePage from "../ExamplePage";
 import Home from "./../home";
 
 function App() {
