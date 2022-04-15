@@ -10,7 +10,7 @@ function getExampleList() {
       exampleId: i,
       exampleTitle: title,
       exampleShortDesc: shortDesc,
-      exampleLikeCount: i,
+      exampleLikeCount: 10 - i,
       exmapleDesc: (
         <div>
           <h3>{title}</h3>
