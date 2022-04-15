@@ -1,9 +1,9 @@
-import { Route, Redirect} from "react-router-dom";
-import React, { useState } from "react";
+import React from "react";
+import { Redirect, Route } from "react-router-dom";
 import MainHeader from "../../components/Header";
-
 import GetExamplePage from "../ExamplePage";
 import Home from "./../home";
+
 
 function App() {
   return (
