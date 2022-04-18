@@ -11,11 +11,14 @@ function App() {
   useEffect(() => {
     try {
       var user = getUserLocalstorage();
-      if (user) {
+      if (user._userId > -1) {
         setIsLoggedIn(true);
+      }else{
+        setIsLoggedIn(false);
       }
     } catch (error) {
       console.log(error);
+      setIsLoggedIn(false);
     }
     console.log("useEffect app");
   }, []);

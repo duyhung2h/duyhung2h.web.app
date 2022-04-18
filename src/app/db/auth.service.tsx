@@ -13,7 +13,7 @@ export function getUserLocalstorage(){
     try{
         user = JSON.parse(localStorage["user"])
     }catch{
-        user = new User(1, "guest", "password")
+        user = new User(-1, "guest", "password")
     }
     return user
 }
