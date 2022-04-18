@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from "react";
-import Button from "../small_components/Button";
 import classes from "../../../assets/scss/index.module.scss";
+import Button from "../small_components/Button";
 import Card from "../small_components/Card";
 
 /**
@@ -22,10 +22,6 @@ const loginReducer = (state: any, action: any) => {
     isValid = action.value.trim().length > 6;
     state2.password.isValid = isValid;
   }
-  // console.log(state2);
-  // console.log(state2.username.value);
-  // console.log(action.value);
-
   switch (action["type"]) {
     case "USER_INPUT":
       console.log("USER_INPUT");
@@ -43,18 +39,19 @@ const loginReducer = (state: any, action: any) => {
       break;
     default:
       return state2;
-      break;
   }
   return state2;
 };
 
+/**
+ * LoginComponent: Handles login form validity
+ *
+ * @param props
+ * @returns
+ */
 const LoginComponent = (props: any) => {
   // useState: when set...(value) function is fired, take that value snapshot and assign it to the former variable inside the nest
   // used to store when set dynamic values need to be updated by certain events
-  // const [emailState.value, setEnteredEmail] = useState("");
-  // const [loginInfoState.isValid, setEmailIsValid] = useState(false);
-  // const [loginInfoState.value, setEnteredPassword] = useState("");
-  // const [loginInfoState.isValid, setPasswordIsValid] = useState(false);
   const [formIsValid, setFormIsValid] = useState(false);
 
   const stateValues = { value: "", isValid: false };
