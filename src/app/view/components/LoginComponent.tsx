@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useReducer, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import classes from "../../../assets/scss/index.module.scss";
 import Button from "../small_components/Button";
 import Card from "../small_components/Card";
@@ -56,14 +62,20 @@ const LoginComponent = (props: any) => {
   // used to store when set dynamic values need to be updated by certain events
   const [formIsValid, setFormIsValid] = useState(false);
 
-  const stateValues = { value: "", isValid: false };
+  const stateValues = { value: "", isValid: true };
   const [loginInfoState, dispatchLogin] = useReducer(loginReducer, {
     username: JSON.parse(JSON.stringify(stateValues)),
     password: JSON.parse(JSON.stringify(stateValues)),
   });
 
+  // useContext to connect to global AuthContext
   const authCtx = useContext(AuthContext);
 
+  const emailInputRef: React.MutableRefObject<any> = useRef();
+  const passwordInputRef: React.MutableRefObject<any> = useRef();
+
+  
+  const firstUpdate = useRef(true);
   /**
    * useEffect: only rerun when certain data changes (used in response of some event)
    * only fire useEffect when emailState.value or loginInfoState.value changed value in the last cycle
@@ -71,6 +83,12 @@ const LoginComponent = (props: any) => {
    * @returns
    */
   useEffect(() => {
+    // this useEffect wont run at initial render 
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+
     const valid_identifier = setTimeout(() => {
       console.log(
         "writing login\n username: " +
@@ -110,17 +128,29 @@ const LoginComponent = (props: any) => {
     });
   };
 
+  /**
+   * submit handler, pass data to login function if all forms are correct, otherwise shift input focus on invalid input component
+   *
+   * @param event
+   */
   const submitHandler = (event: any) => {
     event.preventDefault();
-    authCtx.onLogin(
-      loginInfoState.username.value,
-      loginInfoState.password.value
-    );
+    if (formIsValid) {
+      authCtx.onLogin(
+        loginInfoState.username.value,
+        loginInfoState.password.value
+      );
+    } else if (!loginInfoState.username.isValid) {
+      emailInputRef.current.focus();
+    } else if (!loginInfoState.password.isValid) {
+      passwordInputRef.current.focus();
+    }
   };
   return (
     <Card className={classes.login}>
       <form onSubmit={submitHandler}>
         <Input
+          ref={emailInputRef}
           id="email"
           label="Username"
           type="email"
@@ -130,6 +160,7 @@ const LoginComponent = (props: any) => {
           onBlur={validateEmailHandler}
         />
         <Input
+          ref={passwordInputRef}
           id="password"
           label="Password"
           type="password"
@@ -139,7 +170,7 @@ const LoginComponent = (props: any) => {
           onBlur={validatePasswordHandler}
         />
         <div className={classes.actions}>
-          <Button type="submit" className={classes.btn} disabled={!formIsValid}>
+          <Button type="submit" className={classes.btn}>
             Login
           </Button>
         </div>
