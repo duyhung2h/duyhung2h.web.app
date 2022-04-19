@@ -1,7 +1,8 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 import classes from "../../../assets/scss/index.module.scss";
 import Button from "../small_components/Button";
 import Card from "../small_components/Card";
+import AuthContext from "../../db/auth.service";
 
 /**
  * an useReducer to prevent using multiple useState so it wouldn't cause conflict
@@ -60,6 +61,8 @@ const LoginComponent = (props: any) => {
     password: JSON.parse(JSON.stringify(stateValues)),
   });
 
+  const authCtx = useContext(AuthContext);
+
   /**
    * useEffect: only rerun when certain data changes (used in response of some event)
    * only fire useEffect when emailState.value or loginInfoState.value changed value in the last cycle
@@ -108,7 +111,7 @@ const LoginComponent = (props: any) => {
 
   const submitHandler = (event: any) => {
     event.preventDefault();
-    props.onLogin(loginInfoState.username.value, loginInfoState.password.value);
+    authCtx.onLogin(loginInfoState.username.value, loginInfoState.password.value);
   };
   return (
     <Card className={classes.login}>

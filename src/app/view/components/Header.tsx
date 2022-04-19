@@ -5,9 +5,9 @@ import AuthContext, { getUserLocalstorage } from "../../db/auth.service";
 import LoginComponent from "./LoginComponent";
 
 const MainHeader = (props: any) => {
-  const ctx = useContext(AuthContext);
+  const authCtx = useContext(AuthContext);
   console.log(
-    "AuthContext.Consumer(ctx) => ctx.isLoggedIn = " + ctx.isLoggedIn
+    "AuthContext.Consumer(ctx) => ctx.isLoggedIn = " + authCtx.isLoggedIn
   );
   return (
     <header className={classes.header}>
@@ -24,16 +24,16 @@ const MainHeader = (props: any) => {
             </NavLink>
           </li>
 
-          {!ctx.isLoggedIn && (
+          {!authCtx.isLoggedIn && (
             <li className={classes.login__hidden + ` ml-3`}>
               <a>
                 <i className="fa fa-user mr-1"></i>
                 Login
               </a>
-              <LoginComponent onLogin={ctx.onLogin} />
+              <LoginComponent onLogin={authCtx.onLogin} />
             </li>
           )}
-          {ctx.isLoggedIn && (
+          {authCtx.isLoggedIn && (
             <li className={classes.login__hidden + ` ml-3 white-text`}>
               <i className="fa fa-user mr-1"></i>
               Welcome, {true && (
@@ -42,9 +42,9 @@ const MainHeader = (props: any) => {
               !
             </li>
           )}
-          {ctx.isLoggedIn && (
+          {authCtx.isLoggedIn && (
             <li
-              onClick={ctx.onLogout}
+              onClick={authCtx.onLogout}
               className={classes.login__hidden + ` ml-3`}
             >
               <a>
