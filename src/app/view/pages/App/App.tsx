@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, Route } from "react-router-dom";
-import AuthContext, { getUserLocalstorage } from "../../../db/auth.service";
+import AuthContext, { getUserLocalstorage, login, logout } from "../../../db/auth.service";
 import MainHeader from "../../components/Header";
 import GetExamplePage from "../ExamplePage";
 import Home from "./../home";
@@ -22,8 +22,13 @@ function App() {
     }
     console.log("useEffect app");
   }, []);
-  const loginHandler = (loggedIn: boolean) => {
-    setIsLoggedIn(loggedIn);
+  const loginHandler = (username: string, password: string) => {
+    login(username, password);
+    setIsLoggedIn(true);
+  };
+  const logoutHandler = () => {
+    logout()
+    setIsLoggedIn(false);
   };
   return (
     <React.Fragment>
@@ -31,10 +36,12 @@ function App() {
       <AuthContext.Provider
         value={{
           isLoggedIn: isLoggedIn,
+          onLogin: loginHandler,
+          onLogout: logoutHandler,
         }}
       >
         Test if works AuthContext
-        <MainHeader onLogin={loginHandler}>
+        <MainHeader>
           <p>Test if works MainHeader</p>
         </MainHeader>
         <Route exact path={"/"}>

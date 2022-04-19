@@ -19,7 +19,9 @@ export function getUserLocalstorage(){
 }
 
 var AuthContext = React.createContext({
-    isLoggedIn: false
+    isLoggedIn: false,
+    onLogin: (username: string, password: string) => {},
+    onLogout: () => {},
 });
 
 export default AuthContext;
