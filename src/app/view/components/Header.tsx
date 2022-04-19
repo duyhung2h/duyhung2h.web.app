@@ -1,29 +1,13 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import classes from "../../../assets/scss/index.module.scss";
-import AuthContext, {
-  getUserLocalstorage,
-  login,
-  logout,
-} from "../../db/auth.service";
+import AuthContext, { getUserLocalstorage } from "../../db/auth.service";
 import LoginComponent from "./LoginComponent";
 
 const MainHeader = (props: any) => {
-  const loginHandler = (username: string, password: string) => {
-    // We should of course check email and password
-    // But it's just a dummy/ demo anyways
-    props.onLogin(true);
-    login(username, password);
-  };
-
-  const logoutHandler = () => {
-    props.onLogin(false);
-    logout();
-  };
-  const ctx = useContext(AuthContext);
-
+  const authCtx = useContext(AuthContext);
   console.log(
-    "AuthContext.Consumer(ctx) => ctx.isLoggedIn = " + ctx.isLoggedIn
+    "AuthContext.Consumer(ctx) => ctx.isLoggedIn = " + authCtx.isLoggedIn
   );
   return (
     <header className={classes.header}>
@@ -40,16 +24,16 @@ const MainHeader = (props: any) => {
             </NavLink>
           </li>
 
-          {!ctx.isLoggedIn && (
+          {!authCtx.isLoggedIn && (
             <li className={classes.login__hidden + ` ml-3`}>
               <a>
                 <i className="fa fa-user mr-1"></i>
                 Login
               </a>
-              <LoginComponent onLogin={loginHandler} />
+              <LoginComponent onLogin={authCtx.onLogin} />
             </li>
           )}
-          {ctx.isLoggedIn && (
+          {authCtx.isLoggedIn && (
             <li className={classes.login__hidden + ` ml-3 white-text`}>
               <i className="fa fa-user mr-1"></i>
               Welcome, {true && (
@@ -58,9 +42,9 @@ const MainHeader = (props: any) => {
               !
             </li>
           )}
-          {ctx.isLoggedIn && (
+          {authCtx.isLoggedIn && (
             <li
-              onClick={logoutHandler}
+              onClick={authCtx.onLogout}
               className={classes.login__hidden + ` ml-3`}
             >
               <a>
