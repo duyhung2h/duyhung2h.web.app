@@ -12,6 +12,17 @@
     "react-scripts": "^5.0.1",
     "react-test-renderer": "^18.0.0"
   },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(css|less|sass|scss)$": "<rootDir>/src/index.tsx",
+      "\\.(gif|ttf|eot|svg)$": "<rootDir>/*"
+    },
+    "moduleDirectories": [
+      "node_modules",
+      "src/css",
+      "src/jsx"
+    ]
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

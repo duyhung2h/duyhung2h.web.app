@@ -1,8 +1,6 @@
 import React from "react";
 import { Redirect, Route } from "react-router-dom";
-import {
-  AuthContextProvider
-} from "../../../db/auth.service";
+import { AuthContextProvider } from "../../../db/auth.service";
 import MainHeader from "../../components/Header";
 import GetExamplePage from "../ExamplePage";
 import Home from "./../home";
