@@ -26,7 +26,7 @@ const MainHeader = (props: any) => {
 
           {!authCtx.isLoggedIn && (
             <li className={classes.login__hidden + ` ml-3`}>
-              <a>
+              <a href="/#">
                 <i className="fa fa-user mr-1"></i>
                 Login
               </a>
@@ -47,7 +47,7 @@ const MainHeader = (props: any) => {
               onClick={authCtx.onLogout}
               className={classes.login__hidden + ` ml-3`}
             >
-              <a>
+              <a href="/#">
                 <i className="fa fa-sign-out mr-1"></i>
                 Logout
               </a>
