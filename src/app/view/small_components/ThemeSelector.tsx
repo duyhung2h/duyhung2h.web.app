@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "../../../assets/scss/toggle_switch.scss";
 import { getThemeIndexLocalstorage } from "../../context/ThemeContext";
+import loadable from "@loadable/component";
+import { render } from "react-dom";
+import ReactDOM from "react-dom/client";
 
+const container: HTMLElement | null = document.getElementById("theme");
+const root = ReactDOM.createRoot(container || new HTMLElement());
 /**
  * ThemeSelector
  *
@@ -30,23 +35,45 @@ export const ThemeSelector = (props: any) => {
       setThemeIndex(1);
     }
   };
+  /**
+   * Theme tag
+   * lazy loading: Only load component when it's needed, using certain condition (dynamic)
+   *
+   * @param props
+   * @returns
+   */
   const Theme = (props: any) => {
-    let ThemeLoader = React.lazy(() =>import("./Button").then((module) => ({
-        default: module.default,
+    // console.log(component);
+    const TL = loadable(() =>
+      import(`./ThemeLoader${themeIndex}`).then((module) => ({
+        default: module[`ThemeLoader${themeIndex}`],
       }))
     );
-    if (themeIndex == 1) {
-      ThemeLoader = React.lazy(() =>
-        import("./ThemeLoader").then((module) => ({
-          default: module.ThemeLoader,
-        }))
-      );
-      alert()
-    }
+    // var TL = React.lazy(() =>
+    //   import("./ThemeLoader1").then((module) => ({
+    //     default: module.ThemeLoader1,
+    //   }))
+    // );
+    // if (themeIndex == 1) {
+    //   TL = React.lazy(() =>
+    //     import("./ThemeLoader1").then((module) => ({
+    //       default: module.ThemeLoader1,
+    //     }))
+    //   );
+    //   alert(1);
+    // } else {
+    //   TL = React.lazy(() =>
+    //     import("./ThemeLoader2").then((module) => ({
+    //       default: module.ThemeLoader2,
+    //     }))
+    //   );
+    //   alert(2);
+    // }
     // const CHOSEN_THEME =
     // localStorage.getItem("TYPE_OF_THEME") || TYPE_OF_THEME.DEFAULT;
     console.log(themeIndex);
-
+    // document.getElementById("theme").innerHTML = "<div></div>"
+    root.render(<TL root={true}/>);
     return (
       <>
         <React.Suspense fallback={<>Loading...</>}>
@@ -65,14 +92,14 @@ export const ThemeSelector = (props: any) => {
             <span className="toggle-switch-inner"></span>
             <span className="toggle-switch-switch"></span>
           </label>
-          {themeIndex == 1 && (
-            //   <p>asd</p>
-            <ThemeLoader></ThemeLoader>
-          )}
+          {/* {themeIndex == 1 && <TL />}
+          {themeIndex == 2 && <TL />} */}
         </React.Suspense>
       </>
     );
   };
+  console.log(`./ThemeLoader${themeIndex}1`);
+
   return (
     <div className="toggle-switch">
       <Theme onChange={kek}></Theme>
