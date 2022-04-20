@@ -8,6 +8,9 @@ const SecretPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   /**
+   * 
+   * 
+   * @function useCallback(): hook to avoid infinite loop
    * @function fetch(): fetch data through API, first argument string to the API address, second argument for adding various options
    * @function then(): promise function to handle function after a request is finished
    */
