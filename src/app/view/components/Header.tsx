@@ -23,6 +23,11 @@ const MainHeader = (props: any) => {
               Examples
             </NavLink>
           </li>
+          <li>
+            <NavLink activeClassName={classes.active} to="/secret">
+              Sekrit
+            </NavLink>
+          </li>
 
           {!authCtx.isLoggedIn && (
             <li className={classes.login__hidden + ` ml-3`}>
