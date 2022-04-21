@@ -3,6 +3,7 @@ import { Redirect, Route } from "react-router-dom";
 import { AuthContextProvider } from "../../../db/auth.service";
 import MainHeader from "../../components/Header";
 import GetExamplePage from "../ExamplePage";
+import SecretPage from "../SecretPage";
 import Home from "./../home";
 
 function App() {
@@ -25,6 +26,10 @@ function App() {
         <Route exact path={"/examples"}>
           <p>Test if works App /examples</p>
           <GetExamplePage />
+        </Route>
+        <Route exact path={"/secret"}>
+          <p>Test if works App /secret</p>
+          <SecretPage />
         </Route>
       </AuthContextProvider>
     </React.Fragment>
