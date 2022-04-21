@@ -57,17 +57,20 @@ const SecretPage = () => {
     try {
       const response = await fetch(
         // "https://my-json-server.typicode.com/duyhung2h/duyhung2h.github.io/posts",
-        "https://personal-website-by-duyhung2h-default-rtdb.asia-southeast1.firebasedatabase.app/",
+        "https://personal-website-by-duyhung2h-default-rtdb.asia-southeast1.firebasedatabase.app/examples.json",
         {
           // mode: 'no-cors',
           method: "POST",
           // body: JSON.stringify(movie),
           body: JSON.stringify(movie),
           headers: {
+            'Accept': 'application/json',
             "Content-Type": "application/json",
           },
         }
       );
+      const data = await response.json();
+      console.log(data);
       if (!response.ok) {
         alert("Something went wrong!");
         throw new Error("Something went wrong!");
