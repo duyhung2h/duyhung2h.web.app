@@ -1,12 +1,19 @@
 import getExampleList from "../../db/example.service";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "../../../assets/scss/ExampleComponent.scss";
 import LikeButton from "../small_components/LikeButton";
 import { limitTextLength } from "../../logic_handler/TextHandler";
 import "../../logic_handler/ListHandler";
 import { sortList } from "../../logic_handler/ListHandler";
+import AddExampleComponent from "../components/AddExampleComponent";
+import { Example } from "../../model/Example";
+import ReactDOMServer from "react-dom/server";
+import { map } from "rxjs";
 
+const backdrop_root = ReactDOM.createRoot(
+  document.getElementById("backdrop-root") || new HTMLElement()
+);
 const overlay_root = ReactDOM.createRoot(
   document.getElementById("overlay-root") || new HTMLElement()
 );
@@ -19,10 +26,12 @@ function GetExamplePage(): JSX.Element {
     const value = "asc";
     return value;
   };
+  const [isLoading, setIsLoading] = useState(true);
+
   const [allValues, setAllValues] = useState({
     selectorValue: getISFilter(),
     selectorValueAsc: getISFilterAsc(),
-    examplePageC: getExampleListContent(),
+    examplePageC: (<div></div>),
   });
 
   // create JSX for each example component
@@ -53,42 +62,63 @@ function GetExamplePage(): JSX.Element {
   }
 
   // from example list turn each example item into JSX
-  function getExampleListContent(filter: string = "exampleTitle", asc: string = "asc") {
-    let listExample = getExampleList();
-    sortList(listExample, filter, asc);
-    const examplePageContent = listExample.map((element) => {
-      return (
-        <div className="w3-quarter" key={element.exampleId}>
-          <GetExampleComponent exampleObject={element} />
-        </div>
-      );
-    });
+  async function getExampleListContent(
+    filter: string = "exampleTitle",
+    asc: string = "asc"
+  ) {
+    let listExample: Example[] = [];
+    // const listExample = async () => {
+    //   console.log(await ecc.randomKey())
+    // };
+    let examplePageContent = {};
+    listExample =
+      (await getExampleList().then(() => {
+        sortList(filter, asc, listExample);
+        examplePageContent = listExample.map((element) => {
+          return (
+            <div className="w3-quarter" key={element.exampleId}>
+              <GetExampleComponent exampleObject={element} />
+            </div>
+          );
+        });
+      })) || [];
 
     return examplePageContent;
   }
   // handle add new example button event listener
   const addExampleButtonHandler = () => {
     console.log("clicked");
-    overlay_root.render(<div className="w3-quarter"></div>);
+    backdrop_root.render(<div className="backdrop-container"></div>);
+    overlay_root.render(<AddExampleComponent></AddExampleComponent>);
   };
+  function ExamplePages() {
+    return <div>{ReactDOMServer.renderToString(allValues.examplePageC)}</div>;
+  }
   // filter options
   function MySelect() {
-
-    function handleSelectorChange(e: any) {
+    async function handleSelectorChange(e: any) {
+      setIsLoading(true);
+      let examListContent = await getExampleListContent(e.target.value, allValues.selectorValueAsc)
+      console.log(examListContent);
+      
+      setIsLoading(false);
       // set list page value to useState
-      setAllValues({
-        examplePageC: getExampleListContent(e.target.value, allValues.selectorValueAsc),
-        selectorValue: e.target.value,
-        selectorValueAsc: allValues.selectorValueAsc,
-      });
+      // setAllValues({
+      //   examplePageC: examListContent,
+      //   selectorValue: e.target.value,
+      //   selectorValueAsc: allValues.selectorValueAsc,
+      // });
     }
     function handleSelectorChangeAsc(e: any) {
       // set list page value to useState
-      setAllValues({
-        examplePageC: getExampleListContent(allValues.selectorValue, e.target.value),
-        selectorValue: allValues.selectorValue,
-        selectorValueAsc: e.target.value,
-      });
+      // setAllValues({
+      //   examplePageC: getExampleListContent(
+      //     allValues.selectorValue,
+      //     e.target.value
+      //   ),
+      //   selectorValue: allValues.selectorValue,
+      //   selectorValueAsc: e.target.value,
+      // });
     }
     return (
       <div>
@@ -129,7 +159,7 @@ function GetExamplePage(): JSX.Element {
       <MySelect />
 
       <div className="w3-main w3-content w3-padding row container__example-page">
-        {allValues.examplePageC}
+        <ExamplePages />
       </div>
       <div className="w3-center w3-padding-32 width-100">
         <div className="w3-bar">
