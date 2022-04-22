@@ -1,15 +1,11 @@
 import getExampleList from "../../db/example.service";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "../../../assets/scss/ExampleComponent.scss";
 import LikeButton from "../small_components/LikeButton";
 import { limitTextLength } from "../../logic_handler/TextHandler";
 import "../../logic_handler/ListHandler";
-import { sortList } from "../../logic_handler/ListHandler";
 import AddExampleComponent from "../components/AddExampleComponent";
-import { Example } from "../../model/Example";
-import ReactDOMServer from "react-dom/server";
-import { map } from "rxjs";
 
 const backdrop_root = ReactDOM.createRoot(
   document.getElementById("backdrop-root") || new HTMLElement()
@@ -17,7 +13,7 @@ const backdrop_root = ReactDOM.createRoot(
 const overlay_root = ReactDOM.createRoot(
   document.getElementById("overlay-root") || new HTMLElement()
 );
-function GetExamplePage(): JSX.Element {
+function GetExamplePage() {
   const getISFilter = () => {
     const value = "exampleTitle";
     return value;
@@ -26,13 +22,77 @@ function GetExamplePage(): JSX.Element {
     const value = "asc";
     return value;
   };
-  const [isLoading, setIsLoading] = useState(true);
+  let eList: any[] = [];
+  const [exampleList, setExampleList] = useState(eList);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const [allValues, setAllValues] = useState({
     selectorValue: getISFilter(),
     selectorValueAsc: getISFilterAsc(),
-    examplePageC: (<div></div>),
+    examplePageC: ({}),
   });
+  console.log(allValues);
+  console.log(exampleList);
+  /**
+   * from example list turn each example item into JSX
+   *
+   * @function useCallback(): hook to avoid infinite loop by using useState after useEffect
+   * @function fetch(): fetch data through API, first argument string to the API address, second argument for adding various options
+   * @function then(): promise function to handle function after a request is finished
+   */
+  const getExampleListContent = useCallback(
+    async (filter: string = "exampleTitle", asc: string = "asc") => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        let list = await getExampleList();
+        console.log(list);
+
+        setExampleList(await getExampleList());
+
+        let examplePageContent = list.map((element) => {
+          return (
+            <div className="w3-quarter" key={element.exampleId}>
+              <GetExampleComponent exampleObject={element} />
+            </div>
+          );
+        });
+        console.log(examplePageContent);
+
+        // let listExample: Example[] = [];
+        // let examplePageContent = {};
+        // listExample =
+        //   (await getExampleList().then(() => {
+        //     console.log(listExample);
+        //     sortList(filter, asc, listExample);
+        //     examplePageContent = listExample.map((element) => {
+        //       return (
+        //         <div className="w3-quarter" key={element.exampleId}>
+        //           <GetExampleComponent exampleObject={element} />
+        //         </div>
+        //       );
+        //     });
+        //     console.log(examplePageContent);
+        //   })) || [];
+        // listExample = await getExampleList()
+        setAllValues({
+          examplePageC: examplePageContent,
+          selectorValue: filter,
+          selectorValueAsc: asc,
+        });
+      } catch (error: any) {
+        setError(error["message"]);
+      }
+      setIsLoading(false);
+    },
+    []
+  );
+
+  // initial fetch movie on site load
+  useEffect(() => {
+    getExampleListContent();
+  }, [getExampleListContent]);
 
   // create JSX for each example component
   function GetExampleComponent(props: any) {
@@ -43,6 +103,7 @@ function GetExamplePage(): JSX.Element {
       setTitle(exampleTitle + "1");
       console.log(exampleTitle);
     };
+    console.log(exampleList);
     return (
       <div>
         <div onClick={examplePageHandler}>
@@ -61,48 +122,25 @@ function GetExamplePage(): JSX.Element {
     );
   }
 
-  // from example list turn each example item into JSX
-  async function getExampleListContent(
-    filter: string = "exampleTitle",
-    asc: string = "asc"
-  ) {
-    let listExample: Example[] = [];
-    // const listExample = async () => {
-    //   console.log(await ecc.randomKey())
-    // };
-    let examplePageContent = {};
-    listExample =
-      (await getExampleList().then(() => {
-        sortList(filter, asc, listExample);
-        examplePageContent = listExample.map((element) => {
-          return (
-            <div className="w3-quarter" key={element.exampleId}>
-              <GetExampleComponent exampleObject={element} />
-            </div>
-          );
-        });
-      })) || [];
-
-    return examplePageContent;
-  }
   // handle add new example button event listener
   const addExampleButtonHandler = () => {
     console.log("clicked");
     backdrop_root.render(<div className="backdrop-container"></div>);
     overlay_root.render(<AddExampleComponent></AddExampleComponent>);
   };
-  function ExamplePages() {
-    return <div>{ReactDOMServer.renderToString(allValues.examplePageC)}</div>;
-  }
   // filter options
   function MySelect() {
     async function handleSelectorChange(e: any) {
       setIsLoading(true);
-      let examListContent = await getExampleListContent(e.target.value, allValues.selectorValueAsc)
+      let examListContent = await getExampleListContent(
+        e.target.value,
+        allValues.selectorValueAsc
+      );
       console.log(examListContent);
-      
+
       setIsLoading(false);
       // set list page value to useState
+      getExampleListContent(e.target.value, allValues.selectorValueAsc)
       // setAllValues({
       //   examplePageC: examListContent,
       //   selectorValue: e.target.value,
@@ -144,7 +182,21 @@ function GetExamplePage(): JSX.Element {
       </div>
     );
   }
+  let content = <p>Found no movies.</p>;
 
+  if (exampleList.length > 0) {
+    content = <>{allValues.examplePageC}</>;
+  }
+
+  if (error) {
+    content = <p>{error}</p>;
+  }
+
+  if (isLoading) {
+    content = <p>Loading...</p>;
+  }
+
+  console.log(exampleList);
   // FINAL: compile all components into an example page
   const examplePage = (
     <div>
@@ -159,7 +211,7 @@ function GetExamplePage(): JSX.Element {
       <MySelect />
 
       <div className="w3-main w3-content w3-padding row container__example-page">
-        <ExamplePages />
+        {content}
       </div>
       <div className="w3-center w3-padding-32 width-100">
         <div className="w3-bar">

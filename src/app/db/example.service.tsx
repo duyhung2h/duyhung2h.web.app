@@ -24,7 +24,7 @@ function getExampleList_MockUp() {
   }
   return exampleList;
 }
-const getExampleList = async () => {
+async function getExampleList() {
   let exampleList: Example[] = [];
   try {
     const response = await fetch(`${environment.apiUrl}examples.json`, {
@@ -34,21 +34,35 @@ const getExampleList = async () => {
       throw new Error("Something went wrong!");
     }
 
-    const data = await response.json();
+    var data = await response.json();
     console.log(data);
+    const data2 = data.items
+    console.log(data.items);
+    console.log(Object.keys(data.items));
+    console.log([data]["0"]);
+    const dataList = Object.keys(data.items).map(dog => data.items[dog]);
+    console.log(dataList);
+    
 
-    exampleList = data.results.map((exampleData: any) => {
+    let i = 0;
+    exampleList = dataList.map((exampleData: any) => {
+      i++;
+      // return exampleData
       return new Example(
-        exampleData.value,
-        exampleData.exampleTitle.value,
-        exampleData.exampleShortDesc.value,
-        exampleData.exampleLikeCount.value
+        i + "",
+        exampleData.exampleTitle,
+        exampleData.exampleShortDesc,
+        exampleData.exampleLikeCount
       );
     });
+    console.log(exampleList);
+    
     return exampleList;
-  } catch {
-    alert("load example database failed!");
-    return null;
+  } catch (error) {
+    // alert("load example database failed!");
+    console.log(error);
+
+    return exampleList;
   }
 };
 export const createExample = (
