@@ -9,4 +9,5 @@ export function sortList(sortName: string, asc: string = "asc", list?: any[]) {
     console.log(error);
     console.log("list is empty to sort!");
   }
+  return list
 }

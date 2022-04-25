@@ -1,11 +1,12 @@
-import getExampleList from "../../db/example.service";
-import React, { ReactNode, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "../../../assets/scss/ExampleComponent.scss";
-import LikeButton from "../small_components/LikeButton";
-import { limitTextLength } from "../../logic_handler/TextHandler";
+import { addExample, getExampleList } from "../../db/example.service";
 import "../../logic_handler/ListHandler";
+import { sortList } from "../../logic_handler/ListHandler";
+import { limitTextLength } from "../../logic_handler/TextHandler";
 import AddExampleComponent from "../components/AddExampleComponent";
+import LikeButton from "../small_components/LikeButton";
 
 const backdrop_root = ReactDOM.createRoot(
   document.getElementById("backdrop-root") || new HTMLElement()
@@ -26,11 +27,12 @@ function GetExamplePage() {
   const [exampleList, setExampleList] = useState(eList);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [showOverlay, setShowOverlay] = useState(false);
 
   const [allValues, setAllValues] = useState({
     selectorValue: getISFilter(),
     selectorValueAsc: getISFilterAsc(),
-    examplePageC: ({}),
+    examplePageC: {},
   });
   console.log(allValues);
   console.log(exampleList);
@@ -48,8 +50,9 @@ function GetExamplePage() {
       try {
         let list = await getExampleList();
         console.log(list);
+        list = sortList(filter, asc, list) || list;
 
-        setExampleList(await getExampleList());
+        setExampleList(list);
 
         let examplePageContent = list.map((element) => {
           return (
@@ -59,23 +62,6 @@ function GetExamplePage() {
           );
         });
         console.log(examplePageContent);
-
-        // let listExample: Example[] = [];
-        // let examplePageContent = {};
-        // listExample =
-        //   (await getExampleList().then(() => {
-        //     console.log(listExample);
-        //     sortList(filter, asc, listExample);
-        //     examplePageContent = listExample.map((element) => {
-        //       return (
-        //         <div className="w3-quarter" key={element.exampleId}>
-        //           <GetExampleComponent exampleObject={element} />
-        //         </div>
-        //       );
-        //     });
-        //     console.log(examplePageContent);
-        //   })) || [];
-        // listExample = await getExampleList()
         setAllValues({
           examplePageC: examplePageContent,
           selectorValue: filter,
@@ -89,7 +75,7 @@ function GetExamplePage() {
     []
   );
 
-  // initial fetch movie on site load
+  // initial fetch examples on site load
   useEffect(() => {
     getExampleListContent();
   }, [getExampleListContent]);
@@ -103,12 +89,13 @@ function GetExamplePage() {
       setTitle(exampleTitle + "1");
       console.log(exampleTitle);
     };
-    console.log(exampleList);
+    console.log(exampleObject);
     return (
       <div>
         <div onClick={examplePageHandler}>
           <img
-            src={require("../../../assets/images/example1.png")}
+            // src={require("../../../assets/images/example1.png")}
+            src={exampleObject.exampleImageLink + ""}
             alt="example"
             className="width-100"
           />
@@ -124,39 +111,43 @@ function GetExamplePage() {
 
   // handle add new example button event listener
   const addExampleButtonHandler = () => {
-    console.log("clicked");
-    backdrop_root.render(<div className="backdrop-container"></div>);
-    overlay_root.render(<AddExampleComponent></AddExampleComponent>);
+    console.log("addExampleButtonHandler clicked");
+
+    setShowOverlay(true);
   };
+  useEffect(() => {
+    if (showOverlay == true) {
+      console.log("showOverlay == true");
+      backdrop_root.render(
+        <div
+          className="backdrop-container"
+          onClick={() => setShowOverlay(false)}
+        ></div>
+      );
+      overlay_root.render(<AddExampleComponent onAddExample={addExample} ></AddExampleComponent>);
+    }
+    if (showOverlay == false) {
+      console.log("showOverlay == false");
+      backdrop_root.render(<></>);
+      overlay_root.render(<></>);
+    }
+  }, [showOverlay]);
+
   // filter options
   function MySelect() {
     async function handleSelectorChange(e: any) {
-      setIsLoading(true);
-      let examListContent = await getExampleListContent(
+      // set list page value to useState
+      await getExampleListContent(
         e.target.value,
         allValues.selectorValueAsc
       );
-      console.log(examListContent);
-
-      setIsLoading(false);
-      // set list page value to useState
-      getExampleListContent(e.target.value, allValues.selectorValueAsc)
-      // setAllValues({
-      //   examplePageC: examListContent,
-      //   selectorValue: e.target.value,
-      //   selectorValueAsc: allValues.selectorValueAsc,
-      // });
     }
-    function handleSelectorChangeAsc(e: any) {
+    async function handleSelectorChangeAsc(e: any) {
       // set list page value to useState
-      // setAllValues({
-      //   examplePageC: getExampleListContent(
-      //     allValues.selectorValue,
-      //     e.target.value
-      //   ),
-      //   selectorValue: allValues.selectorValue,
-      //   selectorValueAsc: e.target.value,
-      // });
+      await getExampleListContent(
+        allValues.selectorValue,
+        e.target.value
+      );
     }
     return (
       <div>
@@ -182,7 +173,16 @@ function GetExamplePage() {
       </div>
     );
   }
-  let content = <p>Found no movies.</p>;
+  let content = (
+    <>
+      <h1>Found no example.</h1>
+      <br />
+      <img
+        title="???"
+        src="https://static-cdn.jtvnw.net/emoticons/v1/emotesv2_d53274249a594003ac3bd598a94df7c0/3.0"
+      ></img>
+    </>
+  );
 
   if (exampleList.length > 0) {
     content = <>{allValues.examplePageC}</>;
