@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import AddMovie from "../components/AddMovie";
-import MovieList, { Movie } from "../components/MovieList";
-import classes from "./../../../assets/scss/Movie.module.scss";
+import MovieList from "../components/MovieList";
 
 const SecretPage = () => {
   let movielist: any[] = [];
