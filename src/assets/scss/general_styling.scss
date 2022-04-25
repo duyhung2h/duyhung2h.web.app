@@ -1,6 +1,29 @@
-.width-100{
-    width:100%;
+.width-100 {
+  width: 100%;
 }
-.white-text{
-    color: $white_color;
+.white-text {
+  color: $white_color;
+}
+.backdrop-container {
+  width: 100vw;
+//   height: 100vh;
+  background-color: $backdrop-color;
+  position: fixed; /* Sit on top of the page content */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
+}
+.overlay-container {
+  position: fixed; /* Sit on top of the page content */
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
 }

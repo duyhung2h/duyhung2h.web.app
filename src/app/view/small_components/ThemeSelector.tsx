@@ -72,8 +72,12 @@ export const ThemeSelector = (props: any) => {
     // const CHOSEN_THEME =
     // localStorage.getItem("TYPE_OF_THEME") || TYPE_OF_THEME.DEFAULT;
     console.log(themeIndex);
-    // document.getElementById("theme").innerHTML = "<div></div>"
+    var linkNode = document.querySelector('link[href*="test2.scss"]');
+    console.log(linkNode);
+    
+    linkNode?.removeChild(linkNode);
     root.render(<TL root={true}/>);
+    linkNode?.removeChild(linkNode);
     return (
       <>
         <React.Suspense fallback={<>Loading...</>}>
