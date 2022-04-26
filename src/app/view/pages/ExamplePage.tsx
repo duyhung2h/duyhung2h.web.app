@@ -116,7 +116,7 @@ function GetExamplePage() {
     setShowOverlay(true);
   };
   useEffect(() => {
-    if (showOverlay == true) {
+    if (showOverlay === true) {
       console.log("showOverlay == true");
       backdrop_root.render(
         <div
@@ -126,7 +126,7 @@ function GetExamplePage() {
       );
       overlay_root.render(<AddExampleComponent onAddExample={addExample} ></AddExampleComponent>);
     }
-    if (showOverlay == false) {
+    if (showOverlay === false) {
       console.log("showOverlay == false");
       backdrop_root.render(<></>);
       overlay_root.render(<></>);
@@ -179,6 +179,7 @@ function GetExamplePage() {
       <br />
       <img
         title="???"
+        alt="???"
         src="https://static-cdn.jtvnw.net/emoticons/v1/emotesv2_d53274249a594003ac3bd598a94df7c0/3.0"
       ></img>
     </>
