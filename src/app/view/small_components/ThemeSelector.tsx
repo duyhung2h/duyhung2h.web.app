@@ -1,8 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import "../../../assets/scss/toggle_switch.scss";
-import { getThemeIndexLocalstorage } from "../../context/ThemeContext";
 import loadable from "@loadable/component";
-import { render } from "react-dom";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 
 const container: HTMLElement | null = document.getElementById("theme");
@@ -25,7 +22,7 @@ export const ThemeSelector = (props: any) => {
       setThemeIndex(1);
     }
     console.log("useEffect ThemeSelector");
-  }, []);
+  }, [themeIndex]);
   var kek = (event: any) => {
     console.log(event.target.checked);
     console.log("testddd");
@@ -89,7 +86,7 @@ export const ThemeSelector = (props: any) => {
             placeholder="placeholder"
             // checked={true}
             onChange={props.onChange}
-            defaultChecked={themeIndex == 2}
+            defaultChecked={themeIndex === 2}
           />
           <label className="toggle-switch-label">
             {themeIndex}

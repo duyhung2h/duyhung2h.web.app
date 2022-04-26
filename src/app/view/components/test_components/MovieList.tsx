@@ -1,6 +1,6 @@
 import React from "react";
 
-import classes from "./../../../assets/scss/Movie.module.scss";
+import classes from "./../../../../assets/scss/test_scss/Movie.module.scss";
 
 export const Movie = (props: any) => {
   return (

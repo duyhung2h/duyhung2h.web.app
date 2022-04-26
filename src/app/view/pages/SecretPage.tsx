@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import AddMovie from "../components/AddMovie";
-import MovieList from "../components/MovieList";
+import AddMovie from "../components/test_components/AddMovie";
+import MovieList from "../components/test_components/MovieList";
+import { Provider } from "react-redux";
+import store from "../../db/_redux";
+import Counter from "../components/test_components/Counter";
 
 const SecretPage = () => {
   let movielist: any[] = [];
@@ -104,6 +107,9 @@ const SecretPage = () => {
   return (
     <React.Fragment>
       <h1>Secret Page to test data</h1>
+      <Provider store={store}>
+        <Counter/>
+      </Provider>
       <section>
         <AddMovie onAddMovie={addMovieHandler} />
       </section>

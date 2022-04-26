@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 
-import classes from "./../../../assets/scss/Movie.module.scss";
+import classes from "./../../../../assets/scss/test_scss/Movie.module.scss";
 
 function AddMovie(props: any) {
   const titleRef = useRef<HTMLInputElement>(null);
