@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { connect } from "react-redux";
 import Button from "../../small_components/Button";
 import { Input } from "../../small_components/Input";
+import { Theme } from "../../small_components/Theme";
 import classes from "./../../../../assets/scss/test_scss/Counter.module.scss";
 
 // const Counter = () => {
@@ -33,11 +34,8 @@ import classes from "./../../../../assets/scss/test_scss/Counter.module.scss";
 //   );
 // };
 const Render = () => {
-  // const [counterInput, setCounterInput] = useState(0);
   let counterInput = 0;
-  let themeValue = 0;
-
-  class Counter extends React.Component<any> {
+  class Counter extends Theme {
     incrementHandler() {
       this.props.increment(counterInput);
     }
@@ -45,32 +43,10 @@ const Render = () => {
       this.props.decrement(counterInput);
     }
 
-    static themes = {
-      dark: "/src/assets/scss/test2.scss",
-      light: "test.module.scss",
-    };
-    static container: HTMLElement | null = document.getElementById("root");
-    static root = ReactDOM.createRoot(this.container || new HTMLElement());
-    themeHandler() {
-      var all = document.getElementsByTagName("*");
-      for (var i = 0, max = all.length; i < max; i++) {
-        all[i].classList.remove("theme_color" + 0)
-        all[i].classList.remove("theme_color" + 1)
-        all[i].classList.add("theme_color" + themeValue)
-      }
-      if (themeValue == 0) {
-        themeValue = 1;
-        this.props.change_theme(themeValue);
-      } else {
-        themeValue = 0;
-        this.props.change_theme(themeValue);
-      }
-    }
 
     toggleCounterHandler() {}
-    // render(){
-    // return Render(this.props)}
     render() {
+      this.reRender();
       return (
         <main className={classes.counter}>
           <h1>Redux Counter</h1>
