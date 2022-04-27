@@ -108,7 +108,7 @@ const SecretPage = () => {
     <React.Fragment>
       <h1>Secret Page to test data</h1>
       <Provider store={store}>
-        <Counter/>
+        <Counter />
       </Provider>
       <section>
         <AddMovie onAddMovie={addMovieHandler} />

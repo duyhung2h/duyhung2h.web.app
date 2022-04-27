@@ -2,7 +2,6 @@
 .header {
   width: 100%;
   height: 5rem;
-  background-color: $background_color;
   padding: 0 10%;
   &[class~=theme_color0]{
     background-color: $background_color_theme0 !important

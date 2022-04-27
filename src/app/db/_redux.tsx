@@ -1,4 +1,4 @@
-import { AnyAction, configureStore, combineReducers } from "@reduxjs/toolkit";
+import { AnyAction, configureStore } from "@reduxjs/toolkit";
 let data: any = { counter: 0, theme: 0 };
 const counterReducer = (state = data, action: AnyAction) => {
   console.log(state);
