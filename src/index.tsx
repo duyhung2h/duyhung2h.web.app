@@ -5,14 +5,12 @@ import "./assets/scss/index.scss";
 import App from "./app/view/pages/App/App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import { ThemeSelector } from "./app/view/small_components/ThemeSelector";
 
 
 const container: HTMLElement | null = document.getElementById("root");
 const root = ReactDOM.createRoot(container || new HTMLElement());
 root.render(
   <div>
-    <ThemeSelector></ThemeSelector>
     <BrowserRouter>
       <p>Test if works</p>
       <App />

@@ -16,6 +16,13 @@
   border-radius: 50%;
   float: right;
   position: fixed;
+  &[class~=theme_color0]{
+    background-color: $background_color_theme0 !important
+  }
+  &[class~=theme_color1]{
+    border: 1px solid #000000;
+    background-color: $background_color_theme1 !important
+  }
 }
 // button
 .button {

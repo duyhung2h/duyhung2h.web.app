@@ -3,11 +3,17 @@
 }
 .white-text {
   color: $white_color;
+  &[class~=theme_color0]{
+    color: $white_color !important
+  }
+  &[class~=theme_color1]{
+    color: $black_color !important
+  }
 }
 .backdrop-container {
   width: 100vw;
 //   height: 100vh;
-  background-color: $backdrop-color;
+  background-color: $backdrop_color;
   position: fixed; /* Sit on top of the page content */
   top: 0;
   left: 0;

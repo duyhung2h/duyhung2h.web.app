@@ -1,19 +1,27 @@
-import { AnyAction, configureStore } from "@reduxjs/toolkit";
+import { AnyAction, configureStore, combineReducers } from "@reduxjs/toolkit";
+let data: any = { counter: 0, theme: 0 };
+const counterReducer = (state = data, action: AnyAction) => {
+  console.log(state);
+  console.log(action);
 
-const counterReducer = (state = { counter: 0 }, action: AnyAction) => {
+  let newState = JSON.parse(JSON.stringify(state));
+  console.log(newState);
+
   if (action.type === "increment") {
-    return {
-      counter: state.counter + 1,
-    };
+    newState.counter = state.counter + action.amount;
+    return newState;
   }
   if (action.type === "decrement") {
-    return {
-      counter: state.counter - 1,
-    };
+    newState.counter = state.counter - action.amount;
+    return newState;
+  }
+  if (action.type === "change_theme") {
+    newState.theme = action.amount;
+    return newState;
   }
   return state;
 };
 const store = configureStore({
-    reducer: counterReducer
-})
-export default store
+  reducer: counterReducer,
+});
+export default store;

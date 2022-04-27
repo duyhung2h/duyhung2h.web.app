@@ -1,0 +1,35 @@
+$primary_color: #ff3863;
+$background_color: #009688;
+$background_color_lighter: #03c0ad;
+$body_background_color: #ffffff;
+
+$background_color_theme0: #009688;
+$background_color_lighter_theme0: #03c0ad;
+$body_background_color_theme0: #ffffff;
+
+$background_color_theme1: #FEEFBC;
+$background_color_lighter_theme1: #fbf2d2;
+$background_color_darker_theme1: #bfb181;
+$body_background_color_theme1: url('../images/bg.jpg');
+
+////////////////////////////
+$white_color: #ffffff;
+$black_color: #000000;
+$semi_white_color: #d3d3d3;
+$main_text_color: #000000;
+$backdrop_color: rgba(
+  $color: #000000,
+  $alpha: 0.3,
+);
+
+// :export {
+//   primary_color: $primary_color;
+//   background_color: $background_color;
+//   background_color_lighter: $background_color_lighter;
+
+//   white_color: $white_color;
+//   semi_white_color: $semi_white_color;
+//   main_text_color: $main_text_color;
+//   backdrop_color: $backdrop_color;
+//   background_color_lighter: $background_color_lighter;
+// }
