@@ -1,14 +1,24 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
+import { Provider } from "react-redux";
 import { NavLink } from "react-router-dom";
 import classes from "../../../assets/scss/index.module.scss";
 import AuthContext, { getUserLocalstorage } from "../../db/auth.service";
+import store from "../../db/_redux";
 import LoginComponent from "./LoginComponent";
+import ThemeSelector from "./ThemeSelector";
+import { withRouter } from "react-router-dom";
 
 const MainHeader = (props: any) => {
   const authCtx = useContext(AuthContext);
   console.log(
     "AuthContext.Consumer(ctx) => ctx.isLoggedIn = " + authCtx.isLoggedIn
   );
+  // const d = {h: ""}
+  useEffect(() => {
+    // do something on route change
+    // for my example, close a drawer
+  }, []);
+  const { match, location, history } = props;
   return (
     <header className={classes.header}>
       <nav>
@@ -58,10 +68,21 @@ const MainHeader = (props: any) => {
               </a>
             </li>
           )}
+          <li className={classes.login__hidden + ` `}>
+            <a>
+              <Provider store={store}>
+                <ThemeSelector
+                  location={location}
+                  history={history}
+                  match={match}
+                />
+              </Provider>
+            </a>
+          </li>
         </ul>
       </nav>
     </header>
   );
 };
 
-export default MainHeader;
+export default withRouter(MainHeader);

@@ -1,8 +1,16 @@
+
 .header {
   width: 100%;
   height: 5rem;
   background-color: $background_color;
   padding: 0 10%;
+  &[class~=theme_color0]{
+    background-color: $background_color_theme0 !important
+  }
+  &[class~=theme_color1]{
+    border: 1px solid #000000;
+    background-color: $background_color_theme1 !important
+  }
 }
 
 .header nav {
@@ -25,9 +33,15 @@
 }
 
 .header a {
-  color: $white_color;
+  // color: $white_color;
   text-decoration: none;
   cursor: pointer;
+  &[class~=theme_color0]{
+    color: $white_color !important
+  }
+  &[class~=theme_color1]{
+    color: $black_color !important
+  }
 }
 
 .header a:hover,
@@ -50,9 +64,8 @@
     position: relative;
     left: 0;
     // top: -1.5em;
-    background: $semi_white_color;
+    // background: $semi_white_color;
     overflow: hidden;
-    position: relative;
     width: 100%;
     height: auto;
     padding: 0.5rem;
@@ -63,6 +76,12 @@
     transition: all, 0.3s;
     opacity: 0;
     visibility: hidden;
+    &[class~=theme_color0]{
+      background: $semi_white_color !important
+    }
+    &[class~=theme_color1]{
+      background: $background_color_darker_theme1 !important
+    }
   }
   &:hover div {
     visibility: visible;
