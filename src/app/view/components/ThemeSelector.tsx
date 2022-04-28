@@ -3,6 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 import { connect } from "react-redux";
+import { mapStateToProps } from "../../db/_redux";
 import { Theme } from "../small_components/Theme";
 
 /**
@@ -59,12 +60,6 @@ export const ThemeSelector = () => {
 };
 /////////////////////////////////////////////////////////////
 
-const mapStateToProps = (state: any) => {
-  return {
-    counter: state.counter,
-    theme: state.theme,
-  };
-};
 const mapDispatchToProps = (dispatch: any) => {
   return {
     change_theme: (value: number) =>
