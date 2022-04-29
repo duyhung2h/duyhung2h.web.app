@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
-import ReactDOM from "react-dom/client";
-
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
+import { themeActions } from "../../db/slice/themeSlice";
 import { mapStateToProps } from "../../db/_redux";
 import { Theme } from "../small_components/Theme";
 
@@ -35,9 +34,15 @@ export const ThemeSelector = () => {
               id="toggleSwitch"
               placeholder="placeholder"
               onChange={this.themeHandler.bind(this)}
+              value={this.props.theme.theme}
             >
-              <option value="0">Classic theme</option>
-              <option value="1">AoKH themes</option>
+              {true && "selected"}
+              <option value="0" selected={this.props.theme.theme == "0"}>
+                Classic theme
+              </option>
+              <option value="1" selected={this.props.theme.theme == "1"}>
+                AoKH themes
+              </option>
             </select>
             <input
               title="rememberTheme"
@@ -62,12 +67,14 @@ export const ThemeSelector = () => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    change_theme: (value: number) =>
-      dispatch({ type: "change_theme", amount: value }),
+    change_theme: (value: number) => {
+      dispatch(themeActions.change_theme(value));
+    },
   };
 };
-export const checkHistory = (props: any) => {
-  return <></>;
+export const CheckHistory = (props: any) => {
+  const useSelectorValue = useSelector((state: any) => state.theme.theme);
+  return <>{/* <div>{useSelectorValue}</div> */}</>;
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThemeSelector());
