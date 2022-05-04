@@ -91,7 +91,7 @@ function GetExamplePage() {
     };
     console.log(exampleObject);
     return (
-      <div>
+      <div className="card">
         <div onClick={examplePageHandler}>
           <img
             // src={require("../../../assets/images/example1.png")}

@@ -25,8 +25,8 @@ export async function getExampleList() {
     exampleList = dataList.map((exampleData: any) => {
       i++;
       return new Example(
-        exampleData.exampleTitle,
-        exampleData.exampleShortDesc,
+        exampleData.exampleTitle + "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
+        exampleData.exampleShortDesc + "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀",
         exampleData.exampleDesc,
         exampleData.exampleImageLink,
         exampleData.exampleLikeCount,

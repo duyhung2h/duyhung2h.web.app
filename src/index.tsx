@@ -6,12 +6,14 @@ import App from "./app/view/pages/App/App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 
-
 const container: HTMLElement | null = document.getElementById("root");
 const root = ReactDOM.createRoot(container || new HTMLElement());
 root.render(
   <div>
     <BrowserRouter>
+      <div className="thumbnail">
+        <img src="./thumbnail.png" alt="" />
+      </div>
       <p>Test if works</p>
       <App />
     </BrowserRouter>

@@ -16,7 +16,7 @@ function LikeButton(props: any) {
   
   return (
     <div> 
-      <button onClick={() => changeLike()}><i className={`fa-star ` + (liked ? 'fa-solid' : 'fa-regular')}></i>{likeCount}</button>
+      <button onClick={() => changeLike()}><i className={`fa-star ` + (liked ? 'fa-solid' : 'fa-regular')}></i> {likeCount}</button>
     </div>
   );
 }
