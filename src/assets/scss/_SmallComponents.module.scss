@@ -73,9 +73,33 @@ button:active:disabled {
 }
 // card
 .card {
-  background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
   border-radius: 10px;
+  padding: 10px;
+  &[class~=theme_color0]{
+    border: 1px solid !important;
+    background: $white_color;
+    border-color: $black_color;
+  }
+  &[class~=theme_color1]{
+    border: 1px solid !important;
+    background: $background_color_lighter_theme1;
+    border-color: $background_color_lighter_theme1;
+  }
+}
+.info_card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 10px;
+  padding: 10px;
+  &[class~=theme_color0]{
+    border: 0px;
+    background: $white_color;
+  }
+  &[class~=theme_color1]{
+    border: 1px solid !important;
+    background: $background_color_lighter_theme1;
+    border-color: $background_color_lighter_theme1;
+  }
 }
 .login {
   width: 90%;
@@ -126,10 +150,10 @@ button:active:disabled {
   text-align: center;
 }
 
-@media (min-width: 768px) {
-  .control {
-    align-items: center;
-    flex-direction: row;
-  }
-
+.icon {
+  width: 20%;
+  height: auto;
+}
+.info_card__left {
+  width: 75%;
 }

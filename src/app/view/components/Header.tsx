@@ -1,12 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import { Provider } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import classes from "../../../assets/scss/index.module.scss";
 import AuthContext, { getUserLocalstorage } from "../../db/auth.service";
 import store from "../../db/_redux";
 import LoginComponent from "./LoginComponent";
-import ThemeSelector from "./ThemeSelector";
-import { withRouter } from "react-router-dom";
+import ThemeSelector, { CheckHistory } from "./ThemeSelector";
 
 const MainHeader = (props: any) => {
   const authCtx = useContext(AuthContext);
@@ -71,6 +70,7 @@ const MainHeader = (props: any) => {
           <li className={classes.login__hidden + ` `}>
             <a>
               <Provider store={store}>
+                <CheckHistory/>
                 <ThemeSelector
                   location={location}
                   history={history}

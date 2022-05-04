@@ -15,22 +15,24 @@ function App() {
         <MainHeader>
           <p>Test if works MainHeader</p>
         </MainHeader>
-        <Route exact path={"/"}>
-          <p>Test if works App /</p>
-          <Redirect to="/home" />
-        </Route>
-        <Route exact path={"/home"}>
-          <p>Test if works App /home</p>
-          <Home />
-        </Route>
-        <Route exact path={"/examples"}>
-          <p>Test if works App /examples</p>
-          <GetExamplePage />
-        </Route>
-        <Route exact path={"/secret"}>
-          <p>Test if works App /secret</p>
-          <SecretPage />
-        </Route>
+        <div className="container">
+          <Route exact path={"/"}>
+            <p>Test if works App /</p>
+            <Redirect to="/home" />
+          </Route>
+          <Route exact path={"/home"}>
+            <p>Test if works App /home</p>
+            <Home />
+          </Route>
+          <Route exact path={"/examples"}>
+            <p>Test if works App /examples</p>
+            <GetExamplePage />
+          </Route>
+          <Route exact path={"/secret"}>
+            <p>Test if works App /secret</p>
+            <SecretPage />
+          </Route>
+        </div>
       </AuthContextProvider>
     </React.Fragment>
   );

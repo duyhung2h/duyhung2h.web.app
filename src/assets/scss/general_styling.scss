@@ -3,16 +3,16 @@
 }
 .white-text {
   color: $white_color;
-  &[class~=theme_color0]{
-    color: $white_color !important
+  &[class~="theme_color0"] {
+    color: $white_color !important;
   }
-  &[class~=theme_color1]{
-    color: $black_color !important
+  &[class~="theme_color1"] {
+    color: $black_color !important;
   }
 }
 .backdrop-container {
   width: 100vw;
-//   height: 100vh;
+  //   height: 100vh;
   background-color: $backdrop_color;
   position: fixed; /* Sit on top of the page content */
   top: 0;
@@ -30,4 +30,31 @@
   right: 0;
   bottom: 0;
   z-index: 200; /* Specify a stack order in case you're using a different order for other elements */
+}
+
+.thumbnail {
+  position: absolute;
+  top: 0;
+  z-index: -5000;
+  width: 0px;
+  height: 0px;
+  img {
+    object-fit: cover;
+    width: 0px;
+    height: 0px;
+  }
+}
+.container{
+  padding: 5%;
+}
+
+body {
+  background: $body_background_color;
+
+  &[class~=theme_color0] {
+    background: $body_background_color_theme0 !important;
+  }
+  &[class~=theme_color1] {
+    background: $body_background_color_theme1 !important;
+  }
 }
