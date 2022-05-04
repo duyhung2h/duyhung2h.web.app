@@ -15,7 +15,7 @@ function App() {
         <MainHeader>
           <p>Test if works MainHeader</p>
         </MainHeader>
-        <div className="container">
+        <div className="p-5">
           <Route exact path={"/"}>
             <p>Test if works App /</p>
             <Redirect to="/home" />

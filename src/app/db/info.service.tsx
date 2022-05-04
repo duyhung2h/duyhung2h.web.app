@@ -1,4 +1,6 @@
 import { Info } from "../model/Info";
+import youtube from '../../assets/images/icon/youtube.png';
+import github from '../../assets/images/icon/github.png';
 // import "../../assets/images/icon"
 
 export function getInfoList() {
@@ -7,7 +9,7 @@ export function getInfoList() {
       "Main Youtube Channel",
       "My youtube channel where I cover programming, Age of Empires 2 modding tutorials, playing games and other fun skits",
       "Subscribe to not miss any of my interesting videos!",
-      "",
+      youtube,
       "https://www.youtube.com/channel/UCeClBZG-LQWVmxb0rGo2Qbw"
     ),
     new Info(
