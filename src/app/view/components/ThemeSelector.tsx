@@ -65,7 +65,7 @@ export const ThemeSelector = () => {
 };
 /////////////////////////////////////////////////////////////
 
-const mapDispatchToProps = (dispatch: any) => {
+export const mapDispatchToProps = (dispatch: any) => {
   return {
     change_theme: (value: number) => {
       dispatch(themeActions.change_theme(value));

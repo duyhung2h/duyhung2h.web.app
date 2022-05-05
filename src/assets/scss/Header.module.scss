@@ -60,10 +60,11 @@
     float: right;
   }
   div {
+    z-index: 20000;
+    opacity: 0;
     position: relative;
     left: 0;
     // top: -1.5em;
-    // background: $semi_white_color;
     overflow: hidden;
     width: 100%;
     height: auto;
@@ -73,21 +74,20 @@
     -ms-transition: all, 0.3s;
     -o-transition: all, 0.3s;
     transition: all, 0.3s;
-    opacity: 0;
     visibility: hidden;
     &[class~=theme_color0]{
-      background: $semi_white_color !important
+      background: $semi_white_color !important;
     }
     &[class~=theme_color1]{
-      background: $background_color_darker_theme1 !important
+      background: $background_color_lighter_theme1 !important;
     }
   }
   &:hover div {
     visibility: visible;
     opacity: 1;
   }
-  div &:hover {
-    visibility: visible;
-    opacity: 1;
-  }
+  // & form {
+  //   visibility: visible;
+  //   opacity: 1;
+  // }
 }

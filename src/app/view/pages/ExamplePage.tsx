@@ -1,12 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
+import { connect } from "react-redux";
 import "../../../assets/scss/ExampleComponent.scss";
 import { addExample, getExampleList } from "../../db/example.service";
+import store, { mapStateToProps } from "../../db/_redux";
 import "../../logic_handler/ListHandler";
 import { sortList } from "../../logic_handler/ListHandler";
 import { limitTextLength } from "../../logic_handler/TextHandler";
 import AddExampleComponent from "../components/AddExampleComponent";
+import { mapDispatchToProps } from "../components/ThemeSelector";
 import LikeButton from "../small_components/LikeButton";
+import { reRender } from "../small_components/Theme";
 
 const backdrop_root = ReactDOM.createRoot(
   document.getElementById("backdrop-root") || new HTMLElement()
@@ -14,7 +18,7 @@ const backdrop_root = ReactDOM.createRoot(
 const overlay_root = ReactDOM.createRoot(
   document.getElementById("overlay-root") || new HTMLElement()
 );
-function GetExamplePage() {
+const GetExamplePage = () => {
   const getISFilter = () => {
     const value = "exampleTitle";
     return value;
@@ -56,7 +60,7 @@ function GetExamplePage() {
 
         let examplePageContent = list.map((element) => {
           return (
-            <div className="w3-quarter" key={element.exampleId}>
+            <div className="example__item" key={element.exampleId}>
               <GetExampleComponent exampleObject={element} />
             </div>
           );
@@ -112,6 +116,7 @@ function GetExamplePage() {
   // handle add new example button event listener
   const addExampleButtonHandler = () => {
     console.log("addExampleButtonHandler clicked");
+    reRender(store.getState().theme.theme);
 
     setShowOverlay(true);
   };
@@ -124,7 +129,9 @@ function GetExamplePage() {
           onClick={() => setShowOverlay(false)}
         ></div>
       );
-      overlay_root.render(<AddExampleComponent onAddExample={addExample} ></AddExampleComponent>);
+      overlay_root.render(
+        <AddExampleComponent onAddExample={addExample}></AddExampleComponent>
+      );
     }
     if (showOverlay === false) {
       console.log("showOverlay == false");
@@ -134,20 +141,14 @@ function GetExamplePage() {
   }, [showOverlay]);
 
   // filter options
-  function MySelect() {
+  function MySelect(props: any) {
     async function handleSelectorChange(e: any) {
       // set list page value to useState
-      await getExampleListContent(
-        e.target.value,
-        allValues.selectorValueAsc
-      );
+      await getExampleListContent(e.target.value, allValues.selectorValueAsc);
     }
     async function handleSelectorChangeAsc(e: any) {
       // set list page value to useState
-      await getExampleListContent(
-        allValues.selectorValue,
-        e.target.value
-      );
+      await getExampleListContent(allValues.selectorValue, e.target.value);
     }
     return (
       <div>
@@ -211,28 +212,28 @@ function GetExamplePage() {
       {/* filter options */}
       <MySelect />
 
-      <div className="w3-main w3-content w3-padding row container__example-page">
+      <div className="row container__example-page">
         {content}
-      </div>
-      <div className="w3-center w3-padding-32 width-100">
-        <div className="w3-bar">
-          <a href="/#" className="w3-bar-item w3-button w3-hover-black">
-            «
-          </a>
-          <a href="/#" className="w3-bar-item w3-black w3-button">
-            1
-          </a>
-          <a href="/#" className="w3-bar-item w3-button w3-hover-black">
-            2
-          </a>
-          <a href="/#" className="w3-bar-item w3-button w3-hover-black">
-            »
-          </a>
+        <div className="w3-center example__paginator width-100">
+          <div className="w3-bar">
+            <a href="/#" className="w3-bar-item w3-button w3-hover-black">
+              «
+            </a>
+            <a href="/#" className="w3-bar-item w3-black w3-button">
+              1
+            </a>
+            <a href="/#" className="w3-bar-item w3-button w3-hover-black">
+              2
+            </a>
+            <a href="/#" className="w3-bar-item w3-button w3-hover-black">
+              »
+            </a>
+          </div>
         </div>
       </div>
     </div>
   );
   return examplePage;
-}
+};
 
-export default GetExamplePage;
+export default connect(mapStateToProps, mapDispatchToProps)(GetExamplePage);
