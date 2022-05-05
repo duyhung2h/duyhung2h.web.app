@@ -14,6 +14,7 @@
   border-radius: 50%;
   float: right;
   position: fixed;
+  z-index: 10000;
   &[class~=theme_color0]{
     border: 1px solid $transparent_color;
     background-color: $background_color_theme0;
@@ -87,20 +88,6 @@ button:active:disabled {
     border-color: $background_color_lighter_theme1;
   }
 }
-.info_card {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  border-radius: 10px;
-  padding: 10px;
-  &[class~=theme_color0]{
-    border: 0px;
-    background: $white_color;
-  }
-  &[class~=theme_color1]{
-    border: 1px solid !important;
-    background: $background_color_lighter_theme1;
-    border-color: $background_color_lighter_theme1;
-  }
-}
 .login {
   width: 90%;
   max-width: 40rem;
@@ -149,11 +136,32 @@ button:active:disabled {
 .actions {
   text-align: center;
 }
-
+// info cards /////////////////////////////
 .icon {
-  width: 20%;
-  height: auto;
+  background: none;
+  background-repeat: no-repeat !important;
+  height: 100%;
+  width: 12vh; 
+  margin: 2vh;
+  min-width: 16vh;
+  position: absolute;
+  right: 5%;
+  background-size: 100% auto !important;
 }
 .info_card__left {
-  width: 75%;
+  padding: 2vh;
+}
+.info_card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 10px;
+  &[class~=theme_color0]{
+    border: 0px;
+    background: $white_color;
+  }
+  &[class~=theme_color1]{
+    border: 1px solid !important;
+    background: $background_color_lighter_theme1;
+    border-color: $background_color_lighter_theme1;
+  }
+  min-height: 20vh;
 }

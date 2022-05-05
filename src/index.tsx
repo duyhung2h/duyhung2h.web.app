@@ -14,7 +14,6 @@ root.render(
       <div className="thumbnail">
         <img src="./thumbnail.png" alt="" />
       </div>
-      <p>Test if works</p>
       <App />
     </BrowserRouter>
   </div>
