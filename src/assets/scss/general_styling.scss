@@ -1,3 +1,37 @@
+html {
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+button,
+input,
+select,
+textarea,
+optgroup {
+  font: inherit;
+  margin: 0;
+}
+optgroup {
+  font-weight: bold;
+}
+html,
+body {
+  font-family: Verdana, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+img {
+  vertical-align: middle;
+}
+a {
+  color: inherit;
+}
+// //////////////////////////////////////////////////////
+
 .width-100 {
   width: 100%;
 }
@@ -30,6 +64,12 @@
   right: 0;
   bottom: 0;
   z-index: 200; /* Specify a stack order in case you're using a different order for other elements */
+  &[class~="theme_color0"] {
+    background: $semi_white_color !important;
+  }
+  &[class~="theme_color1"] {
+    background: $background_color_lighter_theme1 !important;
+  }
 }
 
 .thumbnail {
@@ -48,10 +88,10 @@
 body {
   background: $body_background_color;
 
-  &[class~=theme_color0] {
+  &[class~="theme_color0"] {
     background: $body_background_color_theme0 !important;
   }
-  &[class~=theme_color1] {
+  &[class~="theme_color1"] {
     background: $body_background_color_theme1 !important;
   }
 }

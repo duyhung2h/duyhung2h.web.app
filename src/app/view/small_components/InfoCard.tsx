@@ -4,8 +4,8 @@ import classes from "./../../../assets/scss/index.module.scss";
 
 const InfoCard = (props: any) => {
   return (
-    <a href={props.infoCard.link}>
-      <div className={`${classes.info_card} row`}>
+    <a href={props.infoCard.link} target={"_blank"}>
+      <div className={`${classes.info_card} row`} >
         <div className="col-8 info_card__left">
           <h4>{props.infoCard.title}</h4>
           <p>{props.infoCard.shortDesc}</p>

@@ -6,6 +6,8 @@ import MainHeader from "../../components/Header";
 import GetExamplePage from "../ExamplePage";
 import SecretPage from "../SecretPage";
 import Home from "./../home";
+import { Provider } from "react-redux";
+import store from "../../../db/_redux";
 
 function App() {
   return (
@@ -13,24 +15,33 @@ function App() {
       {/* <p>Test if works App</p> */}
       <AuthContextProvider>
         {/* Test if works AuthContext */}
-        <MainHeader>
-          {/* <p>Test if works MainHeader</p> */}
-        </MainHeader>
+        <MainHeader>{/* <p>Test if works MainHeader</p> */}</MainHeader>
         <div className="p-5">
           <Route exact path={"/"}>
             {/* <p>Test if works App /</p> */}
             <Redirect to="/home" />
           </Route>
           <Route exact path={"/home"}>
-            <NavLink to="/">Main</NavLink> {'>'} <NavLink activeClassName={classes.active} to="/home">Homepage</NavLink> 
+            <NavLink to="/">Main</NavLink> {">"}{" "}
+            <NavLink activeClassName={classes.active} to="/home">
+              Homepage
+            </NavLink>
             <Home />
           </Route>
           <Route exact path={"/examples"}>
-            <NavLink to="/">Main</NavLink> {'>'} <NavLink activeClassName={classes.active} to="/examples">Example Page</NavLink> 
-            <GetExamplePage />
+            <NavLink to="/">Main</NavLink> {">"}{" "}
+            <NavLink activeClassName={classes.active} to="/examples">
+              Example Page
+            </NavLink>
+            <Provider store={store}>
+              <GetExamplePage />
+            </Provider>
           </Route>
           <Route exact path={"/secret"}>
-            <NavLink to="/">Main</NavLink> {'>'} <NavLink activeClassName={classes.active} to="/secret">Secret Page</NavLink> 
+            <NavLink to="/">Main</NavLink> {">"}{" "}
+            <NavLink activeClassName={classes.active} to="/secret">
+              Secret Page
+            </NavLink>
             <SecretPage />
           </Route>
         </div>

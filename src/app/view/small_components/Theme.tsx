@@ -1,5 +1,15 @@
 import React from "react";
 
+export function reRender(themeValue: any) {
+  setTimeout(function () {
+    var all = document.getElementsByTagName("*");
+    for (var i = 0, max = all.length; i < max; i++) {
+      all[i].classList.remove("theme_color" + 0);
+      all[i].classList.remove("theme_color" + 1);
+      all[i].classList.add("theme_color" + themeValue);
+    }
+  }, 0);
+}
 export class Theme extends React.Component<any> {
   themeValue = 0;
   themeHandler(e: any) {
@@ -13,14 +23,6 @@ export class Theme extends React.Component<any> {
     this.reRender();
   }
   reRender() {
-    let themeValue = this.props.theme.theme
-    setTimeout(function () {
-      var all = document.getElementsByTagName("*");
-      for (var i = 0, max = all.length; i < max; i++) {
-        all[i].classList.remove("theme_color" + 0);
-        all[i].classList.remove("theme_color" + 1);
-        all[i].classList.add("theme_color" + themeValue);
-      }
-    }, 0);
+    reRender(this.props.theme.theme)
   }
 }
