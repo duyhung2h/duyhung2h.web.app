@@ -5,8 +5,17 @@ import { Provider } from "react-redux";
 import store from "../../db/_redux";
 import Counter from "../components/test_components/Counter";
 
+export function test() {
+  const person = { age: 20 };
+  const person2 = { ...person }; // shallow copy
+  person2.age = 99;
+  console.log(person);
+  console.log(person2);
+
+}
 
 const SecretPage = () => {
+  test();
   let movielist: any[] = [];
   const [movies, setMovies] = useState(movielist);
   const [isLoading, setIsLoading] = useState(false);
@@ -67,7 +76,7 @@ const SecretPage = () => {
           // body: JSON.stringify(movie),
           body: JSON.stringify(movie),
           headers: {
-            'Accept': 'application/json',
+            Accept: "application/json",
             "Content-Type": "application/json",
           },
         }
