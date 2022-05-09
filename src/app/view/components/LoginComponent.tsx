@@ -11,6 +11,8 @@ import Card from "../small_components/Card";
 import AuthContext from "../../db/auth.service";
 import { Input } from "../small_components/Input";
 
+
+
 /**
  * an useReducer to prevent using multiple useState so it wouldn't cause conflict
  *
@@ -139,10 +141,31 @@ const LoginComponent = (props: any) => {
   const submitHandler = (event: any) => {
     event.preventDefault();
     if (formIsValid) {
-      authCtx.onLogin(
-        loginInfoState.username.value,
-        loginInfoState.password.value
-      );
+      fetch("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAfiF5A7sEixx9AnEw6xMikDwQzBEYUvCA",
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          email: loginInfoState.username.value,
+          password: loginInfoState.password.value,
+          returnSecureToken: true
+        }),
+        headers:{
+          'content-type': 'application/json'
+        }
+      }).then((res) => {
+        if (res.ok){
+
+        }else{
+          return res.json().then((data) => {
+            // show error or something idk 
+            console.log(data)
+          })
+        }
+      })
+      // authCtx.onLogin(
+      //   loginInfoState.username.value,
+      //   loginInfoState.password.value
+      // );
     } else if (!loginInfoState.username.isValid) {
       emailInputRef.current.focus();
     } else if (!loginInfoState.password.isValid) {
