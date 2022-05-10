@@ -8,10 +8,8 @@ import React, {
 import classes from "../../../assets/scss/index.module.scss";
 import Button from "../small_components/Button";
 import Card from "../small_components/Card";
-import AuthContext from "../../db/auth.service";
+import AuthContext, { LoginFromAPI } from "../../db/auth.service";
 import { Input } from "../small_components/Input";
-
-
 
 /**
  * an useReducer to prevent using multiple useState so it wouldn't cause conflict
@@ -138,34 +136,58 @@ const LoginComponent = (props: any) => {
    *
    * @param event
    */
-  const submitHandler = (event: any) => {
+  const submitHandler = async (event: any) => {
     event.preventDefault();
     if (formIsValid) {
-      fetch("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAfiF5A7sEixx9AnEw6xMikDwQzBEYUvCA",
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          email: loginInfoState.username.value,
-          password: loginInfoState.password.value,
-          returnSecureToken: true
-        }),
-        headers:{
-          'content-type': 'application/json'
+      const data = await LoginFromAPI(
+        loginInfoState.username.value,
+        loginInfoState.password.value
+      ).then(()=>{
+        window.location.reload();
+      });
+      // authCtx.onLogin(loginInfoState.username.value, loginInfoState.password.value, '')
+      console.log(data);
+    } else if (!loginInfoState.username.isValid) {
+      emailInputRef.current.focus();
+    } else if (!loginInfoState.password.isValid) {
+      passwordInputRef.current.focus();
+    }
+  };
+  /**
+   * submit handler, pass data to login function if all forms are correct, otherwise shift input focus on invalid input component
+   *
+   * @param event
+   */
+  const submitHandlerPOST = (event: any) => {
+    event.preventDefault();
+    if (formIsValid) {
+      fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAfiF5A7sEixx9AnEw6xMikDwQzBEYUvCA",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: loginInfoState.username.value,
+            password: loginInfoState.password.value,
+            returnSecureToken: true,
+          }),
+          headers: {
+            "content-type": "application/json",
+          },
         }
-      }).then((res) => {
-        if (res.ok){
-
-        }else{
+      ).then((res) => {
+        if (res.ok) {
+        } else {
           return res.json().then((data) => {
-            // show error or something idk 
-            console.log(data)
-          })
+            // show error or something idk
+            console.log(data);
+            let errorMessage = "Authentication failed!";
+            if (data && data.error && data.error.message) {
+              errorMessage = data.error.message;
+            }
+            alert(errorMessage);
+          });
         }
-      })
-      // authCtx.onLogin(
-      //   loginInfoState.username.value,
-      //   loginInfoState.password.value
-      // );
+      });
     } else if (!loginInfoState.username.isValid) {
       emailInputRef.current.focus();
     } else if (!loginInfoState.password.isValid) {
@@ -199,6 +221,7 @@ const LoginComponent = (props: any) => {
           <Button type="submit" className={classes.btn}>
             Login
           </Button>
+          <a onClick={submitHandlerPOST}>Sign up new account</a>
         </div>
       </form>
     </Card>
