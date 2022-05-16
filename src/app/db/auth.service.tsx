@@ -1,5 +1,5 @@
 import { User } from "../model/User";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { setTimeout } from "timers/promises";
 
 /**
@@ -11,10 +11,10 @@ import { setTimeout } from "timers/promises";
  */
 export function login(username: string, password: string, token: string) {
   console.log("logging in");
-  
+
   const user = new User(1, username, password, token);
   console.log(user);
-  
+
   localStorage.setItem("user", JSON.stringify(user));
 }
 /**
@@ -25,43 +25,36 @@ export function logout() {
 }
 export async function LoginFromAPI(username: string, password: string) {
   // useContext to connect to global AuthContext
-  return await  
-    fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAfiF5A7sEixx9AnEw6xMikDwQzBEYUvCA",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          email: username,
-          password: password,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "content-type": "application/json",
-        },
-      }
-    ).then(async (res) => {
-      if (res.ok) {
-        login(username, password, 'data.idToken');
-        return res.json()
-        res.json().then(async (data: any) => {
-          // show error or something idk
-          login(username, password, data.idToken);
-          console.log(data);
-          return data
-        });
-      } else {
-        res.json().then((data) => {
-          // show error or something idk
-          console.log(data);
-          let errorMessage = "Authentication failed!";
-          if (data && data.error && data.error.message) {
-            errorMessage = data.error.message;
-          }
-          alert(errorMessage);
-          return data
-        });
-      }
-  })
+  return await fetch(
+    "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAfiF5A7sEixx9AnEw6xMikDwQzBEYUvCA",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        email: username,
+        password: password,
+        returnSecureToken: true,
+      }),
+      headers: {
+        "content-type": "application/json",
+      },
+    }
+  ).then(async (res) => {
+    if (res.ok) {
+      login(username, password, "data.idToken");
+      return res.json();
+    } else {
+      res.json().then((data) => {
+        // show error or something idk
+        console.log(data);
+        let errorMessage = "Authentication failed!";
+        if (data && data.error && data.error.message) {
+          errorMessage = data.error.message;
+        }
+        // alert(errorMessage);
+        return data;
+      });
+    }
+  });
 }
 /**
  * Get User class stored inside local storage
@@ -96,19 +89,32 @@ var AuthContext = React.createContext({
 export const AuthContextProvider = (props: any) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [random, setRandom] = useState(Math.random());
+  const [firstUpdate, setFirstUpdate] = useState(true);
   useEffect(() => {
+    // this useEffect wont run at initial render
+    // if (firstUpdate) {
+    //   setFirstUpdate(false);
+    //   alert("first update")
+    //   return;
+    // }
     try {
       var user = getUserLocalstorage();
+      alert(user._username);
+      // if(user._username )
       const awaitedUser = async () => {
         await LoginFromAPI(user._username, user._password).then((data) => {
           // loginHandler(data._username, data._password, data._token)
           console.log(data);
+          // alert("LoginFromAPI")
+          logout();
           login(user._username, user._password, data.idToken);
 
           if (user._userId > -1) {
+            // alert("user._userId > -1")
             setIsLoggedIn(true);
           } else {
-            setIsLoggedIn(false);
+            // alert("logoout")
+            logoutHandler();
           }
         });
       };
