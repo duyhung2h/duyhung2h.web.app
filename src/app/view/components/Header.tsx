@@ -1,11 +1,9 @@
 import React, { useContext, useEffect } from "react";
-import { Provider } from "react-redux";
 import { NavLink, withRouter } from "react-router-dom";
 import classes from "../../../assets/scss/index.module.scss";
+import "../../../assets/scss/page_scss/hamburger.scss";
 import AuthContext, { getUserLocalstorage } from "../../db/auth.service";
-import store from "../../db/_redux";
 import LoginComponent from "./LoginComponent";
-import ThemeSelector, { CheckHistory } from "./ThemeSelector";
 
 const MainHeader = (props: any) => {
   const authCtx = useContext(AuthContext);
@@ -17,11 +15,88 @@ const MainHeader = (props: any) => {
     // do something on route change
     // for my example, close a drawer
   }, []);
+  function humbergerMenuOverlayOnClick() {}
+  function humbergerOnclick() {}
   const { match, location, history } = props;
   return (
     <header className={classes.header}>
       <nav>
-        <ul>
+        <div
+          className="humberger__menu__overlay"
+          onClick={humbergerMenuOverlayOnClick}
+        ></div>
+        <div className="humberger__menu__wrapper">
+          <div className="humberger__menu__logo">
+            <a href="#">
+              <img src="img/logo2.png" alt="" />
+            </a>
+          </div>
+          <div className="humberger__menu__cart">
+            {authCtx.isLoggedIn && (
+              <ul className="">
+                <li>
+                  <NavLink activeClassName={classes.active} to="/examples">
+                    Examples
+                  </NavLink>
+                </li>
+                {/* <li>
+                        <a title="Giỏ hàng của bạn" [routerLink]="['/cart']">
+                            <i className="fa fa-shopping-bag tooltipHeader">
+                                <span className="tooltiptext">Giỏ hàng của bạn</span>
+                            </i>
+                            <span>{{checkCartAmount()}}</span>
+                        </a>
+                    </li>
+        
+                    <li>
+                        <div className="header__top__right__auth">
+                            <div className="header__item__dropdown">
+                                <i className="fa fa-user"></i>
+                                <ul className="header__menu__dropdown dropdown_right">
+                                    <li><a [routerLink]="['/accountinfo']">Cập Nhật Tài Khoản</a></li>
+                                    <li><a onClick="logout()">Đăng Xuất</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li> */}
+              </ul>
+            )}
+
+            {/* <ul className="header__ul" *ngIf="userModel == null">
+                    <li className="cursor-auto">
+                        <div className="header__item__dropdown cursor-pointer">
+                            <i [routerLink]="['/login']" className="fa fa-user mr-2 line-separator-header-mobile">
+                                <span className="footer-ybwc-desc"> Đăng Nhập</span>
+                            </i>
+        
+                            <i [routerLink]="['/register']" className="fa ">
+                                <span className="footer-ybwc-desc"> Đăng Ký</span>
+                            </i>
+                        </div>
+                    </li>
+                </ul> */}
+          </div>
+          {/* <div id="mobile-menu-wrap ">
+                <div className="slicknav_menu ">
+                    <nav className="slicknav_nav slicknav_hidden " aria-hidden="true " role="menu " style="display: none; ">
+                        <ul className="header__ul ">
+                            <li [routerLinkActive]=" 'active' "><a href="# " [routerLink]="['/home'] ">Trang Chủ</a></li>
+                            <li [routerLinkActive]=" 'active' "><a href="# " [routerLink]="['/product-list'] ">Sản Phẩm</a></li>
+                            <li [routerLinkActive]=" 'active' " *ngIf="userModel?.customer?.role?._roleId==1"><a href="# "
+                                    [routerLink]="['/history'] ">Lịch sử</a></li>
+                            <li [routerLinkActive]=" 'active' "><a href="# "
+                                    onClick={_testCreateLogInAccount()}>_testCreateLogInAcc</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div> */}
+        </div>
+        <ul className="main-text-color">
+          <li>
+            <div className="humberger__open " onClick={humbergerOnclick}>
+              <i className="fa fa-bars "></i>
+            </div>
+          </li>
           <li>
             <NavLink activeClassName={classes.active} to="/home">
               Home
@@ -48,7 +123,7 @@ const MainHeader = (props: any) => {
             </li>
           )}
           {authCtx.isLoggedIn && (
-            <li className={classes.login__hidden + ` ml-3 white-text`}>
+            <li className={classes.login__hidden + ` ml-3 main-text-color`}>
               <i className="fa fa-user mr-1"></i>
               Welcome, {true && (
                 <span>{getUserLocalstorage()._username}</span>
@@ -67,18 +142,6 @@ const MainHeader = (props: any) => {
               </a>
             </li>
           )}
-          <li className={classes.login__hidden + ` `}>
-            <a>
-              <Provider store={store}>
-                <CheckHistory/>
-                <ThemeSelector
-                  location={location}
-                  history={history}
-                  match={match}
-                />
-              </Provider>
-            </a>
-          </li>
         </ul>
       </nav>
     </header>

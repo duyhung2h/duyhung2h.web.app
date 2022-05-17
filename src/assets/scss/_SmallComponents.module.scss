@@ -140,12 +140,14 @@ button:active:disabled {
 .icon {
   background: none;
   background-repeat: no-repeat !important;
-  height: 100%;
+  height: 12vh;
   width: 12vh; 
   margin: 2vh;
   min-width: 16vh;
+  min-height: 16vh;
   position: absolute;
   right: 5%;
+  padding: 0;
   background-size: 100% auto !important;
 }
 .info_card__left {
