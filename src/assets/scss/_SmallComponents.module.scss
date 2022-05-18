@@ -140,11 +140,13 @@ button:active:disabled {
 .icon {
   background: none;
   background-repeat: no-repeat !important;
-  height: 12vh;
-  width: 12vh; 
+  height: 12vh !important;
+  width: 12vh !important; 
   margin: 2vh;
-  min-width: 16vh;
-  min-height: 16vh;
+  min-width: 16vh !important;
+  min-height: 16vh !important;
+  max-width: 16vh !important;
+  max-height: 16vh !important;
   position: absolute;
   right: 5%;
   padding: 0;

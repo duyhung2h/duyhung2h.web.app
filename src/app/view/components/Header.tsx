@@ -5,7 +5,7 @@ import "../../../assets/scss/page_scss/hamburger.scss";
 import AuthContext, { getUserLocalstorage } from "../../db/auth.service";
 import LoginComponent from "./LoginComponent";
 
-const MainHeader = (props: any) => {
+const MainHeader = () => {
   const authCtx = useContext(AuthContext);
   console.log(
     "AuthContext.Consumer(ctx) => ctx.isLoggedIn = " + authCtx.isLoggedIn
@@ -15,9 +15,18 @@ const MainHeader = (props: any) => {
     // do something on route change
     // for my example, close a drawer
   }, []);
-  function humbergerMenuOverlayOnClick() {}
-  function humbergerOnclick() {}
-  const { match, location, history } = props;
+  function humbergerMenuOverlayOnClick() {
+    $(".humberger__menu__wrapper").removeClass(
+      "show__humberger__menu__wrapper"
+    );
+    $(".humberger__menu__overlay").removeClass("active");
+    $("body").removeClass("over_hid");
+  }
+  function humbergerOnclick() {
+    $(".humberger__menu__wrapper").addClass("show__humberger__menu__wrapper");
+    $(".humberger__menu__overlay").addClass("active");
+    $("body").addClass("over_hid");
+  }
   return (
     <header className={classes.header}>
       <nav>

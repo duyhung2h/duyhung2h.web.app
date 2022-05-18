@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { connect, useSelector } from "react-redux";
+import { connect} from "react-redux";
 import { themeActions } from "../../db/slice/themeSlice";
 import { mapStateToProps } from "../../db/_redux";
 import { Theme } from "../small_components/Theme";
@@ -37,10 +37,10 @@ export const ThemeSelector = () => {
               value={this.props.theme.theme}
             >
               {true && "selected"}
-              <option value="0" selected={this.props.theme.theme == "0"}>
+              <option value="0" selected={this.props.theme.theme === "0"}>
                 Classic theme
               </option>
-              <option value="1" selected={this.props.theme.theme == "1"}>
+              <option value="1" selected={this.props.theme.theme === "1"}>
                 AoKH themes
               </option>
             </select>
@@ -71,10 +71,6 @@ export const mapDispatchToProps = (dispatch: any) => {
       dispatch(themeActions.change_theme(value));
     },
   };
-};
-export const CheckHistory = (props: any) => {
-  const useSelectorValue = useSelector((state: any) => state.theme.theme);
-  return <>{/* <div>{useSelectorValue}</div> */}</>;
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThemeSelector());

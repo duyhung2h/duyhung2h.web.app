@@ -1,6 +1,5 @@
+import React, { useEffect, useState } from "react";
 import { User } from "../model/User";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { setTimeout } from "timers/promises";
 
 /**
  * handles login
@@ -50,6 +49,8 @@ export async function LoginFromAPI(username: string, password: string) {
         if (data && data.error && data.error.message) {
           errorMessage = data.error.message;
         }
+        console.log(errorMessage);
+        
         // alert(errorMessage);
         return data;
       });
@@ -88,8 +89,8 @@ var AuthContext = React.createContext({
  */
 export const AuthContextProvider = (props: any) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [random, setRandom] = useState(Math.random());
-  const [firstUpdate, setFirstUpdate] = useState(true);
+  // const [random, setRandom] = useState(Math.random());
+  // const [firstUpdate, setFirstUpdate] = useState(true);
   useEffect(() => {
     // this useEffect wont run at initial render
     // if (firstUpdate) {
@@ -99,7 +100,7 @@ export const AuthContextProvider = (props: any) => {
     // }
     try {
       var user = getUserLocalstorage();
-      alert(user._username);
+      alert("login successful for:" +  user._username);
       // if(user._username )
       const awaitedUser = async () => {
         await LoginFromAPI(user._username, user._password).then((data) => {
@@ -125,7 +126,7 @@ export const AuthContextProvider = (props: any) => {
     }
     console.log("useEffect app");
     console.log(props);
-    setRandom(Math.random());
+    // setRandom(Math.random());
   }, []);
   const loginHandler = (username: string, password: string, token: string) => {
     login(username, password, token);

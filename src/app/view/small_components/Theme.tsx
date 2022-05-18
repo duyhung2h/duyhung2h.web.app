@@ -13,7 +13,7 @@ export function reRender(themeValue: any) {
 export class Theme extends React.Component<any> {
   themeValue = 0;
   themeHandler(e: any) {
-    if (this.themeValue == 0) {
+    if (this.themeValue === 0) {
       this.themeValue = 1;
       this.props.change_theme(this.themeValue);
     } else {

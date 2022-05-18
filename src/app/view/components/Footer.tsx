@@ -4,7 +4,7 @@ import { NavLink, withRouter } from "react-router-dom";
 import classes from "../../../assets/scss/index.module.scss";
 import { WEB_BRANCH, WEB_VER } from "../../constants";
 import store from "../../db/_redux";
-import ThemeSelector, { CheckHistory } from "./ThemeSelector";
+import ThemeSelector from "./ThemeSelector";
 
 const Footer = (props: any) => {
   const { match, location, history } = props;
@@ -21,7 +21,6 @@ const Footer = (props: any) => {
           <li className={classes.login__hidden + ` `}>
             <a>
               <Provider store={store}>
-                <CheckHistory/>
                 <ThemeSelector
                   location={location}
                   history={history}
