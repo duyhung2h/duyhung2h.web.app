@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
-import "./assets/scss/index.scss";
-import App from "./app/view/pages/App/App";
-import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
+import App from "./app/view/pages/App/App";
+import "./assets/scss/index.scss";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
 
 const container: HTMLElement | null = document.getElementById("root");
 const root = ReactDOM.createRoot(container || new HTMLElement());

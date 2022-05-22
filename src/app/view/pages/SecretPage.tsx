@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import AddMovie from "../components/test_components/AddMovie";
-import MovieList from "../components/test_components/MovieList";
 import { Provider } from "react-redux";
 import store from "../../db/_redux";
+import AddMovie from "../components/test_components/AddMovie";
+import TextEditor from "../components/test_components/CKEditor";
 import Counter from "../components/test_components/Counter";
+import MyEditor from "../components/test_components/DraftJS";
+import MovieList from "../components/test_components/MovieList";
 
 export function test() {
   const person = { age: 20 };
@@ -117,7 +119,10 @@ const SecretPage = () => {
   return (
     <React.Fragment>
       <h1>Secret Page to test data</h1>
-      <Provider store={store}>
+      <section><MyEditor/></section>
+      
+      
+      {/* <Provider store={store}>
         <Counter />
       </Provider>
       <section>
@@ -126,7 +131,7 @@ const SecretPage = () => {
       <section>
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
-      <section>{content}</section>
+      <section>{content}</section> */}
     </React.Fragment>
   );
 };
