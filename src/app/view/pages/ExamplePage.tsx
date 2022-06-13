@@ -18,7 +18,7 @@ const backdrop_root = ReactDOM.createRoot(
 const overlay_root = ReactDOM.createRoot(
   document.getElementById("overlay-root") || new HTMLElement()
 );
-const GetExamplePage = () => {
+const GetArticlePage = () => {
   const getISFilter = () => {
     const value = "exampleTitle";
     return value;
@@ -236,4 +236,4 @@ const GetExamplePage = () => {
   return examplePage;
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GetExamplePage);
+export default connect(mapStateToProps, mapDispatchToProps)(GetArticlePage);
