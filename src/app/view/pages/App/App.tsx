@@ -3,7 +3,7 @@ import { NavLink, Redirect, Route } from "react-router-dom";
 import { AuthContextProvider } from "../../../db/auth.service";
 import classes from "../../../../assets/scss/index.module.scss";
 import MainHeader from "../../components/Header";
-import GetArticlePage from "../ExamplePage";
+import GetArticlePage from "../ArticlePage";
 import SecretPage from "../SecretPage";
 import Home from "./../home";
 import { Provider } from "react-redux";

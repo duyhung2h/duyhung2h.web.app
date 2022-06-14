@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import classes from "../../../assets/scss/index.module.scss";
-import { Example } from "../../model/Example";
+import { Article } from "../../model/Article";
 import Button from "../small_components/Button";
 import Card from "../small_components/Card";
 
@@ -15,7 +15,7 @@ const AddExampleComponent = (props: any) => {
 
     // could add validation here...
 
-    const example = new Example(
+    const example = new Article(
       titleRef.current?.value || " ",
       shortDescRef.current?.value || " ",
       descRef.current?.value || " ",

@@ -14,8 +14,7 @@ import styled from "styled-components";
  */
 export const ThemeSelector = () => {
   const TestStyle = styled.span`
-    background: black;
-    content: ${store.getState().theme.theme};
+    background: ${store.getState().theme.theme == 1 ? 'black' : 'white'};
   `;
   class ThemeComponent extends Theme {
     static propTypes = {
