@@ -55,7 +55,7 @@ const GetArticlePage = () => {
       try {
         let list = await getArticleList();
         console.log(list);
-        list = sortList(filter, asc, list) || list;
+        list = sortList(filter, asc, tag, list) || list;
 
         setExampleList(list);
 
@@ -87,11 +87,14 @@ const GetArticlePage = () => {
     getArticleListContent();
   }, [getArticleListContent]);
 
-  // create JSX for each example component
+  const titleStyle = {
+    'minHeight': '4.5rem',
+  }
+  // create JSX for each article component
   function GetArticleComponent(props: any) {
     const articleObject = props.articleObject;
     const [articleTitle, setTitle] = useState(articleObject.articleTitle);
-    // handle for clicking an example item -> show a popup example article
+    // handle for clicking an example item -> show a popup article
     const articlePageHandler = () => {
       setTitle(articleTitle + "1");
       console.log(articleTitle);
@@ -102,12 +105,12 @@ const GetArticlePage = () => {
         <div className="card__image__wrap" onClick={articlePageHandler}>
           <img
             src={articleObject.articleImageLink + ""}
-            alt="example"
+            alt="article"
             className="card__image"
           />
         </div>
         <div className="card__content__wrap">
-          <h3>{articleObject.articleTitle}</h3>
+          <h3 style={titleStyle}>{articleObject.articleTitle}</h3>
           <p className="example__short-desc">
             {limitTextLength(articleObject.articleShortDesc, 40)}
           </p>
@@ -117,7 +120,7 @@ const GetArticlePage = () => {
     );
   }
 
-  // handle add new example button event listener
+  // handle add new article button event listener
   const addExampleButtonHandler = () => {
     console.log("addExampleButtonHandler clicked");
     reRender(store.getState().theme.theme);
@@ -149,15 +152,15 @@ const GetArticlePage = () => {
     const [tags, setTags] = useState([""]);
     async function handleSelectorChange(e: any) {
       // set list page value to useState
-      await getArticleListContent(e.target.value, allValues.selectorValueAsc);
+      await getArticleListContent(e.target.value, allValues.selectorValueAsc, allValues.selectorValueTag);
     }
     async function handleSelectorChangeAsc(e: any) {
       // set list page value to useState
-      await getArticleListContent(allValues.selectorValue, e.target.value);
+      await getArticleListContent(allValues.selectorValue, e.target.value, allValues.selectorValueTag);
     }
     async function handleSelectorChangeTag(e: any) {
       // set list page value to useState
-      await getArticleListContent(allValues.selectorValue, e.target.value);
+      await getArticleListContent(allValues.selectorValue, allValues.selectorValueAsc, e.target.value);
     }
     // get tag list
     useEffect(() => {
@@ -190,7 +193,7 @@ const GetArticlePage = () => {
         <select
           title="yes"
           onChange={handleSelectorChangeTag}
-          value={allValues.selectorValueAsc}
+          value={allValues.selectorValueTag}
           defaultValue="all"
           className="float-right"
         >
@@ -203,7 +206,7 @@ const GetArticlePage = () => {
   }
   let content = (
     <>
-      <h1>Found no example.</h1>
+      <h1>Found no article.</h1>
       <br />
       <img
         title="???"

@@ -9,6 +9,7 @@ const AddExampleComponent = (props: any) => {
   const shortDescRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLTextAreaElement>(null);
   const imageLinkRef = useRef<HTMLInputElement>(null);
+  const tagRef = useRef<HTMLInputElement>(null);
 
   function submitHandler(event: any) {
     event.preventDefault();
@@ -20,7 +21,8 @@ const AddExampleComponent = (props: any) => {
       shortDescRef.current?.value || " ",
       descRef.current?.value || " ",
       imageLinkRef.current?.value || " ",
-      0
+      0,
+      [""],
     );
 
     props.onAddExample(example);

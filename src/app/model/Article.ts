@@ -5,10 +5,10 @@ export class Article{
     private _articleDesc: string;
     private _articleImageLink: string;
     private _articleLikeCount: number;
-    private _articleTag: string[] | undefined;
+    private _articleTag: string[];
 
 
-	constructor(articleTitle: string, articleShortDesc: string, articleDesc: string, articleImageLink: string, articleLikeCount: number, articleId?: string , articleTag?: string[]) {
+	constructor(articleTitle: string, articleShortDesc: string, articleDesc: string, articleImageLink: string, articleLikeCount: number, articleTag: string[], articleId?: string) {
 		this._articleId = articleId;
 		this._articleTitle = articleTitle;
 		this._articleShortDesc = articleShortDesc;
@@ -70,7 +70,7 @@ export class Article{
      * Getter exampleTag
      * @return {string[]}
      */
-	public get articleTag(): string[] | undefined{
+	public get articleTag(): string[]{
 		return this._articleTag;
 	}
 
@@ -126,7 +126,7 @@ export class Article{
      * Setter exampleTag
      * @param {string[]} value
      */
-	public set articleTag(value: string[] | undefined) {
+	public set articleTag(value: string[]) {
 		this._articleTag = value;
 	}
 

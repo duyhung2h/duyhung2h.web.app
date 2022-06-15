@@ -30,7 +30,8 @@ export async function getArticleList() {
         articleData.articleDesc,
         articleData.articleImageLink,
         articleData.articleLikeCount,
-        i + ""
+        articleData.articleTag,
+        i + "",
       );
     });
     console.log(articleList);
