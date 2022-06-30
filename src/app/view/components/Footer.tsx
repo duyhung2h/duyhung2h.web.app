@@ -1,5 +1,5 @@
 import React from "react";
-import { Provider } from "react-redux";
+import { Provider, Connect } from "react-redux";
 import { NavLink, withRouter } from "react-router-dom";
 import classes from "../../../assets/scss/index.module.scss";
 import { WEB_BRANCH, WEB_VER } from "../../constants";

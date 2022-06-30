@@ -3,7 +3,7 @@ import { NavLink, Redirect, Route } from "react-router-dom";
 import { AuthContextProvider } from "../../../db/auth.service";
 import classes from "../../../../assets/scss/index.module.scss";
 import MainHeader from "../../components/Header";
-import GetExamplePage from "../ExamplePage";
+import GetArticlePage from "../ArticlePage";
 import SecretPage from "../SecretPage";
 import Home from "./../home";
 import { Provider } from "react-redux";
@@ -26,13 +26,13 @@ function App() {
             </NavLink>
             <Home />
           </Route>
-          <Route exact path={"/examples"}>
+          <Route exact path={"/articles"}>
             <NavLink to="/">Main</NavLink> {">"}{" "}
-            <NavLink activeClassName={classes.active} to="/examples">
-              Example Page
+            <NavLink activeClassName={classes.active} to="/articles">
+              Article Page
             </NavLink>
             <Provider store={store}>
-              <GetExamplePage />
+              <GetArticlePage />
             </Provider>
           </Route>
           <Route exact path={"/secret"}>

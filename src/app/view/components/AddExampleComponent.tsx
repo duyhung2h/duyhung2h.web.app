@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import classes from "../../../assets/scss/index.module.scss";
-import { Example } from "../../model/Example";
+import { Article } from "../../model/Article";
 import Button from "../small_components/Button";
 import Card from "../small_components/Card";
 
@@ -9,18 +9,20 @@ const AddExampleComponent = (props: any) => {
   const shortDescRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLTextAreaElement>(null);
   const imageLinkRef = useRef<HTMLInputElement>(null);
+  const tagRef = useRef<HTMLInputElement>(null);
 
   function submitHandler(event: any) {
     event.preventDefault();
 
     // could add validation here...
 
-    const example = new Example(
+    const example = new Article(
       titleRef.current?.value || " ",
       shortDescRef.current?.value || " ",
       descRef.current?.value || " ",
       imageLinkRef.current?.value || " ",
-      0
+      0,
+      [""],
     );
 
     props.onAddExample(example);

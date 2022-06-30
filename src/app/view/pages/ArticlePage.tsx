@@ -2,7 +2,11 @@ import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { connect } from "react-redux";
 import "../../../assets/scss/ExampleComponent.scss";
-import { addExample, getExampleList } from "../../db/example.service";
+import {
+  addArticle,
+  getArticleList,
+  getTagList,
+} from "../../db/article.service";
 import store, { mapStateToProps } from "../../db/_redux";
 import "../../logic_handler/ListHandler";
 import { sortList } from "../../logic_handler/ListHandler";
@@ -18,15 +22,7 @@ const backdrop_root = ReactDOM.createRoot(
 const overlay_root = ReactDOM.createRoot(
   document.getElementById("overlay-root") || new HTMLElement()
 );
-const GetExamplePage = () => {
-  const getISFilter = () => {
-    const value = "exampleTitle";
-    return value;
-  };
-  const getISFilterAsc = () => {
-    const value = "asc";
-    return value;
-  };
+const GetArticlePage = () => {
   let eList: any[] = [];
   const [exampleList, setExampleList] = useState(eList);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,8 +30,9 @@ const GetExamplePage = () => {
   const [showOverlay, setShowOverlay] = useState(false);
 
   const [allValues, setAllValues] = useState({
-    selectorValue: getISFilter(),
-    selectorValueAsc: getISFilterAsc(),
+    selectorValue: "exampleTitle",
+    selectorValueAsc: "asc",
+    selectorValueTag: "all",
     examplePageC: {},
   });
   console.log(allValues);
@@ -47,21 +44,26 @@ const GetExamplePage = () => {
    * @function fetch(): fetch data through API, first argument string to the API address, second argument for adding various options
    * @function then(): promise function to handle function after a request is finished
    */
-  const getExampleListContent = useCallback(
-    async (filter: string = "exampleTitle", asc: string = "asc") => {
+  const getArticleListContent = useCallback(
+    async (
+      filter: string = "exampleTitle",
+      asc: string = "asc",
+      tag: string = "all"
+    ) => {
       setIsLoading(true);
       setError(null);
       try {
-        let list = await getExampleList();
+        let list = await getArticleList();
         console.log(list);
-        list = sortList(filter, asc, list) || list;
+        list = sortList(filter, asc, tag, list) || list;
 
         setExampleList(list);
 
+        // get articles on the list
         let examplePageContent = list.map((element) => {
           return (
-            <div className="example__item" key={element.exampleId}>
-              <GetExampleComponent exampleObject={element} />
+            <div className="example__item" key={element.articleId}>
+              <GetArticleComponent articleObject={element} />
             </div>
           );
         });
@@ -70,6 +72,7 @@ const GetExamplePage = () => {
           examplePageC: examplePageContent,
           selectorValue: filter,
           selectorValueAsc: asc,
+          selectorValueTag: tag,
         });
       } catch (error: any) {
         setError(error["message"]);
@@ -81,39 +84,43 @@ const GetExamplePage = () => {
 
   // initial fetch examples on site load
   useEffect(() => {
-    getExampleListContent();
-  }, [getExampleListContent]);
+    getArticleListContent();
+  }, [getArticleListContent]);
 
-  // create JSX for each example component
-  function GetExampleComponent(props: any) {
-    const exampleObject = props.exampleObject;
-    const [exampleTitle, setTitle] = useState(exampleObject.exampleTitle);
-    // handle for clicking an example item -> show a popup example article
-    const examplePageHandler = () => {
-      setTitle(exampleTitle + "1");
-      console.log(exampleTitle);
+  const titleStyle = {
+    'minHeight': '4.5rem',
+  }
+  // create JSX for each article component
+  function GetArticleComponent(props: any) {
+    const articleObject = props.articleObject;
+    const [articleTitle, setTitle] = useState(articleObject.articleTitle);
+    // handle for clicking an example item -> show a popup article
+    const articlePageHandler = () => {
+      setTitle(articleTitle + "1");
+      console.log(articleTitle);
     };
-    console.log(exampleObject);
+    console.log(articleObject);
     return (
-      <div className="card">
-        <div onClick={examplePageHandler}>
+      <>
+        <div className="card__image__wrap" onClick={articlePageHandler}>
           <img
-            // src={require("../../../assets/images/example1.png")}
-            src={exampleObject.exampleImageLink + ""}
-            alt="example"
-            className="width-100"
+            src={articleObject.articleImageLink + ""}
+            alt="article"
+            className="card__image"
           />
-          <h3>{exampleTitle}</h3>
-          <p className="example__short-desc">
-            {limitTextLength(exampleObject.exampleShortDesc, 40)}
-          </p>
         </div>
-        <LikeButton likeCount={exampleObject.exampleLikeCount} />
-      </div>
+        <div className="card__content__wrap">
+          <h3 style={titleStyle}>{articleObject.articleTitle}</h3>
+          <p className="example__short-desc">
+            {limitTextLength(articleObject.articleShortDesc, 40)}
+          </p>
+          <LikeButton likeCount={articleObject.articleLikeCount} />
+        </div>
+      </>
     );
   }
 
-  // handle add new example button event listener
+  // handle add new article button event listener
   const addExampleButtonHandler = () => {
     console.log("addExampleButtonHandler clicked");
     reRender(store.getState().theme.theme);
@@ -130,7 +137,7 @@ const GetExamplePage = () => {
         ></div>
       );
       overlay_root.render(
-        <AddExampleComponent onAddExample={addExample}></AddExampleComponent>
+        <AddExampleComponent onAddExample={addArticle}></AddExampleComponent>
       );
     }
     if (showOverlay === false) {
@@ -142,16 +149,27 @@ const GetExamplePage = () => {
 
   // filter options
   function MySelect(props: any) {
+    const [tags, setTags] = useState([""]);
     async function handleSelectorChange(e: any) {
       // set list page value to useState
-      await getExampleListContent(e.target.value, allValues.selectorValueAsc);
+      await getArticleListContent(e.target.value, allValues.selectorValueAsc, allValues.selectorValueTag);
     }
     async function handleSelectorChangeAsc(e: any) {
       // set list page value to useState
-      await getExampleListContent(allValues.selectorValue, e.target.value);
+      await getArticleListContent(allValues.selectorValue, e.target.value, allValues.selectorValueTag);
     }
+    async function handleSelectorChangeTag(e: any) {
+      // set list page value to useState
+      await getArticleListContent(allValues.selectorValue, allValues.selectorValueAsc, e.target.value);
+    }
+    // get tag list
+    useEffect(() => {
+      getTagList().then((data) => setTags(data));
+    }, []);
+
     return (
       <div>
+        {/* filter by attribute values */}
         <select
           title="yes"
           onChange={handleSelectorChange}
@@ -171,12 +189,24 @@ const GetExamplePage = () => {
           <option value="asc">Ascending</option>
           <option value="desc">Descending</option>
         </select>
+        {/* filter by tags */}
+        <select
+          title="yes"
+          onChange={handleSelectorChangeTag}
+          value={allValues.selectorValueTag}
+          defaultValue="all"
+          className="float-right"
+        >
+          {tags.map((item, index) => (
+            <option value={item}>{item}</option>
+          ))}
+        </select>
       </div>
     );
   }
   let content = (
     <>
-      <h1>Found no example.</h1>
+      <h1>Found no article.</h1>
       <br />
       <img
         title="???"
@@ -236,4 +266,4 @@ const GetExamplePage = () => {
   return examplePage;
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GetExamplePage);
+export default connect(mapStateToProps, mapDispatchToProps)(GetArticlePage);

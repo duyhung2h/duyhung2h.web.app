@@ -112,8 +112,8 @@ const MainHeader = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink activeClassName={classes.active} to="/examples">
-              Examples
+            <NavLink activeClassName={classes.active} to="/articles">
+              Articles
             </NavLink>
           </li>
           <li>

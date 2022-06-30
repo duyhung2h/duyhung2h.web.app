@@ -72,11 +72,12 @@ button:active:disabled {
   color: #666666;
   cursor: not-allowed;
 }
-// card
-.card {
+// card (making image square) 
+.card__image__wrap,.card__content__wrap {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  border-radius: 10px;
+  border-radius: 15px;
   padding: 10px;
+  position: relative;
   &[class~=theme_color0]{
     border: 1px solid !important;
     background: $white_color;
@@ -87,6 +88,34 @@ button:active:disabled {
     background: $background_color_lighter_theme1;
     border-color: $background_color_lighter_theme1;
   }
+}
+.card__content__wrap{
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+.card__image__wrap{
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-width: 0px;
+}
+.card__image__wrap::after{
+  content: "";
+  display: block;
+  padding-bottom: 60%;
+}
+.card__image{
+  border-radius: 15px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  position: absolute; /* Take your picture out of the flow */
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0; /* Make the picture taking the size of it's parent */
+  width: 100%; /* This if for the object-fit */
+  height: 100%; /* This if for the object-fit */
+  object-fit: cover; /* Equivalent of the background-size: cover; of a background-image */
+  object-position: center;
 }
 .login {
   width: 90%;
@@ -148,7 +177,7 @@ button:active:disabled {
   max-width: 16vh !important;
   max-height: 16vh !important;
   position: absolute;
-  right: 5%;
+  right: 0;
   padding: 0;
   background-size: 100% auto !important;
 }

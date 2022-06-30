@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
 import React from "react";
-import { connect} from "react-redux";
+import { connect } from "react-redux";
 import { themeActions } from "../../db/slice/themeSlice";
-import { mapStateToProps } from "../../db/_redux";
+import store, { mapStateToProps } from "../../db/_redux";
 import { Theme } from "../small_components/Theme";
+import styled from "styled-components";
 
 /**
  * ThemeSelector
@@ -12,6 +13,9 @@ import { Theme } from "../small_components/Theme";
  * @returns
  */
 export const ThemeSelector = () => {
+  const TestStyle = styled.span`
+    background: ${store.getState().theme.theme == 1 ? 'black' : 'white'};
+  `;
   class ThemeComponent extends Theme {
     static propTypes = {
       match: PropTypes.object.isRequired,
@@ -54,9 +58,8 @@ export const ThemeSelector = () => {
               }}
             />
             Remember my theme
+          <TestStyle>test{store.getState().theme.theme}</TestStyle>
           </React.Suspense>
-
-          <div>You are now at {location.pathname}</div>
         </>
       );
     }

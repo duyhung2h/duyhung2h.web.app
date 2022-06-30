@@ -13,7 +13,6 @@ export function test() {
   person2.age = 99;
   console.log(person);
   console.log(person2);
-
 }
 
 const SecretPage = () => {

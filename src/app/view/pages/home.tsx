@@ -20,6 +20,10 @@ const Home = () => {
           </div>
         );
       })}
+      <h1>Articles</h1>
+      <p>
+        Below here you can filter articles by tags, or browse my recent articles.
+      </p>
     </React.Fragment>
   );
 };
