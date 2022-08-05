@@ -89,9 +89,9 @@ body {
   background: $body_background_color;
 
   &[class~="theme_color0"] {
-    background: $body_background_color_theme0 !important;
+    // background: $body_background_color_theme0 !important;
   }
   &[class~="theme_color1"] {
-    background: $body_background_color_theme1 !important;
+    // background: $body_background_color_theme1 !important;
   }
 }

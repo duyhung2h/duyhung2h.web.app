@@ -1,10 +1,13 @@
 import PropTypes from "prop-types";
-import React from "react";
+import { React } from "../../../index";
 import { connect } from "react-redux";
 import { themeActions } from "../../db/slice/themeSlice";
 import store, { mapStateToProps } from "../../db/_redux";
 import { Theme } from "../small_components/Theme";
 import styled from "styled-components";
+import { AppContext } from "../pages/App/App";
+import { useReducer } from "react";
+import { initialState, reducer } from "../../db/reducer/reducer";
 
 /**
  * ThemeSelector
@@ -14,7 +17,7 @@ import styled from "styled-components";
  */
 export const ThemeSelector = () => {
   const TestStyle = styled.span`
-    background: ${store.getState().theme.theme == 1 ? 'black' : 'white'};
+    background: ${store.getState().theme.theme == 1 ? "black" : "white"};
   `;
   class ThemeComponent extends Theme {
     static propTypes = {
@@ -58,7 +61,7 @@ export const ThemeSelector = () => {
               }}
             />
             Remember my theme
-          <TestStyle>test{store.getState().theme.theme}</TestStyle>
+            <TestStyle>test{store.getState().theme.theme}</TestStyle>
           </React.Suspense>
         </>
       );
@@ -77,3 +80,36 @@ export const mapDispatchToProps = (dispatch: any) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThemeSelector());
+
+export const Nav = (props: any) => {
+  const { dispatch } = React.useContext(AppContext);
+  const [state] = useReducer(reducer, initialState);
+  const { currentTheme } = state;
+
+  const toggleTheme = (event) => {
+    dispatch({ type: "toggleTheme", value: event?.target.value });
+  };
+  console.log(currentTheme);
+
+  return (
+    <select
+      title="themeSwitcher"
+      className="toggle-switch-checkbox"
+      name="toggleSwitch"
+      id="toggleSwitch"
+      placeholder="placeholder"
+      onChange={(event) => toggleTheme(event)}
+    >
+      {true && "selected"}
+      <option value="0" selected={currentTheme.id == 0}>
+        Classic theme
+      </option>
+      <option value="1" selected={currentTheme.id == 1}>
+        AoKH themes
+      </option>
+      <option value="2" selected={currentTheme.id == 2}>
+        id = 2
+      </option>
+    </select>
+  );
+};

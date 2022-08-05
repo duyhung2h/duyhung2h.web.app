@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
+import { React } from "../../index";
 import { User } from "../model/User";
+import { initialState, reducer } from "./reducer/reducer";
 
 /**
  * handles login
@@ -50,7 +52,7 @@ export async function LoginFromAPI(username: string, password: string) {
           errorMessage = data.error.message;
         }
         console.log(errorMessage);
-        
+
         // alert(errorMessage);
         return data;
       });
@@ -89,6 +91,7 @@ var AuthContext = React.createContext({
  */
 export const AuthContextProvider = (props: any) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
   // const [random, setRandom] = useState(Math.random());
   // const [firstUpdate, setFirstUpdate] = useState(true);
   useEffect(() => {
@@ -100,7 +103,7 @@ export const AuthContextProvider = (props: any) => {
     // }
     try {
       var user = getUserLocalstorage();
-      alert("login successful for:" +  user._username);
+      alert("login successful for:" + user._username);
       // if(user._username )
       const awaitedUser = async () => {
         await LoginFromAPI(user._username, user._password).then((data) => {
@@ -145,7 +148,7 @@ export const AuthContextProvider = (props: any) => {
         onLogout: logoutHandler,
       }}
     >
-      {props.children}
+        {props.children}
     </AuthContext.Provider>
   );
 };

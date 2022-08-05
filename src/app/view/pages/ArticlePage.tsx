@@ -2,15 +2,18 @@ import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { connect } from "react-redux";
 import "../../../assets/scss/ExampleComponent.scss";
+import { Tags } from "../../../assets/styled_components/Buttons";
+import { BackgroundPanel } from "../../../assets/styled_components/Panel";
 import {
   addArticle,
   getArticleList,
-  getTagList,
+  getTagList
 } from "../../db/article.service";
 import store, { mapStateToProps } from "../../db/_redux";
 import "../../logic_handler/ListHandler";
 import { sortList } from "../../logic_handler/ListHandler";
 import { limitTextLength } from "../../logic_handler/TextHandler";
+import { Article } from "../../model/Article";
 import AddExampleComponent from "../components/AddExampleComponent";
 import { mapDispatchToProps } from "../components/ThemeSelector";
 import LikeButton from "../small_components/LikeButton";
@@ -35,8 +38,9 @@ const GetArticlePage = () => {
     selectorValueTag: "all",
     examplePageC: {},
   });
-  console.log(allValues);
-  console.log(exampleList);
+  reRender(store.getState().theme.theme);
+  // console.log(allValues);
+  // console.log(exampleList);
   /**
    * from example list turn each example item into JSX
    *
@@ -88,11 +92,11 @@ const GetArticlePage = () => {
   }, [getArticleListContent]);
 
   const titleStyle = {
-    'minHeight': '4.5rem',
-  }
+    minHeight: "4.5rem",
+  };
   // create JSX for each article component
   function GetArticleComponent(props: any) {
-    const articleObject = props.articleObject;
+    const articleObject: Article = props.articleObject;
     const [articleTitle, setTitle] = useState(articleObject.articleTitle);
     // handle for clicking an example item -> show a popup article
     const articlePageHandler = () => {
@@ -101,7 +105,7 @@ const GetArticlePage = () => {
     };
     console.log(articleObject);
     return (
-      <>
+      <BackgroundPanel>
         <div className="card__image__wrap" onClick={articlePageHandler}>
           <img
             src={articleObject.articleImageLink + ""}
@@ -115,15 +119,16 @@ const GetArticlePage = () => {
             {limitTextLength(articleObject.articleShortDesc, 40)}
           </p>
           <LikeButton likeCount={articleObject.articleLikeCount} />
+          <Tags tagList={articleObject.articleTag} />
         </div>
-      </>
+      </BackgroundPanel>
     );
   }
 
   // handle add new article button event listener
   const addExampleButtonHandler = () => {
     console.log("addExampleButtonHandler clicked");
-    reRender(store.getState().theme.theme);
+    // reRender(store.getState().theme.theme);
 
     setShowOverlay(true);
   };
@@ -147,20 +152,32 @@ const GetArticlePage = () => {
     }
   }, [showOverlay]);
 
-  // filter options
+  // filter options (dropdown)
   function MySelect(props: any) {
     const [tags, setTags] = useState([""]);
     async function handleSelectorChange(e: any) {
       // set list page value to useState
-      await getArticleListContent(e.target.value, allValues.selectorValueAsc, allValues.selectorValueTag);
+      await getArticleListContent(
+        e.target.value,
+        allValues.selectorValueAsc,
+        allValues.selectorValueTag
+      );
     }
     async function handleSelectorChangeAsc(e: any) {
       // set list page value to useState
-      await getArticleListContent(allValues.selectorValue, e.target.value, allValues.selectorValueTag);
+      await getArticleListContent(
+        allValues.selectorValue,
+        e.target.value,
+        allValues.selectorValueTag
+      );
     }
     async function handleSelectorChangeTag(e: any) {
       // set list page value to useState
-      await getArticleListContent(allValues.selectorValue, allValues.selectorValueAsc, e.target.value);
+      await getArticleListContent(
+        allValues.selectorValue,
+        allValues.selectorValueAsc,
+        e.target.value
+      );
     }
     // get tag list
     useEffect(() => {
@@ -228,9 +245,9 @@ const GetArticlePage = () => {
     content = <p>Loading...</p>;
   }
 
-  console.log(exampleList);
+  // console.log(exampleList);
   // FINAL: compile all components into an example page
-  const examplePage = (
+  const articlePage = (
     <div>
       <button
         onClick={() => addExampleButtonHandler()}
@@ -263,7 +280,7 @@ const GetArticlePage = () => {
       </div>
     </div>
   );
-  return examplePage;
+  return articlePage;
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(GetArticlePage);

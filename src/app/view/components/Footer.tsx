@@ -4,7 +4,7 @@ import { NavLink, withRouter } from "react-router-dom";
 import classes from "../../../assets/scss/index.module.scss";
 import { WEB_BRANCH, WEB_VER } from "../../constants";
 import store from "../../db/_redux";
-import ThemeSelector from "./ThemeSelector";
+import ThemeSelector, { Nav } from "./ThemeSelector";
 
 const Footer = (props: any) => {
   const { match, location, history } = props;
@@ -26,6 +26,7 @@ const Footer = (props: any) => {
                   history={history}
                   match={match}
                 />
+                <Nav></Nav>
               </Provider>
             </a>
           </li>

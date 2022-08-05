@@ -63,14 +63,14 @@ export async function getArticleList() {
 
     var data = await response.json();
     const dataList = Object.keys(data.tags).map((tag) => data.tags[tag]);
-    console.log(dataList);
+    // console.log(dataList);
 
     let i = 0;
     tagList = dataList.map((tagData: any) => {
       i++;
       return tagData
     });
-    console.log(tagList);
+    // console.log(tagList);
 
     return tagList;
   } catch (error) {
