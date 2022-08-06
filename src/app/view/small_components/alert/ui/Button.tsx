@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./../../../assets/scss/index.module.scss";
+import classes from "../../../../../assets/scss/index.module.scss";
 
 
 const Button = (props: any) => {

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { connect } from "react-redux";
 import "../../../assets/scss/ExampleComponent.scss";
 import { Tags } from "../../../assets/styled_components/Buttons";
-import { BackgroundPanel } from "../../../assets/styled_components/Panel";
+import { BackgroundPanel, CardContentWrap, CardImage, CardImageWrap } from "../../../assets/styled_components/Panel";
 import {
   addArticle,
   getArticleList,
@@ -106,21 +106,20 @@ const GetArticlePage = () => {
     console.log(articleObject);
     return (
       <BackgroundPanel>
-        <div className="card__image__wrap" onClick={articlePageHandler}>
-          <img
+        <CardImageWrap onClick={articlePageHandler}>
+          <CardImage
             src={articleObject.articleImageLink + ""}
             alt="article"
-            className="card__image"
           />
-        </div>
-        <div className="card__content__wrap">
+        </CardImageWrap>
+        <CardContentWrap>
           <h3 style={titleStyle}>{articleObject.articleTitle}</h3>
           <p className="example__short-desc">
             {limitTextLength(articleObject.articleShortDesc, 40)}
           </p>
           <LikeButton likeCount={articleObject.articleLikeCount} />
           <Tags tagList={articleObject.articleTag} />
-        </div>
+        </CardContentWrap>
       </BackgroundPanel>
     );
   }

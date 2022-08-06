@@ -1,6 +1,6 @@
 import React from "react";
 import { getInfoList } from "../../db/info.service";
-import InfoCard from "../small_components/InfoCard";
+import InfoCardComponent from "../small_components/InfoCard";
 
 const Home = () => {
   const infoList = getInfoList();
@@ -15,7 +15,7 @@ const Home = () => {
       {infoList.map((value, index) => {
         return (
           <div>
-            <InfoCard className="card" infoCard={value}></InfoCard>
+            <InfoCardComponent className="card" infoCard={value}></InfoCardComponent>
             <br />
           </div>
         );

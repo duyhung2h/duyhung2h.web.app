@@ -13,17 +13,19 @@ import { ThemeProvider } from "styled-components";
 import { initialState, reducer } from "../../../db/reducer/reducer";
 import { React } from "../../../../index";
 import { BackgroundPanel } from "../../../../assets/styled_components/Panel";
+import Alert from "../../small_components/alert/ui/Alert";
 export var AppContext = createContext<any>({});
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { currentTheme } = state;
+  // const notification = useSelector((state: RootState) => state.notification);
   return (
     <React.Fragment>
       <ThemeProvider theme={currentTheme}>
         <AppContext.Provider value={{ ...state, dispatch }}>
           <AuthContextProvider>
-            <MainHeader></MainHeader>
+            <MainHeader />
             <BackgroundPanel className="p-5">
               <Route exact path={"/"}>
                 <Redirect to="/home" />
@@ -52,7 +54,14 @@ function App() {
                 <SecretPage />
               </Route>
             </BackgroundPanel>
-            <Footer></Footer>
+            {/* <Alert
+              autoClose={notification.autoClose}
+              alignment={notification.alignment}
+              type={notification.type}
+            >
+              {notification.message}
+            </Alert> */}
+            <Footer />
           </AuthContextProvider>
         </AppContext.Provider>
       </ThemeProvider>

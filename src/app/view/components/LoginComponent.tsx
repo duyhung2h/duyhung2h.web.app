@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import classes from "../../../assets/scss/index.module.scss";
-import Button from "../small_components/Button";
+import Button from "../small_components/alert/ui/Button";
 import Card from "../small_components/Card";
 import AuthContext, { LoginFromAPI } from "../../db/auth.service";
 import { Input } from "../small_components/Input";

@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import classes from "../../../assets/scss/index.module.scss";
 import { Article } from "../../model/Article";
-import Button from "../small_components/Button";
+import Button from "../small_components/alert/ui/Button";
 import Card from "../small_components/Card";
 
 const AddExampleComponent = (props: any) => {

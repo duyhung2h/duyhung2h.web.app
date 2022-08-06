@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { themeActions } from "../../../db/slice/themeSlice";
 import { mapStateToProps } from "../../../db/_redux";
-import Button from "../../small_components/Button";
+import Button from "../../small_components/alert/ui/Button";
 import { Input } from "../../small_components/Input";
 import { Theme } from "../../small_components/Theme";
 import classes from "./../../../../assets/scss/test_scss/Counter.module.scss";
