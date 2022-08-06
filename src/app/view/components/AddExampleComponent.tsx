@@ -1,10 +1,10 @@
 import React, { useRef } from "react";
 import classes from "../../../assets/scss/index.module.scss";
 import { Article } from "../../model/Article";
-import Button from "../small_components/alert/ui/Button";
+import { ButtonProps } from "../small_components/alert/ui/Button";
 import Card from "../small_components/Card";
 
-const AddExampleComponent = (props: any) => {
+const AddArticleComponent = (props: any) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const shortDescRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLTextAreaElement>(null);
@@ -22,10 +22,10 @@ const AddExampleComponent = (props: any) => {
       descRef.current?.value || " ",
       imageLinkRef.current?.value || " ",
       0,
-      [""],
+      [""]
     );
 
-    props.onAddExample(example);
+    props.onAddArticle(example);
   }
 
   return (
@@ -69,12 +69,12 @@ const AddExampleComponent = (props: any) => {
             defaultValue="https://lh5.googleusercontent.com/37KZ8tSRuvBXqMcIPbYSnXMcYzDIwOohsAP3LvFGo0ukNbcOtOW8kyKR737uUog7XhBK-hC71H-bT6F3MXTjI9W8XXzgjeYU0U0MPiXJf6Yn4HcV6wllih_khJ-IJMQc56hFMb-s"
           />
         </div>
-        <Button type="submit" className={classes.btn}>
+        <ButtonProps type="submit" className={classes.btn}>
           Add new post
-        </Button>
+        </ButtonProps>
       </form>
     </Card>
   );
 };
 
-export default AddExampleComponent;
+export default AddArticleComponent;

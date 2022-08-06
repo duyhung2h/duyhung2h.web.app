@@ -1,10 +1,10 @@
-import { FC, useCallback, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { closeAlert, AlertTypes, AlertAlignment } from '../store/alert';
-import { Root } from './style';
-import  CloseIcon  from '../../icons/CloseIcon';
-import React from 'react';
-import Button from './Button';
+import { FC, useCallback, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { closeAlert, AlertTypes, AlertAlignment } from "../store/alert";
+import { Root } from "./style";
+import CloseIcon from "../../icons/CloseIcon";
+import React from "react";
+import { ButtonProps } from "./Button";
 
 export interface AlertProps {
   children: React.ReactNode;
@@ -35,9 +35,9 @@ const Alert: FC<AlertProps> = ({ children, type, autoClose, alignment }) => {
   return (
     <Root type={type} alignment={alignment}>
       {children}
-      <Button ghost onClick={close}>
+      <ButtonProps ghost onClick={close}>
         <CloseIcon color="white" width="10" />
-      </Button>
+      </ButtonProps>
     </Root>
   );
 };

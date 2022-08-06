@@ -1,6 +1,7 @@
 export const Color = {
     BLACK: "black",
     WHITE: "white",
+    SEMI_WHITE: "#efefef",
     SECONDARY_BACKGROUND_0: "#009688",
     SECONDARY_BACKGROUND_LIGHTER_0: "#03c0ad",
     SECONDARY_BACKGROUND_DARKER_0: "#03c0ad",

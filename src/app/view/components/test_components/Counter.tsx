@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { themeActions } from "../../../db/slice/themeSlice";
 import { mapStateToProps } from "../../../db/_redux";
-import Button from "../../small_components/alert/ui/Button";
+import { ButtonProps } from "../../small_components/alert/ui/Button";
 import { Input } from "../../small_components/Input";
 import { Theme } from "../../small_components/Theme";
 import classes from "./../../../../assets/scss/test_scss/Counter.module.scss";
@@ -59,8 +59,12 @@ class Counter extends Theme {
           <div className={classes.value}>{this.props.counter.counter}</div>
         )}
         <div>
-          <Button onClick={this.incrementHandler.bind(this)}>Increment</Button>
-          <Button onClick={this.decrementHandler.bind(this)}>Decrement</Button>
+          <ButtonProps onClick={this.incrementHandler.bind(this)}>
+            Increment
+          </ButtonProps>
+          <ButtonProps onClick={this.decrementHandler.bind(this)}>
+            Decrement
+          </ButtonProps>
         </div>
         <Input
           value={this.props.counter.counterInput}
@@ -69,11 +73,13 @@ class Counter extends Theme {
         <h1>Theme</h1>
         <div className={classes.value}>{this.props.theme.theme}</div>
         <div>
-          <Button onClick={this.themeHandler.bind(this)}>Change theme</Button>
+          <ButtonProps onClick={this.themeHandler.bind(this)}>
+            Change theme
+          </ButtonProps>
         </div>
-        <Button onClick={this.toggleCounterHandler.bind(this)}>
+        <ButtonProps onClick={this.toggleCounterHandler.bind(this)}>
           Toggle Counter
-        </Button>
+        </ButtonProps>
       </main>
     );
   }

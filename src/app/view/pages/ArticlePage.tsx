@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { connect } from "react-redux";
 import "../../../assets/scss/ExampleComponent.scss";
-import { Tags } from "../../../assets/styled_components/Buttons";
 import { BackgroundPanel, CardContentWrap, CardImage, CardImageWrap } from "../../../assets/styled_components/Panel";
 import {
   addArticle,
@@ -14,8 +13,9 @@ import "../../logic_handler/ListHandler";
 import { sortList } from "../../logic_handler/ListHandler";
 import { limitTextLength } from "../../logic_handler/TextHandler";
 import { Article } from "../../model/Article";
-import AddExampleComponent from "../components/AddExampleComponent";
+import AddArticleComponent from "../components/AddExampleComponent";
 import { mapDispatchToProps } from "../components/ThemeSelector";
+import { Tags } from "../small_components/alert/ui/Tag";
 import LikeButton from "../small_components/LikeButton";
 import { reRender } from "../small_components/Theme";
 
@@ -141,7 +141,7 @@ const GetArticlePage = () => {
         ></div>
       );
       overlay_root.render(
-        <AddExampleComponent onAddExample={addArticle}></AddExampleComponent>
+        <AddArticleComponent onAddArticle={addArticle}></AddArticleComponent>
       );
     }
     if (showOverlay === false) {
