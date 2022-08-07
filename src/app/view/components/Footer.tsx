@@ -4,7 +4,6 @@ import { NavLink, withRouter } from "react-router-dom";
 import classes from "../../../assets/scss/index.module.scss";
 import { Header, LoginHidden, Span } from "../../../assets/styled_components/Panel";
 import { WEB_BRANCH, WEB_VER } from "../../constants";
-import store from "../../db/_redux";
 import { Nav } from "./ThemeSelector";
 
 const Footer = (props: any) => {
@@ -23,9 +22,9 @@ const Footer = (props: any) => {
           </li>
           <LoginHidden>
             <a>
-              <Provider store={store}>
+              {/* <Provider store={store}> */}
                 <Nav></Nav>
-              </Provider>
+              {/* </Provider> */}
             </a>
           </LoginHidden>
         </ul>

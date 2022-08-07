@@ -7,8 +7,12 @@ export const BackgroundPanel = styled.div`
   background: ${(props) =>
     props.theme.background == "aokh" ? `url(${img})` : props.theme.background};
 `;
+type PProp = {
+  color?: string;
+};
 export const P = styled.p`
   color: ${(props) => props.theme.textColor};
+  color: ${(props: PProp) => props.color};
 `;
 export const Span = styled.span`
   color: ${(props) => props.theme.textColor};
@@ -134,8 +138,7 @@ export const Header = styled.header`
   a {
     text-decoration: none;
     cursor: pointer;
-    color: ${(props) =>
-      props.theme.headerA};
+    color: ${(props) => props.theme.headerA};
   }
 
   a:hover,
@@ -145,4 +148,33 @@ export const Header = styled.header`
     padding-bottom: 0.25rem;
     border-bottom: 4px solid #95bcf0;
   }
+`;
+export const ControlWrap = styled(CardWrap)`
+  margin: 1rem 0;
+  display: block;
+`;
+export const ArticleItemPanel = styled.div`
+  padding: 5%;
+  @media (max-width: 768px) and (min-width: 0px) {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  @media (max-width: 1536px) and (min-width: 768px) {
+    width: 50% !important;
+    max-width: 50% !important;
+  }
+  @media (min-width: 1536px) {
+    width: 33% !important;
+    max-width: 33% !important;
+  }
+  & .example__short-desc {
+    overflow: hidden;
+    max-height: 5ch;
+  }
+`;
+export const Select = styled.select`
+  color: ${(props) => props.theme.textColor};
+  color: ${(props: PProp) => props.color};
+  background: ${(props) =>
+    props.theme.background == "aokh" ? `url(${img})` : props.theme.background};
 `;

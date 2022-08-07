@@ -7,7 +7,6 @@ import GetArticlePage from "../ArticlePage";
 import SecretPage from "../SecretPage";
 import Home from "./../home";
 import { Provider } from "react-redux";
-import store from "../../../db/_redux";
 import Footer from "../../components/Footer";
 import { ThemeProvider } from "styled-components";
 import { initialState, reducer } from "../../../db/reducer/reducer";
@@ -42,9 +41,9 @@ function App() {
                 <NavLink activeClassName={classes.active} to="/articles">
                   Article Page
                 </NavLink>
-                <Provider store={store}>
+                {/* <Provider store={store}> */}
                   <GetArticlePage />
-                </Provider>
+                {/* </Provider> */}
               </Route>
               <Route exact path={"/secret"}>
                 <NavLink to="/">Main</NavLink> {">"}{" "}

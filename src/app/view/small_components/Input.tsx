@@ -1,3 +1,4 @@
+import { Card } from "antd";
 import React, { useRef, useImperativeHandle } from "react";
 import classes from "../../../assets/scss/index.module.scss";
 
@@ -26,7 +27,7 @@ export const Input = React.forwardRef((props: any, ref: any) => {
     };
   });
   return (
-    <div
+    <Card size="small" 
       className={`${classes.control} ${
         props.isValid === false ? classes.invalid : ""
       }`}
@@ -40,6 +41,6 @@ export const Input = React.forwardRef((props: any, ref: any) => {
         onChange={props.onChange}
         onBlur={props.onBlur}
       />
-    </div>
+    </Card>
   );
 });

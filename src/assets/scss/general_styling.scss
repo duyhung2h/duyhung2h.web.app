@@ -35,15 +35,6 @@ a {
 .width-100 {
   width: 100%;
 }
-.main-text-color {
-  color: $white_color;
-  &[class~="theme_color0"] {
-    color: $white_color !important;
-  }
-  &[class~="theme_color1"] {
-    color: $black_color !important;
-  }
-}
 .backdrop-container {
   width: 100vw;
   //   height: 100vh;
@@ -82,16 +73,5 @@ a {
     object-fit: cover;
     width: 0px;
     height: 0px;
-  }
-}
-
-body {
-  background: $body_background_color;
-
-  &[class~="theme_color0"] {
-    // background: $body_background_color_theme0 !important;
-  }
-  &[class~="theme_color1"] {
-    // background: $body_background_color_theme1 !important;
   }
 }

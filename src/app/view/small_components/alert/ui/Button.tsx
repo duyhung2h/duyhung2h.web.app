@@ -37,7 +37,7 @@ export const Button = styled.button`
   }
 `;
 export const SquareButton = styled(Button)`
-  border-radius: 3px;
+  border-radius: 6px;
   padding: 0.25em 1em;
 `;
 

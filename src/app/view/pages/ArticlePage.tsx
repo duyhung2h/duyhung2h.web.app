@@ -1,23 +1,29 @@
+import { Col, Pagination, Row } from "antd";
+import "antd/dist/antd.css";
 import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { connect } from "react-redux";
-import "../../../assets/scss/ExampleComponent.scss";
-import { BackgroundPanel, CardContentWrap, CardImage, CardImageWrap } from "../../../assets/styled_components/Panel";
+import {
+  ArticleItemPanel,
+  BackgroundPanel,
+  CardContentWrap,
+  CardImage,
+  CardImageWrap,
+} from "../../../assets/styled_components/Panel";
 import {
   addArticle,
   getArticleList,
-  getTagList
+  getTagList,
 } from "../../db/article.service";
-import store, { mapStateToProps } from "../../db/_redux";
+import { mapStateToProps } from "../../db/_redux";
 import "../../logic_handler/ListHandler";
 import { sortList } from "../../logic_handler/ListHandler";
 import { limitTextLength } from "../../logic_handler/TextHandler";
 import { Article } from "../../model/Article";
-import AddArticleComponent from "../components/AddExampleComponent";
-import { mapDispatchToProps } from "../components/ThemeSelector";
+import AddArticleComponent from "../components/AddArticleComponent";
+import { RoundButton } from "../small_components/alert/ui/RoundButton";
 import { Tags } from "../small_components/alert/ui/Tag";
 import LikeButton from "../small_components/LikeButton";
-import { reRender } from "../small_components/Theme";
 
 const backdrop_root = ReactDOM.createRoot(
   document.getElementById("backdrop-root") || new HTMLElement()
@@ -38,7 +44,6 @@ const GetArticlePage = () => {
     selectorValueTag: "all",
     examplePageC: {},
   });
-  reRender(store.getState().theme.theme);
   // console.log(allValues);
   // console.log(exampleList);
   /**
@@ -66,9 +71,9 @@ const GetArticlePage = () => {
         // get articles on the list
         let examplePageContent = list.map((element) => {
           return (
-            <div className="example__item" key={element.articleId}>
+            <ArticleItemPanel key={element.articleId}>
               <GetArticleComponent articleObject={element} />
-            </div>
+            </ArticleItemPanel>
           );
         });
         console.log(examplePageContent);
@@ -107,10 +112,7 @@ const GetArticlePage = () => {
     return (
       <BackgroundPanel>
         <CardImageWrap onClick={articlePageHandler}>
-          <CardImage
-            src={articleObject.articleImageLink + ""}
-            alt="article"
-          />
+          <CardImage src={articleObject.articleImageLink + ""} alt="article" />
         </CardImageWrap>
         <CardContentWrap>
           <h3 style={titleStyle}>{articleObject.articleTitle}</h3>
@@ -243,43 +245,32 @@ const GetArticlePage = () => {
   if (isLoading) {
     content = <p>Loading...</p>;
   }
-
   // console.log(exampleList);
   // FINAL: compile all components into an example page
   const articlePage = (
-    <div>
-      <button
-        onClick={() => addExampleButtonHandler()}
-        className="round__add-button"
-      >
-        +
-      </button>
+    <>
+      <RoundButton onClick={() => addExampleButtonHandler()}>+</RoundButton>
 
       {/* filter options */}
       <MySelect />
 
-      <div className="row container__example-page">
-        {content}
-        <div className="w3-center example__paginator width-100">
-          <div className="w3-bar">
-            <a href="/#" className="w3-bar-item w3-button w3-hover-black">
-              «
-            </a>
-            <a href="/#" className="w3-bar-item w3-black w3-button">
-              1
-            </a>
-            <a href="/#" className="w3-bar-item w3-button w3-hover-black">
-              2
-            </a>
-            <a href="/#" className="w3-bar-item w3-button w3-hover-black">
-              »
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
+      <div className="row  ">{content}</div>
+      <Row>
+        <Pagination
+          simple
+          defaultCurrent={2}
+          total={50}
+          style={{
+            display: "block",
+            margin: "0 auto",
+            padding: "0",
+            paddingInlineStart: "unset",
+          }}
+        ></Pagination>
+      </Row>
+    </>
   );
   return articlePage;
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GetArticlePage);
+export default GetArticlePage;

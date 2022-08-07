@@ -31,8 +31,8 @@ const base = {
     headerBG: Color.SECONDARY_BACKGROUND_1,
     headerA: Color.BLACK,
     loginHiddenBG: Color.SECONDARY_BACKGROUND_LIGHTER_1,
-    buttonBG: Color.SECONDARY_BACKGROUND_DARKER_1,
-    buttonActiveBG: Color.SECONDARY_BACKGROUND_1,
+    buttonBG: Color.SECONDARY_BACKGROUND_1,
+    buttonActiveBG: Color.SECONDARY_BACKGROUND_LIGHTER_1,
     textColor: Color.BLACK,
     border: `1px solid ${Color.BLACK}`,
     navColor: "lightcoral"
