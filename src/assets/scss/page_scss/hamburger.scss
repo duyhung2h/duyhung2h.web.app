@@ -369,8 +369,8 @@
     position: absolute;
     right: 15px;
     &[class~="theme_color0"] {
-      color: $body_background_color_theme0;
-      border: 1px solid $body_background_color_theme0;
+      // color: $body_background_color_theme0;
+      // border: 1px solid $body_background_color_theme0;
     }
     &[class~="theme_color1"] {
         color: $background_color_lighter_theme1;

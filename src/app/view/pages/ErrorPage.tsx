@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import Card from '../small_components/Card';
-import Button from '../small_components/Button';
-import classes from './ErrorModal.module.css';
+import Card from "../small_components/Card";
+import { ButtonProps } from "../small_components/alert/ui/Button";
+import classes from "./ErrorModal.module.css";
 
 const ErrorModal = (props: any) => {
   return (
@@ -16,7 +16,7 @@ const ErrorModal = (props: any) => {
           <p>{props.message}</p>
         </div>
         <footer className={classes.actions}>
-          <Button onClick={props.onConfirm}>Okay</Button>
+          <ButtonProps onClick={props.onConfirm}>Okay</ButtonProps>
         </footer>
       </Card>
     </div>

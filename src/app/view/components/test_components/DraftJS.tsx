@@ -18,9 +18,9 @@ export default function MyEditor(props: any) {
     setEditorState(nextState);
   };
   const insertImage = (editorState: any, base64: any) => {
-    alert("insertImage")
+    alert("insertImage");
     console.log(base64);
-    
+
     const contentState = editorState.getCurrentContent();
     const contentStateWithEntity = contentState.createEntity(
       "image",
@@ -38,20 +38,20 @@ export default function MyEditor(props: any) {
     setEditorState(newEditorState);
   };
   const inputFileToLoad = useRef<HTMLInputElement>(null);
-  const [keyImage, setKeyImage] = useState("")
+  const [keyImage, setKeyImage] = useState("");
   function useEncodeImageFileAsURL(props: any) {
     console.log(inputFileToLoad);
-    var filesSelected = inputFileToLoad
-    setKeyImage(filesSelected.current?.value || "")
+    var filesSelected = inputFileToLoad;
+    setKeyImage(filesSelected.current?.value || "");
     if (filesSelected.current?.value.length || "".length > 0) {
       var fileToLoad = new File([], inputFileToLoad.current?.value || "");
       console.log(inputFileToLoad.current?.value);
-      
+
       var fileReader = new FileReader();
 
       fileReader.onload = function (fileLoadedEvent: any) {
         console.log(fileLoadedEvent);
-        
+
         var srcData = fileLoadedEvent.target.result; // <--- data: base64
         console.log(srcData);
         onAddImage(srcData);
@@ -60,7 +60,6 @@ export default function MyEditor(props: any) {
       };
       fileReader.readAsDataURL(fileToLoad);
       console.log(fileReader);
-      
     }
   }
   return (
@@ -85,6 +84,7 @@ export default function MyEditor(props: any) {
         </i>
       </button>
       <input
+        placeholder="input text here"
         ref={inputFileToLoad}
         type="file"
         onChange={useEncodeImageFileAsURL}

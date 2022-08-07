@@ -1,37 +1,36 @@
 import React from "react";
-import { Provider, Connect } from "react-redux";
+import { Provider } from "react-redux";
 import { NavLink, withRouter } from "react-router-dom";
 import classes from "../../../assets/scss/index.module.scss";
+import { Header, LoginHidden, Span } from "../../../assets/styled_components/Panel";
 import { WEB_BRANCH, WEB_VER } from "../../constants";
 import store from "../../db/_redux";
-import ThemeSelector from "./ThemeSelector";
+import { Nav } from "./ThemeSelector";
 
 const Footer = (props: any) => {
   const { match, location, history } = props;
   return (
-    <header className={classes.header}>
+    <Header>
       <nav>
-        <ul className="main-text-color">
-          Website Version: {WEB_VER} | Branch: {WEB_BRANCH}
+        <ul>
+          <Span>
+            Website Version: {WEB_VER} | Branch: {WEB_BRANCH}
+          </Span>
           <li>
             <NavLink activeClassName={classes.active} to="/home">
               Home
             </NavLink>
           </li>
-          <li className={classes.login__hidden + ` `}>
+          <LoginHidden>
             <a>
               <Provider store={store}>
-                <ThemeSelector
-                  location={location}
-                  history={history}
-                  match={match}
-                />
+                <Nav></Nav>
               </Provider>
             </a>
-          </li>
+          </LoginHidden>
         </ul>
       </nav>
-    </header>
+    </Header>
   );
 };
 

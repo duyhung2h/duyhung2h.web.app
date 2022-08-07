@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { SquareButtonProps } from "./alert/ui/Button";
 
 // Display a "Like" <button>
 function LikeButton(props: any) {
@@ -14,13 +13,10 @@ function LikeButton(props: any) {
       setLikeCount(likeCount + 1);
     }
   }
-
+  
   return (
-    <>
-      <SquareButtonProps onClick={() => changeLike()}>
-        <i className={`fa-star ` + (liked ? "fa-solid" : "fa-regular")}></i>{" "}
-        {likeCount}
-      </SquareButtonProps>
+    <> 
+      <button onClick={() => changeLike()}><i className={`fa-star ` + (liked ? 'fa-solid' : 'fa-regular')}></i> {likeCount}</button>
     </>
   );
 }

@@ -1,28 +1,32 @@
 import React from "react";
+import { InfoCard } from "../../../assets/styled_components/Panel";
 
 import classes from "./../../../assets/scss/index.module.scss";
 
-const InfoCard = (props: any) => {
+const InfoCardComponent = (props: any) => {
   return (
-    <a href={props.infoCard.link} target={"_blank"}>
-      <div className={`${classes.info_card} row`}>
-        <div className="col-8 info_card__left">
-          <h4>{props.infoCard.title}</h4>
-          <p>{props.infoCard.shortDesc}</p>
-          <p>{props.infoCard.subText}</p>
-        </div>
-        <div className="col-4">
-          <div
-            style={{ background: `url(${props.infoCard.iconPath})` }}
-            className="col-4 icon"
-          >
-            <div className="col-12">click me!</div>
-            {/* <img className="img-responsive" src={props.infoCard.iconPath} alt="" /> */}
+    <>
+      <InfoCard className="row" disableBorder={false}>
+        <InfoCard className="col-8 info_card__left">
+          <a href={props.infoCard.link} target={"_blank"}>
+            <h4>{props.infoCard.title}</h4>
+            <p>{props.infoCard.shortDesc}</p>
+            <p>{props.infoCard.subText}</p>
+          </a>
+        </InfoCard>
+        <a href={props.infoCard.link} target={"_blank"}>
+          <div className="col-4">
+            <div
+              style={{ background: `url(${props.infoCard.iconPath})` }}
+              className="col-4 icon"
+            >
+              <div className="col-12">click me!</div>
+            </div>
           </div>
-        </div>
-      </div>
-    </a>
+        </a>
+      </InfoCard>
+    </>
   );
 };
 
-export default InfoCard;
+export default InfoCardComponent;

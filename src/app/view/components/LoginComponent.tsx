@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import classes from "../../../assets/scss/index.module.scss";
-import Button from "../small_components/Button";
+import { ButtonProps } from "../small_components/alert/ui/Button";
 import Card from "../small_components/Card";
 import AuthContext, { LoginFromAPI } from "../../db/auth.service";
 import { Input } from "../small_components/Input";
@@ -142,7 +142,7 @@ const LoginComponent = (props: any) => {
       const data = await LoginFromAPI(
         loginInfoState.username.value,
         loginInfoState.password.value
-      ).then(()=>{
+      ).then(() => {
         window.location.reload();
       });
       // authCtx.onLogin(loginInfoState.username.value, loginInfoState.password.value, '')
@@ -218,9 +218,9 @@ const LoginComponent = (props: any) => {
           onBlur={validatePasswordHandler}
         />
         <div className={classes.actions}>
-          <Button type="submit" className={classes.btn}>
+          <ButtonProps type="submit" className={classes.btn}>
             Login
-          </Button>
+          </ButtonProps>
           <a onClick={submitHandlerPOST}>Sign up new account</a>
         </div>
       </form>

@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "aoe2moddingtutorial"
-  }
+    "default": "aoe2moddingtutorial",
+    "staging": "aoe2moddingtutorial"
+  },
+  "targets": {},
+  "etags": {}
 }
