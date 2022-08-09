@@ -2,9 +2,9 @@ import { FC, useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { closeAlert, AlertTypes, AlertAlignment } from "../store/alert";
 import { Root } from "./style";
-import CloseIcon from "../../icons/CloseIcon";
 import React from "react";
 import { ButtonProps } from "./Button";
+import CloseIcon from "../icons/CloseIcon";
 
 export interface AlertProps {
   children: React.ReactNode;

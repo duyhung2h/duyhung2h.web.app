@@ -1,21 +1,5 @@
 
 // button
-button:disabled,
-button:focus:disabled,
-button:hover:disabled,
-button:active:disabled {
-  background: #ccc;
-  border-color: #ccc;
-  color: #666666;
-  cursor: not-allowed;
-}
-
-.login {
-  width: 90%;
-  max-width: 40rem;
-  margin: 2rem auto;
-  padding: 2rem;
-}
 
 // control 
 .control label,

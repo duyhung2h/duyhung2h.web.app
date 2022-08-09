@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SquareButtonProps } from "./alert/ui/Button";
+import { SquareButtonProps } from "./ui/Button";
 
 // Display a "Like" <button>
 function LikeButton(props: any) {

@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { InputWrapComponent } from '../../../../assets/styled_components/SmallComponents';
 
 import classes from "./../../../../assets/scss/test_scss/Movie.module.scss";
 
@@ -23,18 +24,18 @@ function AddMovie(props: any) {
 
   return (
     <form onSubmit={submitHandler}>
-      <div className={classes.control}>
+      <InputWrapComponent>
         <label htmlFor='title'>Title</label>
         <input type='text' id='title' ref={titleRef} />
-      </div>
-      <div className={classes.control}>
+      </InputWrapComponent>
+      <InputWrapComponent>
         <label htmlFor='opening-text'>Opening Text</label>
         <textarea rows={5} id='opening-text' ref={openingTextRef}></textarea>
-      </div>
-      <div className={classes.control}>
+      </InputWrapComponent>
+      <InputWrapComponent>
         <label htmlFor='date'>Release Date</label>
         <input type='text' id='date' ref={releaseDateRef} />
-      </div>
+      </InputWrapComponent>
       <button>Add Movie</button>
     </form>
   );

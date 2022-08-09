@@ -21,9 +21,9 @@ import { sortList } from "../../logic_handler/ListHandler";
 import { limitTextLength } from "../../logic_handler/TextHandler";
 import { Article } from "../../model/Article";
 import AddArticleComponent from "../components/AddArticleComponent";
-import { RoundButton } from "../small_components/alert/ui/RoundButton";
-import { Tags } from "../small_components/alert/ui/Tag";
 import LikeButton from "../small_components/LikeButton";
+import { RoundButton } from "../small_components/ui/RoundButton";
+import { Tags } from "../small_components/ui/Tag";
 
 const backdrop_root = ReactDOM.createRoot(
   document.getElementById("backdrop-root") || new HTMLElement()

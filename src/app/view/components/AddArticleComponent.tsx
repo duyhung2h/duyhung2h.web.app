@@ -1,8 +1,10 @@
-import React, { useRef } from "react";
+import React, { useReducer, useRef } from "react";
 import classes from "../../../assets/scss/index.module.scss";
+import { CardLogin } from "../../../assets/styled_components/Panel";
+import { InputWrapComponent } from "../../../assets/styled_components/SmallComponents";
 import { Article } from "../../model/Article";
-import { ButtonProps } from "../small_components/alert/ui/Button";
-import Card from "../small_components/Card";
+import { ButtonProps } from "../small_components/ui/Button";
+import { reducer, initialState, getLocalStorageTheme } from "../../db/reducer/reducer";
 
 const AddArticleComponent = (props: any) => {
   const titleRef = useRef<HTMLInputElement>(null);
@@ -28,10 +30,18 @@ const AddArticleComponent = (props: any) => {
     props.onAddArticle(example);
   }
 
+  const [state] = useReducer(reducer, initialState);
+  const currentTheme = getLocalStorageTheme();
+  console.log(initialState.currentTheme.id);
+  console.log(currentTheme.id);
+
   return (
-    <Card className={`${classes.login} overlay-container`}>
+    <CardLogin
+      disableBorder={false}
+      className="overlay-container" themeId={currentTheme.id} theme={currentTheme}
+    >
       <form onSubmit={submitHandler}>
-        <div className={classes.control}>
+        <InputWrapComponent>
           <label htmlFor="title">Title</label>
           <input
             type="text"
@@ -39,8 +49,8 @@ const AddArticleComponent = (props: any) => {
             ref={titleRef}
             defaultValue="This is an example"
           />
-        </div>
-        <div className={classes.control}>
+        </InputWrapComponent>
+        <InputWrapComponent>
           <label htmlFor="shortDesc">Short Description</label>
           <input
             type="text"
@@ -48,8 +58,8 @@ const AddArticleComponent = (props: any) => {
             ref={shortDescRef}
             defaultValue="This is some description"
           />
-        </div>
-        <div className={classes.control}>
+        </InputWrapComponent>
+        <InputWrapComponent>
           <label htmlFor="desc">Content</label>
           <textarea
             rows={5}
@@ -57,8 +67,8 @@ const AddArticleComponent = (props: any) => {
             ref={descRef}
             defaultValue="Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia..."
           ></textarea>
-        </div>
-        <div className={classes.control}>
+        </InputWrapComponent>
+        <InputWrapComponent>
           <label htmlFor="imageLink">
             Image (direct link to image on the web)
           </label>
@@ -68,12 +78,12 @@ const AddArticleComponent = (props: any) => {
             ref={imageLinkRef}
             defaultValue="https://lh5.googleusercontent.com/37KZ8tSRuvBXqMcIPbYSnXMcYzDIwOohsAP3LvFGo0ukNbcOtOW8kyKR737uUog7XhBK-hC71H-bT6F3MXTjI9W8XXzgjeYU0U0MPiXJf6Yn4HcV6wllih_khJ-IJMQc56hFMb-s"
           />
-        </div>
+        </InputWrapComponent>
         <ButtonProps type="submit" className={classes.btn}>
           Add new post
         </ButtonProps>
       </form>
-    </Card>
+    </CardLogin>
   );
 };
 

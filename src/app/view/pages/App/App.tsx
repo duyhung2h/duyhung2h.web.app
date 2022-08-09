@@ -6,13 +6,11 @@ import MainHeader from "../../components/Header";
 import GetArticlePage from "../ArticlePage";
 import SecretPage from "../SecretPage";
 import Home from "./../home";
-import { Provider } from "react-redux";
 import Footer from "../../components/Footer";
 import { ThemeProvider } from "styled-components";
 import { initialState, reducer } from "../../../db/reducer/reducer";
 import { React } from "../../../../index";
 import { BackgroundPanel } from "../../../../assets/styled_components/Panel";
-import Alert from "../../small_components/alert/ui/Alert";
 export var AppContext = createContext<any>({});
 
 function App() {

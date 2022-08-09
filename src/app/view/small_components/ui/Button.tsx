@@ -26,10 +26,10 @@ export const Button = styled.button`
     outline: none;
   }
 
-  button:disabled,
-  button:focus:disabled,
-  button:hover:disabled,
-  button:active:disabled {
+  &:disabled,
+  &:focus:disabled,
+  &:hover:disabled,
+  &:active:disabled {
     background: #ccc;
     border-color: #ccc;
     color: #666666;

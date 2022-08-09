@@ -1,7 +1,7 @@
 import React from "react";
 
 import Card from "../small_components/Card";
-import { ButtonProps } from "../small_components/alert/ui/Button";
+import { ButtonProps } from "../small_components/ui/Button";
 import classes from "./ErrorModal.module.css";
 
 const ErrorModal = (props: any) => {

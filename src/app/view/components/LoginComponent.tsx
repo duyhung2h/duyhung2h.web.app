@@ -6,10 +6,11 @@ import React, {
   useState,
 } from "react";
 import classes from "../../../assets/scss/index.module.scss";
-import { ButtonProps } from "../small_components/alert/ui/Button";
 import Card from "../small_components/Card";
 import AuthContext, { LoginFromAPI } from "../../db/auth.service";
 import { Input } from "../small_components/Input";
+import { CardLogin } from "../../../assets/styled_components/Panel";
+import { ButtonProps } from "../small_components/ui/Button";
 
 /**
  * an useReducer to prevent using multiple useState so it wouldn't cause conflict
@@ -195,7 +196,7 @@ const LoginComponent = (props: any) => {
     }
   };
   return (
-    <Card className={classes.login}>
+    <CardLogin disableBorder={false}>
       <form onSubmit={submitHandler}>
         <Input
           ref={emailInputRef}
@@ -224,7 +225,7 @@ const LoginComponent = (props: any) => {
           <a onClick={submitHandlerPOST}>Sign up new account</a>
         </div>
       </form>
-    </Card>
+    </CardLogin>
   );
 };
 export default LoginComponent;

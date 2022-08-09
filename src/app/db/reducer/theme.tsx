@@ -8,6 +8,7 @@ const base = {
   
   const classic = {
     id: 0,
+    name: "classic",
     ...base,
     background: "#f0f0f0",
     cardWrap: Color.WHITE,
@@ -24,6 +25,7 @@ const base = {
   
   const aokh = {
     id: 1,
+    name: "aokh",
     ...base,
     background: "aokh",
     cardWrap: Color.SECONDARY_BACKGROUND_LIGHTER_1,

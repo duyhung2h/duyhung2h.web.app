@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button } from "./ui/Button";
 
 // Display a "Like" <button>
 function LikeButton(props: any) {
@@ -16,7 +17,7 @@ function LikeButton(props: any) {
   
   return (
     <> 
-      <button onClick={() => changeLike()}><i className={`fa-star ` + (liked ? 'fa-solid' : 'fa-regular')}></i> {likeCount}</button>
+      <Button onClick={() => changeLike()}><i className={`fa-star ` + (liked ? 'fa-solid' : 'fa-regular')}></i> {likeCount}</Button>
     </>
   );
 }

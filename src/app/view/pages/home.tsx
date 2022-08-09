@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getTagList } from "../../db/article.service";
 import { getInfoList } from "../../db/info.service";
-import { Tags } from "../small_components/alert/ui/Tag";
 import InfoCardComponent from "../small_components/InfoCard";
+import { Tags } from "../small_components/ui/Tag";
 
 const Home = () => {
   const infoList = getInfoList();

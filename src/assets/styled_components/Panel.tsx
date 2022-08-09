@@ -1,4 +1,6 @@
+import { Card } from "antd";
 import styled from "styled-components";
+import { theme } from "../../app/db/reducer/theme";
 import img from "../../assets/images/bg.jpg";
 import { Color } from "./Constants/Color";
 
@@ -9,6 +11,8 @@ export const BackgroundPanel = styled.div`
 `;
 type PProp = {
   color?: string;
+  themeId?: number;
+  theme?: any;
 };
 export const P = styled.p`
   color: ${(props) => props.theme.textColor};
@@ -59,6 +63,7 @@ export const CardImageWrap = styled(CardWrap)`
 type InfoCardVar = {
   disableBorder?: boolean;
   align?: string;
+  themeId?: number;
 };
 export const InfoCard = styled.div`
   align-items: ${(props: InfoCardVar) =>
@@ -177,4 +182,28 @@ export const Select = styled.select`
   color: ${(props: PProp) => props.color};
   background: ${(props) =>
     props.theme.background == "aokh" ? `url(${img})` : props.theme.background};
+`;
+
+export const CardLogin = styled(InfoCard)`
+  color: ${(props) => props.theme.textColor};
+  color: ${(props: PProp) => props.color};
+  background: ${(props) =>
+    props.theme.background == "aokh" ? `url(${img})` : props.theme.background};
+  width: 90%;
+  max-width: 40rem;
+  margin: 2rem auto;
+  padding: 2rem;
+
+  ${({ themeId, theme }) =>
+    themeId == 1 &&
+    `
+  background: ${theme.background}
+  color: ${theme.textColor};
+    `}
+  ${({ themeId, theme }) =>
+    themeId != 1 &&
+    `
+  background: ${theme.background}
+  color: ${theme.textColor};
+    `}
 `;
