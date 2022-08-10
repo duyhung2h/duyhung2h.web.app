@@ -1,16 +1,16 @@
 import { createContext, useReducer } from "react";
 import { NavLink, Redirect, Route } from "react-router-dom";
-import { AuthContextProvider } from "../../../db/auth.service";
+import { ThemeProvider } from "styled-components";
 import classes from "../../../../assets/scss/index.module.scss";
+import { BackgroundPanel } from "../../../../assets/styled_components/Panel";
+import { React } from "../../../../index";
+import { AuthContextProvider } from "../../../db/auth.service";
+import { initialState, reducer } from "../../../db/reducer/reducer";
+import Footer from "../../components/Footer";
 import MainHeader from "../../components/Header";
 import GetArticlePage from "../ArticlePage";
 import SecretPage from "../SecretPage";
 import Home from "./../home";
-import Footer from "../../components/Footer";
-import { ThemeProvider } from "styled-components";
-import { initialState, reducer } from "../../../db/reducer/reducer";
-import { React } from "../../../../index";
-import { BackgroundPanel } from "../../../../assets/styled_components/Panel";
 export var AppContext = createContext<any>({});
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
         <AppContext.Provider value={{ ...state, dispatch }}>
           <AuthContextProvider>
             <MainHeader />
-            <BackgroundPanel className="p-5">
+            <BackgroundPanel className="p-5 page__min-height">
               <Route exact path={"/"}>
                 <Redirect to="/home" />
               </Route>

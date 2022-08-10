@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import { InputWrapComponent } from '../../../../assets/styled_components/SmallComponents';
 
-import classes from "./../../../../assets/scss/test_scss/Movie.module.scss";
 
 function AddMovie(props: any) {
   const titleRef = useRef<HTMLInputElement>(null);

@@ -6,7 +6,7 @@ import "./assets/scss/index.scss";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
-export {default as React} from 'react';
+export { default as React } from 'react';
 
 const container: HTMLElement | null = document.getElementById("root");
 const root = ReactDOM.createRoot(container || new HTMLElement());

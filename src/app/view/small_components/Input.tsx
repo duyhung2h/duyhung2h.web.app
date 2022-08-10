@@ -1,6 +1,6 @@
-import { Card } from "antd";
-import React, { useRef, useImperativeHandle } from "react";
+import React, { useImperativeHandle, useRef } from "react";
 import classes from "../../../assets/scss/index.module.scss";
+import { InputWrapComponent } from "../../../assets/styled_components/SmallComponents";
 
 /**
  * Input form
@@ -27,10 +27,12 @@ export const Input = React.forwardRef((props: any, ref: any) => {
     };
   });
   return (
-    <Card size="small" 
-      className={`${classes.control} ${
-        props.isValid === false ? classes.invalid : ""
-      }`}
+    <InputWrapComponent
+      size="small"
+      className={`
+      ${classes.control} 
+      ${props.isValid === false ? "invalid" : ""}
+      `}
     >
       <label htmlFor={props.id}>{props.label}</label>
       <input
@@ -41,6 +43,6 @@ export const Input = React.forwardRef((props: any, ref: any) => {
         onChange={props.onChange}
         onBlur={props.onBlur}
       />
-    </Card>
+    </InputWrapComponent>
   );
 });

@@ -1,10 +1,9 @@
 import React, { useReducer, useRef } from "react";
-import classes from "../../../assets/scss/index.module.scss";
 import { CardLogin } from "../../../assets/styled_components/Panel";
 import { InputWrapComponent } from "../../../assets/styled_components/SmallComponents";
+import { getLocalStorageTheme, initialState, reducer } from "../../db/reducer/reducer";
 import { Article } from "../../model/Article";
-import { ButtonProps } from "../small_components/ui/Button";
-import { reducer, initialState, getLocalStorageTheme } from "../../db/reducer/reducer";
+import { SquareButtonProps } from "../small_components/ui/Button";
 
 const AddArticleComponent = (props: any) => {
   const titleRef = useRef<HTMLInputElement>(null);
@@ -79,9 +78,9 @@ const AddArticleComponent = (props: any) => {
             defaultValue="https://lh5.googleusercontent.com/37KZ8tSRuvBXqMcIPbYSnXMcYzDIwOohsAP3LvFGo0ukNbcOtOW8kyKR737uUog7XhBK-hC71H-bT6F3MXTjI9W8XXzgjeYU0U0MPiXJf6Yn4HcV6wllih_khJ-IJMQc56hFMb-s"
           />
         </InputWrapComponent>
-        <ButtonProps type="submit" className={classes.btn}>
+        <SquareButtonProps type="submit">
           Add new post
-        </ButtonProps>
+        </SquareButtonProps>
       </form>
     </CardLogin>
   );

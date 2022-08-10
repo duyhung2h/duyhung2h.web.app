@@ -22,7 +22,6 @@ export const Nav = (props: any) => {
     <>
       <Select
         title="themeSwitcher"
-        className="toggle-switch-checkbox"
         name="toggleSwitch"
         id="toggleSwitch"
         placeholder="placeholder"

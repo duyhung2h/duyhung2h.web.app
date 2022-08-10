@@ -2,6 +2,9 @@ html {
   box-sizing: border-box;
   overflow-x: hidden;
 }
+.page__min-height{
+  min-height: 100vh;
+}
 *,
 *:before,
 *:after {

@@ -1,9 +1,9 @@
-import { Info } from "../model/Info";
-import youtube from '../../assets/images/icon/youtube.png';
+import discord from '../../assets/images/icon/discord.png';
 import github from '../../assets/images/icon/github.png';
 import reddit from '../../assets/images/icon/reddit.png';
 import twitter from '../../assets/images/icon/twitter.png';
-import discord from '../../assets/images/icon/discord.png';
+import youtube from '../../assets/images/icon/youtube.png';
+import { Info } from "../model/Info";
 
 export function getInfoList() {
   let infoList: Info[] = [

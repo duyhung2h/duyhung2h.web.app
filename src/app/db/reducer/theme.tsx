@@ -19,7 +19,9 @@ const base = {
     buttonBG: Color.SECONDARY_BACKGROUND_0,
     buttonActiveBG: Color.SECONDARY_BACKGROUND_LIGHTER_0,
     textColor: Color.WHITE,
+    textColor2: Color.BLACK,
     border: `1px solid ${Color.WHITE}`,
+    borderColor: `${Color.WHITE}`,
     navColor: "indianred"
   };
   
@@ -36,7 +38,9 @@ const base = {
     buttonBG: Color.SECONDARY_BACKGROUND_1,
     buttonActiveBG: Color.SECONDARY_BACKGROUND_LIGHTER_1,
     textColor: Color.BLACK,
+    textColor2: Color.BLACK,
     border: `1px solid ${Color.BLACK}`,
+    borderColor: `${Color.BLACK}`,
     navColor: "lightcoral"
   };
   

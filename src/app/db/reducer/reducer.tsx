@@ -1,6 +1,3 @@
-import { configureStore, createReducer } from "@reduxjs/toolkit";
-import { useState } from "react";
-import { toggleThemeAction } from "./reducer_actions";
 import { theme } from "./theme";
 
 // save state to localStorage

@@ -1,13 +1,18 @@
 import React from "react";
 import { InfoCard } from "../../../assets/styled_components/Panel";
+import { InfoCardIcon } from "../../../assets/styled_components/SmallComponents";
 
-import classes from "./../../../assets/scss/index.module.scss";
 
 const InfoCardComponent = (props: any) => {
   return (
     <>
-      <InfoCard className="row" disableBorder={false}>
-        <InfoCard className="col-8 info_card__left">
+      <InfoCard borderRadius={10} className="row" borderWidth={1}>
+        <InfoCard
+          borderRadius={10}
+          disableBorderShadow={true}
+          className="col-8 info_card__left"
+          disableBorder={true}
+        >
           <a href={props.infoCard.link} target={"_blank"}>
             <h4>{props.infoCard.title}</h4>
             <p>{props.infoCard.shortDesc}</p>
@@ -16,12 +21,11 @@ const InfoCardComponent = (props: any) => {
         </InfoCard>
         <a href={props.infoCard.link} target={"_blank"}>
           <div className="col-4">
-            <div
-              style={{ background: `url(${props.infoCard.iconPath})` }}
-              className="col-4 icon"
-            >
-              <div className="col-12">click me!</div>
-            </div>
+              <InfoCardIcon
+                style={{ background: `url(${props.infoCard.iconPath})` }}
+              >
+                <div className="col-12">click me!</div>
+              </InfoCardIcon>
           </div>
         </a>
       </InfoCard>

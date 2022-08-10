@@ -1,21 +1,19 @@
-import { Col, Pagination, Row } from "antd";
+import { Pagination, Row } from "antd";
 import "antd/dist/antd.css";
 import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
-import { connect } from "react-redux";
 import {
   ArticleItemPanel,
   BackgroundPanel,
   CardContentWrap,
   CardImage,
-  CardImageWrap,
+  CardImageWrap
 } from "../../../assets/styled_components/Panel";
 import {
   addArticle,
   getArticleList,
-  getTagList,
+  getTagList
 } from "../../db/article.service";
-import { mapStateToProps } from "../../db/_redux";
 import "../../logic_handler/ListHandler";
 import { sortList } from "../../logic_handler/ListHandler";
 import { limitTextLength } from "../../logic_handler/TextHandler";
@@ -110,11 +108,24 @@ const GetArticlePage = () => {
     };
     console.log(articleObject);
     return (
-      <BackgroundPanel>
-        <CardImageWrap onClick={articlePageHandler}>
-          <CardImage src={articleObject.articleImageLink + ""} alt="article" />
+      <BackgroundPanel borderRadius={15} disableBorder={true} borderWidth={1}>
+        <CardImageWrap
+          onClick={articlePageHandler}
+          borderWidth={1}
+          borderRadius={15}
+          disableBorder={false}
+        >
+          <CardImage
+            src={articleObject.articleImageLink + ""}
+            alt="article"
+            borderRadius={15}
+          />
         </CardImageWrap>
-        <CardContentWrap>
+        <CardContentWrap
+          borderWidth={1}
+          borderRadius={15}
+          disableBorder={false}
+        >
           <h3 style={titleStyle}>{articleObject.articleTitle}</h3>
           <p className="example__short-desc">
             {limitTextLength(articleObject.articleShortDesc, 40)}

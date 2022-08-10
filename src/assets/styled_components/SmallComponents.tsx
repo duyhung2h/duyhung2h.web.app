@@ -1,7 +1,8 @@
+import { Card } from "antd";
 import styled from "styled-components";
-import { Color } from "./Constants/Color";
 
-export const InputWrapComponent = styled.div`
+export const InputWrapComponent = styled(Card)`
+  border: none;
   label,
   input {
     display: block;
@@ -28,8 +29,30 @@ export const InputWrapComponent = styled.div`
     background: #f6dbfc;
   }
 
-  &.invalid input {
-    border-color: red;
-    background: #fbdada;
+  &.invalid {
+    input {
+      border-color: red;
+      background: #fbdada;
+    }
   }
+  @media (min-width: 768px) {
+    align-items: center;
+    flex-direction: row;
+  }
+`;
+export const InfoCardIcon = styled.div`
+  flex: 0 0 33.333333%;
+  background: none;
+  background-repeat: no-repeat !important;
+  height: 12vh !important;
+  width: 12vh !important;
+  margin: 2vh;
+  min-width: 16vh !important;
+  min-height: 16vh !important;
+  max-width: 16vh !important;
+  max-height: 16vh !important;
+  position: relative;
+  right: 0;
+  padding: 0;
+  background-size: 100% auto !important;
 `;

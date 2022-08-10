@@ -1,5 +1,4 @@
 import React from "react";
-import { Provider } from "react-redux";
 import { NavLink, withRouter } from "react-router-dom";
 import classes from "../../../assets/scss/index.module.scss";
 import { Header, LoginHidden, Span } from "../../../assets/styled_components/Panel";

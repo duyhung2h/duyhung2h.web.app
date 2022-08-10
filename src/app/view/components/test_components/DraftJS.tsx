@@ -1,7 +1,6 @@
-import React, { RefObject, useRef, useState } from "react";
-import { Editor, EditorState, RichUtils, AtomicBlockUtils } from "draft-js";
+import { AtomicBlockUtils, Editor, EditorState, RichUtils } from "draft-js";
+import React, { useRef, useState } from "react";
 import "../../../../assets/css/draftjs.css";
-import { mediaBlockRenderer } from "./entities/mediaBlockRenderer";
 
 export default function MyEditor(props: any) {
   const [editorState, setEditorState] = React.useState(() =>

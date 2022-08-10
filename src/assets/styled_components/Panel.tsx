@@ -1,30 +1,32 @@
-import { Card } from "antd";
 import styled from "styled-components";
-import { theme } from "../../app/db/reducer/theme";
 import img from "../../assets/images/bg.jpg";
 import { Color } from "./Constants/Color";
+import {
+  BORDER_COMPONENT,
+  BORDER_NOHORIZONTAL_BOTTOM,
+  BORDER_NOHORIZONTAL_TOP,
+  PProp,
+  TEXT_COMPONENT,
+  Variables,
+} from "./Constants/CSS";
 
-export const BackgroundPanel = styled.div`
-  /* background: ${(props) => props.theme.background}; */
-  background: ${(props) =>
-    props.theme.background == "aokh" ? `url(${img})` : props.theme.background};
-`;
-type PProp = {
-  color?: string;
-  themeId?: number;
-  theme?: any;
-};
 export const P = styled.p`
-  color: ${(props) => props.theme.textColor};
-  color: ${(props: PProp) => props.color};
+  ${TEXT_COMPONENT}
+  ${(props: PProp) => props.isImportant + "pxs"}; /* dummy text */
 `;
 export const Span = styled.span`
-  color: ${(props) => props.theme.textColor};
+  ${TEXT_COMPONENT}
+  ${(props: PProp) => props.isImportant + "pxs"}; /* dummy text */
+`;
+
+export const CardDiv = styled.div`
+  ${BORDER_COMPONENT}
+  ${(props: Variables) => props.borderRadius + "pxs"}; /* dummy text */
+  border-color: ${(props) => props.theme.borderColor};
 `;
 export const CardImage = styled.img`
-  border-radius: 15px;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
+  ${BORDER_COMPONENT}
+  ${BORDER_NOHORIZONTAL_BOTTOM}
   position: absolute; /* Take your picture out of the flow */
   top: 0;
   bottom: 0;
@@ -34,23 +36,23 @@ export const CardImage = styled.img`
   height: 100%; /* This if for the object-fit */
   object-fit: cover; /* Equivalent of the background-size: cover; of a background-image */
   object-position: center;
+  ${(props: Variables) => props.borderRadius + "pxs"}; /* dummy text */
 `;
-export const CardWrap = styled.div`
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  border-radius: 15px;
+export const CardWrap = styled(CardDiv)`
+  background: ${(props) => props.theme.cardWrap};
   padding: 10px;
   position: relative;
-  border: ${(props) => props.theme.border} !important;
-  background: ${(props) => props.theme.cardWrap};
-  border-color: ${(props) => props.theme.colorBlack};
+`;
+export const BackgroundPanel = styled(CardDiv)`
+  /* background: ${(props) => props.theme.background}; */
+  background: ${(props) =>
+    props.theme.background == "aokh" ? `url(${img})` : props.theme.background};
 `;
 export const CardContentWrap = styled(CardWrap)`
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
+  ${BORDER_NOHORIZONTAL_TOP}
 `;
 export const CardImageWrap = styled(CardWrap)`
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
+  ${BORDER_NOHORIZONTAL_BOTTOM}
   border-bottom-width: 0px;
 
   &:after {
@@ -60,28 +62,17 @@ export const CardImageWrap = styled(CardWrap)`
   }
 `;
 
-type InfoCardVar = {
-  disableBorder?: boolean;
-  align?: string;
-  themeId?: number;
-};
-export const InfoCard = styled.div`
-  align-items: ${(props: InfoCardVar) =>
-    props.align ? props.align : "center"};
-  border-radius: 10px;
+export const InfoCard = styled(CardDiv)`
+  align-items: ${(props: Variables) => (props.align ? props.align : "center")};
   background: ${(props) => props.theme.infoCardBG};
   min-height: 20vh;
-  ${({ disableBorder }) =>
-    disableBorder == false &&
-    `
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-      border: 1px solid;
-      border-color: ${Color.BLACK};
-    `}
 
   a {
     text-decoration: none !important;
     color: ${Color.BLACK};
+  }
+  &.info_card__left {
+    padding: 2vh;
   }
 `;
 export const LoginHidden = styled.li`

@@ -3,14 +3,12 @@ import React, {
   useEffect,
   useReducer,
   useRef,
-  useState,
+  useState
 } from "react";
-import classes from "../../../assets/scss/index.module.scss";
-import Card from "../small_components/Card";
+import { CardLogin, Span } from "../../../assets/styled_components/Panel";
 import AuthContext, { LoginFromAPI } from "../../db/auth.service";
 import { Input } from "../small_components/Input";
-import { CardLogin } from "../../../assets/styled_components/Panel";
-import { ButtonProps } from "../small_components/ui/Button";
+import { SquareButtonProps } from "../small_components/ui/Button";
 
 /**
  * an useReducer to prevent using multiple useState so it wouldn't cause conflict
@@ -196,7 +194,7 @@ const LoginComponent = (props: any) => {
     }
   };
   return (
-    <CardLogin disableBorder={false}>
+    <CardLogin borderRadius={15} borderWidth={1}>
       <form onSubmit={submitHandler}>
         <Input
           ref={emailInputRef}
@@ -218,11 +216,13 @@ const LoginComponent = (props: any) => {
           onChange={passwordChangeHandler}
           onBlur={validatePasswordHandler}
         />
-        <div className={classes.actions}>
-          <ButtonProps type="submit" className={classes.btn}>
-            Login
-          </ButtonProps>
-          <a onClick={submitHandlerPOST}>Sign up new account</a>
+        <div style={{textAlign: 'center'}}>
+          <SquareButtonProps type="submit">Login</SquareButtonProps>
+          <a onClick={submitHandlerPOST}>
+            <Span isImportant={true} isSecondaryColor={true}>
+              Sign up new account
+            </Span>
+          </a>
         </div>
       </form>
     </CardLogin>
