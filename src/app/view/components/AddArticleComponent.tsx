@@ -1,7 +1,11 @@
 import React, { useReducer, useRef } from "react";
-import { CardLogin } from "../../../assets/styled_components/Panel";
+import { CardLogin, CardOverlayContainer, Span } from "../../../assets/styled_components/Panel";
 import { InputWrapComponent } from "../../../assets/styled_components/SmallComponents";
-import { getLocalStorageTheme, initialState, reducer } from "../../db/reducer/reducer";
+import {
+  getLocalStorageTheme,
+  initialState,
+  reducer,
+} from "../../db/reducer/reducer";
 import { Article } from "../../model/Article";
 import { SquareButtonProps } from "../small_components/ui/Button";
 
@@ -35,12 +39,14 @@ const AddArticleComponent = (props: any) => {
   console.log(currentTheme.id);
 
   return (
-    <CardLogin
+    <CardOverlayContainer
       disableBorder={false}
-      className="overlay-container" themeId={currentTheme.id} theme={currentTheme}
+      themeId={currentTheme.id}
+      theme={currentTheme}
+      borderRadius={15} borderWidth={1}
     >
       <form onSubmit={submitHandler}>
-        <InputWrapComponent>
+        <InputWrapComponent padding={5}>
           <label htmlFor="title">Title</label>
           <input
             type="text"
@@ -49,7 +55,7 @@ const AddArticleComponent = (props: any) => {
             defaultValue="This is an example"
           />
         </InputWrapComponent>
-        <InputWrapComponent>
+        <InputWrapComponent padding={5}>
           <label htmlFor="shortDesc">Short Description</label>
           <input
             type="text"
@@ -58,7 +64,7 @@ const AddArticleComponent = (props: any) => {
             defaultValue="This is some description"
           />
         </InputWrapComponent>
-        <InputWrapComponent>
+        <InputWrapComponent padding={5}>
           <label htmlFor="desc">Content</label>
           <textarea
             rows={5}
@@ -67,9 +73,9 @@ const AddArticleComponent = (props: any) => {
             defaultValue="Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia..."
           ></textarea>
         </InputWrapComponent>
-        <InputWrapComponent>
+        <InputWrapComponent padding={5}>
           <label htmlFor="imageLink">
-            Image (direct link to image on the web)
+            <Span>Image (direct link to image on the web)</Span>
           </label>
           <input
             type="text"
@@ -78,11 +84,11 @@ const AddArticleComponent = (props: any) => {
             defaultValue="https://lh5.googleusercontent.com/37KZ8tSRuvBXqMcIPbYSnXMcYzDIwOohsAP3LvFGo0ukNbcOtOW8kyKR737uUog7XhBK-hC71H-bT6F3MXTjI9W8XXzgjeYU0U0MPiXJf6Yn4HcV6wllih_khJ-IJMQc56hFMb-s"
           />
         </InputWrapComponent>
-        <SquareButtonProps type="submit">
-          Add new post
-        </SquareButtonProps>
+        <InputWrapComponent padding={5}>
+          <SquareButtonProps type="submit">Add new post</SquareButtonProps>
+        </InputWrapComponent>
       </form>
-    </CardLogin>
+    </CardOverlayContainer>
   );
 };
 

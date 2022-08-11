@@ -19,6 +19,7 @@ import { sortList } from "../../logic_handler/ListHandler";
 import { limitTextLength } from "../../logic_handler/TextHandler";
 import { Article } from "../../model/Article";
 import AddArticleComponent from "../components/AddArticleComponent";
+import { displayAlertInfoPopup } from "../small_components/AlertInfoPopup";
 import LikeButton from "../small_components/LikeButton";
 import { RoundButton } from "../small_components/ui/RoundButton";
 import { Tags } from "../small_components/ui/Tag";
@@ -104,6 +105,7 @@ const GetArticlePage = () => {
     // handle for clicking an example item -> show a popup article
     const articlePageHandler = () => {
       setTitle(articleTitle + "1");
+    window.history.pushState(null, "null", `article?article_id=${articleObject.articleId}`);
       console.log(articleTitle);
     };
     console.log(articleObject);
@@ -140,6 +142,12 @@ const GetArticlePage = () => {
   // handle add new article button event listener
   const addExampleButtonHandler = () => {
     console.log("addExampleButtonHandler clicked");
+    window.history.pushState(null, "null", "article?function=add_article");
+    displayAlertInfoPopup("Page scroll shifted to default position!")
+    // let myWindow=window.open("/articles", "", "width=400, height=200");
+    let myWindow=window.open("https://raw.githubusercontent.com/gist/creaktive/781249/raw/2ea60f845a536a29ba15ca235cb52c465cdf4e4c/trollface.png", "", "width=250, height=200");
+    
+    window.moveTo(0, 900)
     // reRender(store.getState().theme.theme);
 
     setShowOverlay(true);

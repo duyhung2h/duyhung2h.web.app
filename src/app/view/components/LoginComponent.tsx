@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { CardLogin, Span } from "../../../assets/styled_components/Panel";
 import AuthContext, { LoginFromAPI } from "../../db/auth.service";
+import { displayAlertErrorPopup } from "../small_components/AlertInfoPopup";
 import { Input } from "../small_components/Input";
 import { SquareButtonProps } from "../small_components/ui/Button";
 
@@ -183,7 +184,7 @@ const LoginComponent = (props: any) => {
             if (data && data.error && data.error.message) {
               errorMessage = data.error.message;
             }
-            alert(errorMessage);
+            displayAlertErrorPopup(errorMessage)
           });
         }
       });

@@ -51,13 +51,6 @@ function App() {
                 <SecretPage />
               </Route>
             </BackgroundPanel>
-            {/* <Alert
-              autoClose={notification.autoClose}
-              alignment={notification.alignment}
-              type={notification.type}
-            >
-              {notification.message}
-            </Alert> */}
             <Footer />
           </AuthContextProvider>
         </AppContext.Provider>

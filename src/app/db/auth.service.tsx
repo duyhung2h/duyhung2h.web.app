@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useState } from "react";
 import { React } from "../../index";
 import { User } from "../model/User";
+import { displayAlertSuccessPopup } from "../view/small_components/AlertInfoPopup";
 import { initialState, reducer } from "./reducer/reducer";
 
 /**
@@ -103,7 +104,7 @@ export const AuthContextProvider = (props: any) => {
     // }
     try {
       var user = getUserLocalstorage();
-      alert("login successful for:" + user._username);
+      displayAlertSuccessPopup("login successful for:" + user._username);
       // if(user._username )
       const awaitedUser = async () => {
         await LoginFromAPI(user._username, user._password).then((data) => {

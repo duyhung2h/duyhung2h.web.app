@@ -1,5 +1,6 @@
 import { environment } from "../../environments/environment";
 import { Article } from "../model/Article";
+import { displayAlertErrorPopup } from "../view/small_components/AlertInfoPopup";
 
 /**
  * getExampleList
@@ -118,12 +119,12 @@ export async function addArticle(article: Article) {
     const data = await response.json();
     console.log(data);
     if (!response.ok) {
-      alert("Something went wrong!");
+      displayAlertErrorPopup("Something went wrong!")
       throw new Error("Something went wrong!");
     }
     return data;
   } catch (error: any) {
-    alert(error);
+    displayAlertErrorPopup(error)
     return error;
   }
 }

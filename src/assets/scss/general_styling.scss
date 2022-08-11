@@ -49,22 +49,6 @@ a {
   bottom: 0;
   z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
 }
-.overlay-container {
-  position: fixed; /* Sit on top of the page content */
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 200; /* Specify a stack order in case you're using a different order for other elements */
-  &[class~="theme_color0"] {
-    background: $semi_white_color !important;
-  }
-  &[class~="theme_color1"] {
-    background: $background_color_lighter_theme1 !important;
-  }
-}
 
 .thumbnail {
   position: absolute;

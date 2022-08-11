@@ -28,7 +28,6 @@ export const Input = React.forwardRef((props: any, ref: any) => {
   });
   return (
     <InputWrapComponent
-      size="small"
       className={`
       ${classes.control} 
       ${props.isValid === false ? "invalid" : ""}

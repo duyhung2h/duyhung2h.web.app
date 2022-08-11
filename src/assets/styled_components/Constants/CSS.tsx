@@ -1,5 +1,6 @@
 import { css } from "styled-components";
 import { Color } from "./Color";
+import img from "../../images/bg.jpg";
 
 export type Variables = {
   borderRadius?: number;
@@ -9,6 +10,7 @@ export type Variables = {
   align?: string;
   themeId?: number;
   disableBorderShadow?: boolean;
+  padding?: number;
 };
 export type PProp = {
   color?: string;
@@ -18,14 +20,14 @@ export type PProp = {
   isSecondaryColor?: boolean;
 };
 export const TEXT_COMPONENT = css`
-color: ${(props) => props.theme.textColor}${(props: PProp) => props.isImportant == true ? " !important" : ""};
+  color: ${(props) => props.theme.textColor}${(props: PProp) => (props.isImportant == true ? " !important" : "")};
   ${({ isSecondaryColor }) =>
     isSecondaryColor == true &&
     `
     color: black !important;
 `}
-border-radius: ${(props: PProp) => props.isSecondaryColor + "px"};
-color: ${(props: PProp) => props.color}${(props: PProp) => props.isImportant == true ? " !important" : ""};
+  border-radius: ${(props: PProp) => props.isSecondaryColor + "px"};
+  color: ${(props: PProp) => props.color}${(props: PProp) => (props.isImportant == true ? " !important" : "")};
 `;
 export const BORDER_COMPONENT = css`
   ${({ borderColor }) =>
@@ -66,4 +68,19 @@ export const BORDER_NOHORIZONTAL_TOP = css`
 export const SPACING = css`
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
+`;
+export const OVERLAY_CONTAINER = css`
+  color: ${(props: PProp) => props.color};
+  background: ${(props) => props.theme.background};
+  background: ${(props) =>
+    props.theme.background == "aokh" ? `url(${img})` : props.theme.background};
+  max-width: 40rem;
+  margin: 7.5% auto;
+  position: absolute; /* Sit on top of the page content */
+  padding: 7.5%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 200; /* Specify a stack order in case you're using a different order for other elements */
 `;

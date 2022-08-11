@@ -1,7 +1,9 @@
-import { Card } from "antd";
 import styled from "styled-components";
+import { Variables } from "./Constants/CSS";
 
-export const InputWrapComponent = styled(Card)`
+export const InputWrapComponent = styled.div`
+  padding: ${(props: Variables) => (`${props.padding}%`)};
+  align-items: ${(props: Variables) => (`${props.align}`)};
   border: none;
   label,
   input {
@@ -11,7 +13,7 @@ export const InputWrapComponent = styled(Card)`
   label {
     font-weight: bold;
     display: block;
-    color: #464646;
+    color: ${(props) => props.theme.textColor2};
     margin-bottom: 0.5rem;
   }
 

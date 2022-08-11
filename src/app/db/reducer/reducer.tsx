@@ -1,3 +1,4 @@
+import { displayAlertErrorPopup } from "../../view/small_components/AlertInfoPopup";
 import { theme } from "./theme";
 
 // save state to localStorage
@@ -10,7 +11,7 @@ export function getLocalStorageTheme(): any {
       console.log(localTheme);
       
     } catch (error) {
-      alert("Non existant theme!")
+      displayAlertErrorPopup("Non existant theme!")
     }
   }
   return JSON.parse(JSON.stringify(localTheme))
@@ -31,7 +32,6 @@ export const initialState = {
 export function reducer(state, action) {
   switch (action.type) {
     case "setTheme":
-      alert();
       return { ...state, currentTheme: action.value };
     case "updateTheme":
       return {

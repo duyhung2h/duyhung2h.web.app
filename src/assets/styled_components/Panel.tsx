@@ -5,6 +5,7 @@ import {
   BORDER_COMPONENT,
   BORDER_NOHORIZONTAL_BOTTOM,
   BORDER_NOHORIZONTAL_TOP,
+  OVERLAY_CONTAINER,
   PProp,
   TEXT_COMPONENT,
   Variables,
@@ -197,4 +198,8 @@ export const CardLogin = styled(InfoCard)`
   background: ${theme.background}
   color: ${theme.textColor};
     `}
+`;
+
+export const CardOverlayContainer = styled(InfoCard)`
+  ${OVERLAY_CONTAINER}
 `;

@@ -1,6 +1,7 @@
 import { AtomicBlockUtils, Editor, EditorState, RichUtils } from "draft-js";
 import React, { useRef, useState } from "react";
 import "../../../../assets/css/draftjs.css";
+import { displayAlertErrorPopup } from "../../small_components/AlertInfoPopup";
 
 export default function MyEditor(props: any) {
   const [editorState, setEditorState] = React.useState(() =>
@@ -17,7 +18,7 @@ export default function MyEditor(props: any) {
     setEditorState(nextState);
   };
   const insertImage = (editorState: any, base64: any) => {
-    alert("insertImage");
+    displayAlertErrorPopup("insertImage")
     console.log(base64);
 
     const contentState = editorState.getCurrentContent();
@@ -54,7 +55,7 @@ export default function MyEditor(props: any) {
         var srcData = fileLoadedEvent.target.result; // <--- data: base64
         console.log(srcData);
         onAddImage(srcData);
-        alert("Converted Base64 version is " + srcData);
+        displayAlertErrorPopup("Converted Base64 version is " + srcData);
         console.log("Converted Base64 version is " + srcData);
       };
       fileReader.readAsDataURL(fileToLoad);
