@@ -1,15 +1,72 @@
-import { AtomicBlockUtils, Editor, EditorState, RichUtils } from "draft-js";
+import { Draft } from "@reduxjs/toolkit";
+import {
+  AtomicBlockUtils,
+  Editor,
+  EditorState,
+  ContentState,
+  RichUtils,
+  convertToRaw,
+} from "draft-js";
 import React, { useRef, useState } from "react";
 import "../../../../assets/css/draftjs.css";
-import { displayAlertErrorPopup } from "../../small_components/AlertInfoPopup";
+import {
+  displayAlertErrorPopup,
+  displayAlertInfoPopup,
+} from "../../small_components/AlertInfoPopup";
 
+/**
+ * Text editor using DraftJS
+ * 
+ * @param props 
+ * @returns 
+ */
 export default function MyEditor(props: any) {
+  let initialValue = "insert article content here...\n...\nline1";
+  try {
+    initialValue = JSON.parse(localStorage["addNewArticle_longDesc"]);
+  } catch (error) {}
+  const convertToText = (editorState: any) => {
+    const blocks = convertToRaw(editorState.getCurrentContent()).blocks;
+    const mappedBlocks = blocks.map(
+      (block) => (!block.text.trim() && "\n") || block.text
+    );
+
+    let newText = "";
+    for (let i = 0; i < mappedBlocks.length; i++) {
+      const block = mappedBlocks[i];
+
+      // handle last block
+      if (i === mappedBlocks.length - 1) {
+        newText += block;
+      } else {
+        // otherwise we join with \n, except if the block is already a \n
+        if (block === "\n") newText += block;
+        else newText += block + "\n";
+      }
+      console.log(block);
+
+      // displayAlertInfoPopup(block)
+    }
+    return newText;
+  };
+
+  const editorRef = useRef();
   const [editorState, setEditorState] = React.useState(() =>
-    EditorState.createEmpty()
+    // EditorState.createEmpty()
+    EditorState.createWithContent(ContentState.createFromText(initialValue))
   );
+  const updateText = (editorState: any) => {
+    // console.log(editorState.getCurrentContent().getPlainText("\u0001"));
+    console.log(convertToText(editorState));
+    localStorage.setItem(
+      "addNewArticle_longDesc",
+      JSON.stringify(convertToText(editorState))
+    );
+
+    setEditorState(editorState);
+  };
   const boldText = () => {
     const nextState = RichUtils.toggleInlineStyle(editorState, "BOLD");
-
     setEditorState(nextState);
   };
   const italicText = () => {
@@ -18,7 +75,7 @@ export default function MyEditor(props: any) {
     setEditorState(nextState);
   };
   const insertImage = (editorState: any, base64: any) => {
-    displayAlertErrorPopup("insertImage")
+    displayAlertInfoPopup("insertImage");
     console.log(base64);
 
     const contentState = editorState.getCurrentContent();
@@ -83,16 +140,21 @@ export default function MyEditor(props: any) {
           image
         </i>
       </button>
-      <input
+      {/* <input
         placeholder="input text here"
         ref={inputFileToLoad}
         type="file"
         onChange={useEncodeImageFileAsURL}
-        alt="sdasd"
+        alt="alt"
         key={keyImage}
-      />
+      /> */}
       <div id="imgTest"></div>
-      <Editor editorState={editorState} onChange={setEditorState} />
+      <Editor
+        ref={editorRef}
+        defaultValue={initialValue}
+        editorState={editorState}
+        onChange={(newState) => updateText(newState)}
+      />
     </div>
   );
 }

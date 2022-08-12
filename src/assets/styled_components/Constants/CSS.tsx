@@ -70,14 +70,15 @@ export const SPACING = css`
   border-top-right-radius: 0px;
 `;
 export const OVERLAY_CONTAINER = css`
+  overflow: auto;
   color: ${(props: PProp) => props.color};
   background: ${(props) => props.theme.background};
   background: ${(props) =>
     props.theme.background == "aokh" ? `url(${img})` : props.theme.background};
   max-width: 40rem;
-  margin: 7.5% auto;
-  position: absolute; /* Sit on top of the page content */
-  padding: 7.5%;
+  margin: 2.5% auto;
+  position: fixed; /* Sit on top of the page content */
+  padding: 2.5%;
   top: 0;
   left: 0;
   right: 0;

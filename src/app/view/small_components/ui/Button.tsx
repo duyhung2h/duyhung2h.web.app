@@ -58,7 +58,7 @@ export const SquareButtonProps = (props: any) => {
     <SquareButton
       type={props.type || "button"}
       onClick={props.onClick}
-      disabled={props.disabled}
+      // disabled={props.disabled}
     >
       {props.children}
     </SquareButton>

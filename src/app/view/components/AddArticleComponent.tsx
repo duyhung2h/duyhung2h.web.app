@@ -1,36 +1,168 @@
-import React, { useReducer, useRef } from "react";
-import { CardLogin, CardOverlayContainer, Span } from "../../../assets/styled_components/Panel";
+import React, { useEffect, useReducer, useRef, useState } from "react";
+import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
+import {
+  CardLogin,
+  CardOverlayContainer,
+  Span,
+} from "../../../assets/styled_components/Panel";
 import { InputWrapComponent } from "../../../assets/styled_components/SmallComponents";
+import { getTagList } from "../../db/article.service";
 import {
   getLocalStorageTheme,
   initialState,
   reducer,
 } from "../../db/reducer/reducer";
 import { Article } from "../../model/Article";
+import {
+  displayAlertErrorPopup,
+  displayAlertInfoPopup,
+} from "../small_components/AlertInfoPopup";
 import { SquareButtonProps } from "../small_components/ui/Button";
+import MyEditor from "./test_components/DraftJS";
 
+/**
+ * useRef: reference to React html components
+ *
+ * @param props
+ * @returns
+ */
 const AddArticleComponent = (props: any) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const shortDescRef = useRef<HTMLInputElement>(null);
-  const descRef = useRef<HTMLTextAreaElement>(null);
   const imageLinkRef = useRef<HTMLInputElement>(null);
   const tagRef = useRef<HTMLInputElement>(null);
+  // const descRef = useRef<HTMLTextAreaElement>(null);
+  const TextEditor = React.forwardRef((props, ref) => (
+    <MyEditor id="desc" ref={ref}>
+      {props}
+    </MyEditor>
+  ));
+  const descRef = React.createRef();
 
+  const [tags, setTags] = useState([""]);
+  // get tag list
+  useEffect(() => {
+    getTagList().then((data) => setTags(data));
+  }, []);
+
+  async function handleSelectorChangeTag(event: any) {
+    // set list page value to useState
+    displayAlertInfoPopup("Tag " + event?.target.value + " " + "selected!");
+    setSelectorValueTag(event?.target.value);
+  }
+
+  const onComponentChange = (componentName: string | undefined, event: any) => {
+    // displayAlertInfoPopup(event?.target.value)
+    if (componentName == "titleValue") {
+      localStorage.setItem("addNewArticle_title", JSON.stringify(titleValue));
+      setTitleValue(event?.target.value);
+      setTitleValue(titleRef.current?.value || "");
+    }
+    if (componentName == "shortDescValue") {
+      localStorage.setItem(
+        "addNewArticle_shortDesc",
+        JSON.stringify(shortDescValue)
+      );
+      setShortDescValue(event?.target.value);
+      setShortDescValue(shortDescRef.current?.value || "");
+    }
+    if (componentName == "imageLinkValue") {
+      localStorage.setItem(
+        "addNewArticle_imageLink",
+        JSON.stringify(imageLinkValue)
+      );
+      setImageLinkValue(event?.target.value);
+      setImageLinkValue(imageLinkRef.current?.value || "");
+    }
+  };
+  let titleLocalstorageExisted = false;
+  let shortDescLocalstorageExisted = false;
+  let contentLocalstorageExisted = false;
+  let imageLinkLocalstorageExisted = false;
+  try {
+    titleLocalstorageExisted = localStorage["addNewArticle_title"]
+      ? true
+      : false;
+    shortDescLocalstorageExisted = localStorage["addNewArticle_shortDesc"]
+      ? true
+      : false;
+    contentLocalstorageExisted = localStorage["addNewArticle_longDesc"]
+      ? true
+      : false;
+    imageLinkLocalstorageExisted = localStorage["addNewArticle_imageLink"]
+      ? true
+      : false;
+  } catch (error) {
+    displayAlertErrorPopup("error_Localstorage notExisted");
+  }
+
+  // declare initial value
+  const [titleValue, setTitleValue] = useState(
+    titleLocalstorageExisted
+      ? JSON.parse(localStorage["addNewArticle_title"])
+      : "This is an example"
+  );
+  const [shortDescValue, setShortDescValue] = useState(
+    shortDescLocalstorageExisted
+      ? JSON.parse(localStorage["addNewArticle_shortDesc"])
+      : "Short description to describe your article..."
+  );
+  const [contentValue, setContentValue] = useState(
+    contentLocalstorageExisted
+      ? JSON.parse(localStorage["addNewArticle_longDesc"])
+      : "insert article content here...\n...\nline1"
+  );
+  const [imageLinkValue, setImageLinkValue] = useState(
+    imageLinkLocalstorageExisted
+      ? JSON.parse(localStorage["addNewArticle_imageLink"])
+      : "https://lh5.googleusercontent.com/37KZ8tSRuvBXqMcIPbYSnXMcYzDIwOohsAP3LvFGo0ukNbcOtOW8kyKR737uUog7XhBK-hC71H-bT6F3MXTjI9W8XXzgjeYU0U0MPiXJf6Yn4HcV6wllih_khJ-IJMQc56hFMb-s"
+  );
+  const [selectorValueTag, setSelectorValueTag] = useState("all");
+
+  // click "Add new post" button
   function submitHandler(event: any) {
     event.preventDefault();
 
     // could add validation here...
 
-    const example = new Article(
-      titleRef.current?.value || " ",
-      shortDescRef.current?.value || " ",
-      descRef.current?.value || " ",
-      imageLinkRef.current?.value || " ",
-      0,
-      [""]
+    setTitleValue(titleRef.current?.value || "");
+    setShortDescValue(shortDescRef.current?.value || "");
+    try {
+      setContentValue(JSON.parse(localStorage["addNewArticle_longDesc"]) || "");
+    } catch (error) {
+      displayAlertErrorPopup(
+        "fetching localStorage addNewArticle_longDesc error!"
+      );
+    }
+    setImageLinkValue(imageLinkRef.current?.value || "");
+    localStorage.setItem("addNewArticle_title", JSON.stringify(titleValue));
+    localStorage.setItem(
+      "addNewArticle_shortDesc",
+      JSON.stringify(shortDescValue)
     );
-
+    localStorage.setItem(
+      "addNewArticle_imageLink",
+      JSON.stringify(imageLinkValue)
+    );
+    let tagValue: string[];
+    if (selectorValueTag == "all") {
+      tagValue = [""];
+    } else {
+      tagValue = [selectorValueTag];
+    }
+    const example = new Article(
+      titleValue || " ",
+      shortDescValue || " ",
+      // descRef.current?.value || " ",
+      contentValue || " ",
+      imageLinkValue || " ",
+      0,
+      tagValue
+    );
+    console.log(example);
     props.onAddArticle(example);
+    // redirect 
+    window.location.href = 'articles?function=add_article_success'
   }
 
   const [state] = useReducer(reducer, initialState);
@@ -43,7 +175,8 @@ const AddArticleComponent = (props: any) => {
       disableBorder={false}
       themeId={currentTheme.id}
       theme={currentTheme}
-      borderRadius={15} borderWidth={1}
+      borderRadius={15}
+      borderWidth={1}
     >
       <form onSubmit={submitHandler}>
         <InputWrapComponent padding={5}>
@@ -52,8 +185,22 @@ const AddArticleComponent = (props: any) => {
             type="text"
             id="title"
             ref={titleRef}
-            defaultValue="This is an example"
+            defaultValue={titleValue}
+            onChange={(event) => onComponentChange("titleValue", event)}
           />
+
+          {/* select post tag */}
+          <select
+            title="yes"
+            onChange={handleSelectorChangeTag}
+            value={selectorValueTag}
+            defaultValue="all"
+            className="float-right"
+          >
+            {tags.map((item, index) => (
+              <option value={item}>{item}</option>
+            ))}
+          </select>
         </InputWrapComponent>
         <InputWrapComponent padding={5}>
           <label htmlFor="shortDesc">Short Description</label>
@@ -61,27 +208,30 @@ const AddArticleComponent = (props: any) => {
             type="text"
             id="shortDesc"
             ref={shortDescRef}
-            defaultValue="This is some description"
+            defaultValue={shortDescValue}
+            onChange={(event) => onComponentChange("shortDescValue", event)}
           />
         </InputWrapComponent>
         <InputWrapComponent padding={5}>
           <label htmlFor="desc">Content</label>
-          <textarea
+          {/* <textarea
             rows={5}
             id="desc"
             ref={descRef}
             defaultValue="Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia..."
-          ></textarea>
+          ></textarea> */}
+          <TextEditor ref={descRef}></TextEditor>
         </InputWrapComponent>
         <InputWrapComponent padding={5}>
           <label htmlFor="imageLink">
-            <Span>Image (direct link to image on the web)</Span>
+            Image (direct link to image on the web)
           </label>
           <input
             type="text"
             id="imageLink"
             ref={imageLinkRef}
-            defaultValue="https://lh5.googleusercontent.com/37KZ8tSRuvBXqMcIPbYSnXMcYzDIwOohsAP3LvFGo0ukNbcOtOW8kyKR737uUog7XhBK-hC71H-bT6F3MXTjI9W8XXzgjeYU0U0MPiXJf6Yn4HcV6wllih_khJ-IJMQc56hFMb-s"
+            defaultValue={imageLinkValue}
+            onChange={(event) => onComponentChange("imageLinkValue", event)}
           />
         </InputWrapComponent>
         <InputWrapComponent padding={5}>

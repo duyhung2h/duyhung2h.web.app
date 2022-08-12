@@ -98,7 +98,8 @@ export async function addArticle(article: Article) {
         article.articleTitle,
         article.articleShortDesc,
         article.articleDesc,
-        article.articleImageLink
+        article.articleImageLink,
+        article.articleTag
       )
     )
     console.log(bodyPOST);
@@ -142,14 +143,16 @@ export const createArticle = (
   title: string,
   shortDesc: string,
   desc: string,
-  imageLink: string
+  imageLink: string,
+  articleTag: string[]
 ) => {
   return {
     articleTitle: title,
     articleShortDesc: shortDesc,
     articleLikeCount: 0,
     articleDesc: desc,
-    articleImageLink: imageLink
+    articleImageLink: imageLink,
+    articleTag: articleTag
   };
 };
 

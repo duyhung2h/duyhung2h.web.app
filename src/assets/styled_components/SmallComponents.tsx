@@ -2,11 +2,11 @@ import styled from "styled-components";
 import { Variables } from "./Constants/CSS";
 
 export const InputWrapComponent = styled.div`
-  padding: ${(props: Variables) => (`${props.padding}%`)};
-  align-items: ${(props: Variables) => (`${props.align}`)};
+  padding: ${(props: Variables) => `${props.padding}%`};
+  align-items: ${(props: Variables) => `${props.align}`};
   border: none;
   label,
-  input {
+  input, .DraftEditor-editorContainer {
     display: block;
   }
 
@@ -17,22 +17,26 @@ export const InputWrapComponent = styled.div`
     margin-bottom: 0.5rem;
   }
 
-  input {
+  input,
+  textarea, .DraftEditor-editorContainer {
     display: block;
     font: inherit;
     padding: 0.35rem 0.35rem;
     border-radius: 6px;
     border: 1px solid #ccc;
+    width: 100%;
   }
 
-  input:focus {
+  input, .DraftEditor-editorContainer,
+  textarea:focus {
     outline: none;
     border-color: #4f005f;
     background: #f6dbfc;
   }
 
   &.invalid {
-    input {
+    input,
+    textarea, .DraftEditor-editorContainer {
       border-color: red;
       background: #fbdada;
     }
