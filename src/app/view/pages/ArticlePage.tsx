@@ -50,9 +50,8 @@ const GetArticlePage = () => {
   try {
     let params = new URL(window.location.href).searchParams;
     article_id = Number(params.get("article_id"));
-    // setArticleViewId(Number(article_id))
   } catch (error) {}
-  if (article_id != -1) {
+  if (article_id > 0) {
     initialOverlayViewArticleState = true
   }
   let eList: any[] = [];
