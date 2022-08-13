@@ -19,6 +19,7 @@ import { sortList } from "../../logic_handler/ListHandler";
 import { limitTextLength } from "../../logic_handler/TextHandler";
 import { Article } from "../../model/Article";
 import AddArticleComponent from "../components/AddArticleComponent";
+import ViewArticleComponent from "../components/ViewArticleComponent";
 import {
   displayAlertInfoPopup,
   displayAlertSuccessPopup,
@@ -34,11 +35,36 @@ const overlay_root = ReactDOM.createRoot(
   document.getElementById("overlay-root") || new HTMLElement()
 );
 const GetArticlePage = () => {
+  try {
+    let params = new URL(window.location.href).searchParams;
+    let functionName = params.get("function");
+
+    if (functionName == "add_article_success") {
+      displayAlertSuccessPopup("Article successfully added!");
+    }
+  } catch (error) {}
+
+  let article_id = -1;
+  let initialOverlayViewArticleState = false;
+  // get parameter: Check if there's an "articleId" parameter in the URL!
+  try {
+    let params = new URL(window.location.href).searchParams;
+    article_id = Number(params.get("article_id"));
+    // setArticleViewId(Number(article_id))
+  } catch (error) {}
+  if (article_id != -1) {
+    initialOverlayViewArticleState = true
+  }
   let eList: any[] = [];
   const [exampleList, setExampleList] = useState(eList);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [showOverlay, setShowOverlay] = useState(false);
+  const [showOverlayAddArticle, setShowOverlayAddArticle] = useState(false);
+  const [showOverlayViewArticle, setShowOverlayViewArticle] = useState(initialOverlayViewArticleState);
+  const [articleViewId, setArticleViewId] = useState(article_id);
+  if (initialOverlayViewArticleState == true) {
+    viewArticle()
+  }
 
   const [allValues, setAllValues] = useState({
     selectorValue: "exampleTitle",
@@ -107,13 +133,19 @@ const GetArticlePage = () => {
     const [articleTitle, setTitle] = useState(articleObject.articleTitle);
     // handle for clicking an example item -> show a popup article
     const articlePageHandler = () => {
-      setTitle(articleTitle + "1");
+      // setTitle(articleTitle + "1");
       window.history.pushState(
         null,
         "null",
-        `article?article_id=${articleObject.articleId}`
+        `articles?article_id=${articleObject.articleId}`
       );
       console.log(articleTitle);
+      displayAlertInfoPopup("Page scroll shifted to default position!");
+      // let myWindow=window.open("https://raw.githubusercontent.com/gist/creaktive/781249/raw/2ea60f845a536a29ba15ca235cb52c465cdf4e4c/trollface.png", "", "width=250, height=200");
+      window.scrollTo(0, 0);
+
+      setShowOverlayViewArticle(true);
+      setArticleViewId(Number(articleObject.articleId));
     };
     console.log(articleObject);
     return (
@@ -146,35 +178,69 @@ const GetArticlePage = () => {
     );
   }
 
-  // handle add new article button event listener
-  const addExampleButtonHandler = () => {
-    console.log("addExampleButtonHandler clicked");
+  /**
+   * handle add new article button event listener
+   */
+  const addArticleButtonHandler = () => {
+    console.log("addArticleButtonHandler clicked");
     window.history.pushState(null, "null", "articles?function=add_article");
     displayAlertInfoPopup("Page scroll shifted to default position!");
     // let myWindow=window.open("https://raw.githubusercontent.com/gist/creaktive/781249/raw/2ea60f845a536a29ba15ca235cb52c465cdf4e4c/trollface.png", "", "width=250, height=200");
     window.scrollTo(0, 0);
 
-    setShowOverlay(true);
+    setShowOverlayAddArticle(true);
   };
+  /**
+   * show add article overlay!
+   */
   useEffect(() => {
-    if (showOverlay === true) {
-      console.log("showOverlay == true");
+    if (showOverlayAddArticle === true) {
+      console.log("showOverlayAddArticle == true");
       backdrop_root.render(
         <div
           className="backdrop-container"
-          onClick={() => setShowOverlay(false)}
+          onClick={() => setShowOverlayAddArticle(false)}
         ></div>
       );
       overlay_root.render(
         <AddArticleComponent onAddArticle={addArticle}></AddArticleComponent>
       );
     }
-    if (showOverlay === false) {
+    if (showOverlayAddArticle === false) {
       console.log("showOverlay == false");
       backdrop_root.render(<></>);
       overlay_root.render(<></>);
     }
-  }, [showOverlay]);
+  }, [showOverlayAddArticle]);
+
+  /**
+   * show view article overlay!
+   */
+  function viewArticle() {
+    if (showOverlayViewArticle === true) {
+      console.log("showOverlayViewArticle == true");
+      backdrop_root.render(
+        <div
+          className="backdrop-container"
+          onClick={() => setShowOverlayViewArticle(false)}
+        ></div>
+      );
+      overlay_root.render(
+        <ViewArticleComponent
+          articleId={articleViewId}
+          onAddArticle={addArticle}
+        ></ViewArticleComponent>
+      );
+    }
+    if (showOverlayViewArticle === false) {
+      console.log("showOverlayViewArticle == false");
+      backdrop_root.render(<></>);
+      overlay_root.render(<></>);
+    }
+  }
+  useEffect(() => {
+    viewArticle()
+  }, [showOverlayViewArticle]);
 
   // filter options (dropdown)
   function MySelect(props: any) {
@@ -272,7 +338,7 @@ const GetArticlePage = () => {
   // FINAL: compile all components into an example page
   const articlePage = (
     <>
-      <RoundButton onClick={() => addExampleButtonHandler()}>+</RoundButton>
+      <RoundButton onClick={() => addArticleButtonHandler()}>+</RoundButton>
 
       {/* filter options */}
       <MySelect />
