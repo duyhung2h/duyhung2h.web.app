@@ -46,6 +46,7 @@ const ViewArticleComponent = (props: any) => {
   // declare initial value
   let article: Article = new Article("", "", "", "", -1, [""], "");
   const [articleValue, setArticleValue] = useState(article);
+  const [articleTag, setArticleTag] = useState("");
   console.log(props.articleId);
   // initial fetch examples on site load
   useEffect(() => {
@@ -54,6 +55,11 @@ const ViewArticleComponent = (props: any) => {
   // get article value
   useEffect(() => {
     console.log(articleValue);
+    try {
+      setArticleTag(articleValue.articleTag[0])
+    } catch (error) {
+      
+    }
   }, [articleValue]);
 
   // click "Edit" button
@@ -65,7 +71,7 @@ const ViewArticleComponent = (props: any) => {
   console.log(currentTheme.id);
 
   console.log(articleValue.articleDesc);
-  
+
   return (
     <CardOverlayContainer
       disableBorder={false}
@@ -82,10 +88,10 @@ const ViewArticleComponent = (props: any) => {
       </InputWrapComponent>
       <InputWrapComponent padding={5}>
         <h1>{articleValue.articleTitle}</h1>
-        <Tag tagString={articleValue.articleTag[0]}>{articleValue.articleTag[0]}</Tag>
+        {articleTag != "" && <Tag tagString={articleTag}>{articleTag}</Tag>}
         <div>{articleValue.articleShortDesc}</div>
         <br></br>
-        <div style={{whiteSpace: "pre-line"}}>{articleValue.articleDesc}</div>
+        <div style={{ whiteSpace: "pre-line" }}>{articleValue.articleDesc}</div>
       </InputWrapComponent>
     </CardOverlayContainer>
   );
