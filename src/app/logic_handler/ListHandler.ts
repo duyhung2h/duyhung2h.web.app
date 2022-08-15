@@ -11,10 +11,12 @@ export function sortList(
       const backupList: Article[] = Object.assign([], list);
       list = []
       backupList.forEach((item: Article, index) => {
-        console.log(item.articleTag);
-        if (item.articleTag[0] == tag) {
-          list.push(item)
-        }
+        try{
+          console.log(item.articleTag);
+          if (item.articleTag[0] == tag) {
+            list.push(item)
+          }
+        }catch{}
       });
     }
     if (asc === "asc") {
