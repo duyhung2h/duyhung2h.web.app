@@ -22,16 +22,31 @@ const Home = () => {
       {infoList.map((value, index) => {
         return (
           <div>
-            <InfoCardComponent className="card" infoCard={value}></InfoCardComponent>
+            <InfoCardComponent
+              className="card"
+              infoCard={value}
+            ></InfoCardComponent>
             <br />
           </div>
         );
       })}
       <h1>Articles</h1>
       <p>
-        Below here you can filter articles by tags, or browse my recent articles.
+        Below here you can filter articles by tags, or browse my recent
+        articles.
       </p>
       <Tags tagList={tags} />
+      <div>
+        <iframe
+          src={`https://discord.com/widget?id=944992591345225800&theme=dark`}
+          width={350}
+          height={300}
+          allowTransparency={true}
+          frameBorder={0}
+          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
+          title="discord overlay"
+        ></iframe>
+      </div>
     </React.Fragment>
   );
 };

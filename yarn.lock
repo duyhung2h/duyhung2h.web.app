@@ -2910,7 +2910,7 @@ ansi-styles@^5.0.0:
 
 antd@^4.22.3:
   version "4.22.3"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-4.22.3.tgz#c6d4ced17e9c21b55c6234595d962c5f9d6768db"
+  resolved "https://registry.npmjs.org/antd/-/antd-4.22.3.tgz"
   integrity sha512-Nay1tO+G5Z9szmshK9TinOWclJnxOtSe7cr15EX64NGkZZyRoHX2xXOFQoYtBt4qfVfFvLf97m9on7fwgy1Svg==
   dependencies:
     "@ant-design/colors" "^6.0.0"
@@ -4602,7 +4602,7 @@ dotenv@^10.0.0:
 
 draft-js@^0.11.7:
   version "0.11.7"
-  resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.11.7.tgz#be293aaa255c46d8a6647f3860aa4c178484a206"
+  resolved "https://registry.npmjs.org/draft-js/-/draft-js-0.11.7.tgz"
   integrity sha512-ne7yFfN4sEL82QPQEn80xnADR8/Q6ALVworbC5UOSzOvjffmYfFsr3xSZtxbIirti14R7Y33EZC5rivpLgIbsg==
   dependencies:
     fbjs "^2.0.0"
@@ -9650,6 +9650,13 @@ react-test-renderer@^18.0.0:
     react-is "^18.0.0"
     react-shallow-renderer "^16.13.1"
     scheduler "^0.21.0"
+
+react-use-navigate@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/react-use-navigate/-/react-use-navigate-0.1.1.tgz#5657642832c33afbefb595532252d6ed81af1c67"
+  integrity sha512-FjSKKHmTy0DA0KBGsNlN97HVha3L3WCTRfXG2lucrgWjQGzqZZTKQ2FdCOZgE+rkBdBTAM6PLEV9MfUdm6MHlQ==
+  dependencies:
+    minimatch "^3.0.4"
 
 react@^18.1.0:
   version "18.1.0"

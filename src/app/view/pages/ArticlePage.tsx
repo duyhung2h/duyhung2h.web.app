@@ -52,17 +52,19 @@ const GetArticlePage = () => {
     article_id = Number(params.get("article_id"));
   } catch (error) {}
   if (article_id > 0) {
-    initialOverlayViewArticleState = true
+    initialOverlayViewArticleState = true;
   }
   let eList: any[] = [];
   const [exampleList, setExampleList] = useState(eList);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showOverlayAddArticle, setShowOverlayAddArticle] = useState(false);
-  const [showOverlayViewArticle, setShowOverlayViewArticle] = useState(initialOverlayViewArticleState);
+  const [showOverlayViewArticle, setShowOverlayViewArticle] = useState(
+    initialOverlayViewArticleState
+  );
   const [articleViewId, setArticleViewId] = useState(article_id);
   if (initialOverlayViewArticleState == true) {
-    viewArticle()
+    viewArticle();
   }
 
   const [allValues, setAllValues] = useState({
@@ -104,6 +106,11 @@ const GetArticlePage = () => {
           );
         });
         console.log(examplePageContent);
+        window.history.pushState(
+          null,
+          "null",
+          `articles?tagName=${tag}`
+        );
         setAllValues({
           examplePageC: examplePageContent,
           selectorValue: filter,
@@ -238,9 +245,35 @@ const GetArticlePage = () => {
     }
   }
   useEffect(() => {
-    viewArticle()
+    viewArticle();
   }, [showOverlayViewArticle]);
 
+  async function getTagByParam() {
+    let tagName = allValues.selectorValueTag;
+    // get parameter: Check if there's an "tagName" parameter in the URL!
+    let tagNameParam = "all";
+    try {
+      let params = new URL(window.location.href).searchParams;
+      tagNameParam = String(params.get("tagName"));
+      if (tagNameParam == "null") {
+        tagNameParam = "all"
+      }
+      displayAlertInfoPopup(tagNameParam)
+      if (allValues.selectorValueTag != tagNameParam) {
+        if (tagName != "") {
+          tagName = String(tagNameParam);
+        } else {
+          tagName = "all";
+        }
+        // set list page value to useState
+        await getArticleListContent(
+          allValues.selectorValue,
+          allValues.selectorValueAsc,
+          tagNameParam
+        );
+      }
+    } catch (error) {}
+  }
   // filter options (dropdown)
   function MySelect(props: any) {
     const [tags, setTags] = useState([""]);
@@ -270,8 +303,15 @@ const GetArticlePage = () => {
     }
     // get tag list
     useEffect(() => {
-      getTagList().then((data) => setTags(data));
-    }, []);
+      getTagList().then((data) => {
+        setTags(data);
+        // getTagByParam();
+      });
+    }, [tags]);
+    // get tag by Param
+    useEffect(() => {
+      getTagByParam();
+    }, [allValues]);
 
     return (
       <div>

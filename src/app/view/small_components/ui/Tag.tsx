@@ -1,13 +1,39 @@
 import React from "react";
+import { BrowserRouter, NavLink, Route, Router } from "react-router-dom";
+import useNavigate from "react-use-navigate";
 import styled from "styled-components";
+import { displayAlertInfoPopup } from "../AlertInfoPopup";
 import { SquareButton } from "./Button";
 
 export const Tags = ({ tagList }) => {
+  const navigate = useNavigate();
   try {
+    function OnTagClick(tagName: string) {
+      displayAlertInfoPopup("Redirected to article tab!");
+      function goToPosts() {
+        if (tagName == "null") {
+          alert()
+          tagName = "all"
+        }
+        navigate.push({ goTo: "articles?tagName=" + tagName });
+      }
+      goToPosts();
+    }
+    let queryString = "/articles";
     return (
       <>
         {tagList.map((tag) => (
-          <Tag marginLeft="9px" tagString={tag}>{tag}</Tag>
+          <BrowserRouter forceRefresh={true}>
+            <NavLink to={"/articles?tagName=" + tag}>
+              <Tag
+                marginLeft="9px"
+                tagString={tag}
+                onClick={(event) => OnTagClick(queryString + "?tagName=" + tag)}
+              >
+                {tag}
+              </Tag>
+            </NavLink>
+          </BrowserRouter>
         ))}
       </>
     );
@@ -49,7 +75,7 @@ export function tagStringToColor(tagString: string, background: boolean) {
 export const Tag = styled(SquareButton)<{ tagString: string }>`
   background: ${(props) => tagStringToColor(props.tagString, true)};
   color: ${(props) => tagStringToColor(props.tagString, false)};
-  &:hover{
+  &:hover {
     background: ${(props) => tagStringToColor(props.tagString, true)};
   }
 `;
