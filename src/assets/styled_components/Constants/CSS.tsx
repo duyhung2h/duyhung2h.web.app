@@ -11,6 +11,8 @@ export type Variables = {
   themeId?: number;
   disableBorderShadow?: boolean;
   padding?: number;
+  imgSrc?: string;
+  backgroundLoop?: boolean;
 };
 export type PProp = {
   color?: string;

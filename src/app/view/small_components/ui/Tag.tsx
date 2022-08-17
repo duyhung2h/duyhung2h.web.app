@@ -5,35 +5,38 @@ import styled from "styled-components";
 import { displayAlertInfoPopup } from "../AlertInfoPopup";
 import { SquareButton } from "./Button";
 
-export const Tags = ({ tagList }) => {
-  const navigate = useNavigate();
+export const Tags = (props: any) => {
+  console.log(props);
+
+  // const navigate = useNavigate();
   try {
     function OnTagClick(tagName: string) {
       displayAlertInfoPopup("Redirected to article tab!");
-      function goToPosts() {
-        if (tagName == "null") {
-          alert()
-          tagName = "all"
-        }
-        navigate.push({ goTo: "articles?tagName=" + tagName });
-      }
-      goToPosts();
+      try {
+        props.onTagClick(tagName);
+      } catch (error) {}
+      // function goToPosts() {
+      //   if (tagName == "null") {
+      //     alert()
+      //     tagName = "all"
+      //   }
+      //   navigate.push({ goTo: "articles?tagName=" + tagName });
+      // }
+      // goToPosts();
     }
     let queryString = "/articles";
     return (
       <>
-        {tagList.map((tag) => (
-          <BrowserRouter forceRefresh={true}>
-            <NavLink to={"/articles?tagName=" + tag}>
-              <Tag
-                marginLeft="9px"
-                tagString={tag}
-                onClick={(event) => OnTagClick(queryString + "?tagName=" + tag)}
-              >
-                {tag}
-              </Tag>
-            </NavLink>
-          </BrowserRouter>
+        {props.tagList.map((tag: any) => (
+          <NavLink to={"/articles?tagName=" + tag}>
+            <Tag
+              marginLeft="9px"
+              tagString={tag}
+              onClick={(event) => OnTagClick(queryString + "?tagName=" + tag)}
+            >
+              {tag}
+            </Tag>
+          </NavLink>
         ))}
       </>
     );
@@ -72,10 +75,18 @@ export function tagStringToColor(tagString: string, background: boolean) {
   }
   return returnColor;
 }
+export function displayTag(tagString: string) {
+  let returnValue = "inherit";
+  if (tagString == "") {
+    returnValue = "none";
+  }
+  return returnValue;
+}
 export const Tag = styled(SquareButton)<{ tagString: string }>`
   background: ${(props) => tagStringToColor(props.tagString, true)};
   color: ${(props) => tagStringToColor(props.tagString, false)};
   &:hover {
     background: ${(props) => tagStringToColor(props.tagString, true)};
   }
+  display: ${(props) => displayTag(props.tagString)};
 `;

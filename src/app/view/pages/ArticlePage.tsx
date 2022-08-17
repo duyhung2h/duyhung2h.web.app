@@ -106,11 +106,7 @@ const GetArticlePage = () => {
           );
         });
         console.log(examplePageContent);
-        window.history.pushState(
-          null,
-          "null",
-          `articles?tagName=${tag}`
-        );
+        window.history.pushState(null, "null", `articles?tagName=${tag}`);
         setAllValues({
           examplePageC: examplePageContent,
           selectorValue: filter,
@@ -136,18 +132,14 @@ const GetArticlePage = () => {
   // create JSX for each article component
   function GetArticleComponent(props: any) {
     const articleObject: Article = props.articleObject;
-    const [articleTitle, setTitle] = useState(articleObject.articleTitle);
     // handle for clicking an example item -> show a popup article
     const articlePageHandler = () => {
-      // setTitle(articleTitle + "1");
       window.history.pushState(
         null,
         "null",
         `articles?article_id=${articleObject.articleId}`
       );
-      console.log(articleTitle);
       displayAlertInfoPopup("Page scroll shifted to default position!");
-      // let myWindow=window.open("https://raw.githubusercontent.com/gist/creaktive/781249/raw/2ea60f845a536a29ba15ca235cb52c465cdf4e4c/trollface.png", "", "width=250, height=200");
       window.scrollTo(0, 0);
 
       setShowOverlayViewArticle(true);
@@ -178,7 +170,11 @@ const GetArticlePage = () => {
             {limitTextLength(articleObject.articleShortDesc, 40)}
           </p>
           <LikeButton likeCount={articleObject.articleLikeCount} />
-          <Tags tagList={articleObject.articleTag} />
+          <Tags
+            tagList={articleObject.articleTag}
+            props={props}
+            onTagClick={onTagClick}
+          />
         </CardContentWrap>
       </BackgroundPanel>
     );
@@ -248,17 +244,25 @@ const GetArticlePage = () => {
     viewArticle();
   }, [showOverlayViewArticle]);
 
+  function onTagClick(tagName: any) {
+    console.log(tagName);
+
+    window.history.pushState(null, "null", "articles?tagName=" + tagName);
+    getTagByParam();
+  }
+  /**
+   * get parameter: Check if there's an "tagName" parameter in the URL!
+   */
   async function getTagByParam() {
     let tagName = allValues.selectorValueTag;
-    // get parameter: Check if there's an "tagName" parameter in the URL!
     let tagNameParam = "all";
     try {
       let params = new URL(window.location.href).searchParams;
       tagNameParam = String(params.get("tagName"));
       if (tagNameParam == "null") {
-        tagNameParam = "all"
+        tagNameParam = "all";
       }
-      displayAlertInfoPopup(tagNameParam)
+      // displayAlertInfoPopup(tagNameParam);
       if (allValues.selectorValueTag != tagNameParam) {
         if (tagName != "") {
           tagName = String(tagNameParam);
@@ -303,7 +307,7 @@ const GetArticlePage = () => {
     }
     // get tag list
     useEffect(() => {
-      getTagList().then((data) => {
+      getTagList(false).then((data) => {
         setTags(data);
         // getTagByParam();
       });

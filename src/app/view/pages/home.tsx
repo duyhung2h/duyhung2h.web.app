@@ -4,12 +4,12 @@ import { getInfoList } from "../../db/info.service";
 import InfoCardComponent from "../small_components/InfoCard";
 import { Tags } from "../small_components/ui/Tag";
 
-const Home = () => {
+const Home = (props?: any) => {
   const infoList = getInfoList();
   const [tags, setTags] = useState([""]);
   // get tag list
   useEffect(() => {
-    getTagList().then((data) => setTags(data));
+    getTagList(false).then((data) => setTags(data));
   }, []);
   return (
     <React.Fragment>
@@ -35,7 +35,7 @@ const Home = () => {
         Below here you can filter articles by tags, or browse my recent
         articles.
       </p>
-      <Tags tagList={tags} />
+      <Tags tagList={tags} props={props}/>
       <div>
         <iframe
           src={`https://discord.com/widget?id=944992591345225800&theme=dark`}

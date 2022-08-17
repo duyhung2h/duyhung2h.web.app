@@ -1,5 +1,9 @@
 import React, { useCallback, useEffect, useReducer, useState } from "react";
-import { CardOverlayContainer } from "../../../assets/styled_components/Panel";
+import {
+  CardImage,
+  CardImageBackground,
+  CardOverlayContainer,
+} from "../../../assets/styled_components/Panel";
 import { InputWrapComponent } from "../../../assets/styled_components/SmallComponents";
 import getArticleList from "../../db/article.service";
 import {
@@ -56,10 +60,8 @@ const ViewArticleComponent = (props: any) => {
   useEffect(() => {
     console.log(articleValue);
     try {
-      setArticleTag(articleValue.articleTag[0])
-    } catch (error) {
-      
-    }
+      setArticleTag(articleValue.articleTag[0]);
+    } catch (error) {}
   }, [articleValue]);
 
   // click "Edit" button
@@ -73,6 +75,14 @@ const ViewArticleComponent = (props: any) => {
   console.log(articleValue.articleDesc);
 
   return (
+    <>
+    <InputWrapComponent padding={0}>
+      <CardImageBackground
+        imgSrc={`${articleValue.articleImageLink}`}
+        backgroundLoop={true}
+        borderRadius={15}
+      ></CardImageBackground>
+    </InputWrapComponent>
     <CardOverlayContainer
       disableBorder={false}
       themeId={currentTheme.id}
@@ -94,6 +104,7 @@ const ViewArticleComponent = (props: any) => {
         <div style={{ whiteSpace: "pre-line" }}>{articleValue.articleDesc}</div>
       </InputWrapComponent>
     </CardOverlayContainer>
+    </>
   );
 };
 

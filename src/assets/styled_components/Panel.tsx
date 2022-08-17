@@ -39,6 +39,24 @@ export const CardImage = styled.img`
   object-position: center;
   ${(props: Variables) => props.borderRadius + "pxs"}; /* dummy text */
 `;
+export const CardImageBackground = styled.div`
+  ${BORDER_COMPONENT}
+  background-image: url(${(props: Variables) => props.imgSrc}) !important;
+  background-repeat: ${(props: Variables) =>
+    props.backgroundLoop ? "repeat" : "no-repeat"};
+  position: fixed; /* Take your picture out of the flow */
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0; /* Make the picture taking the size of it's parent */
+  background-size: 100%;
+  width: 100vw; /* This if for the object-fit */
+  height: auto; /* This if for the object-fit */
+  object-fit: cover; /* Equivalent of the background-size: cover; of a background-image */
+  object-position: center;
+  z-index: 1;
+  ${(props: Variables) => props.borderRadius + "pxs"}; /* dummy text */
+`;
 export const CardWrap = styled(CardDiv)`
   background: ${(props) => props.theme.cardWrap};
   padding: 10px;

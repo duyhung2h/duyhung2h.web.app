@@ -5,7 +5,7 @@ import { displayAlertErrorPopup } from "../view/small_components/AlertInfoPopup"
 /**
  * getExampleList
  * take data from API database through GET request to return a list of articles/posts.
- * 
+ *
  * @returns list of posts/example
  */
 export async function getArticleList() {
@@ -49,10 +49,10 @@ export async function getArticleList() {
 /**
  * getTagList
  * take data from API database through GET request to return a list of articles/tags
- * 
+ *
  * @returns list of tags
  */
- export async function getTagList() {
+export async function getTagList(withoutAll: boolean) {
   let tagList: string[] = [];
   try {
     const response = await fetch(`${environment.apiUrl}articles.json`, {
@@ -69,7 +69,11 @@ export async function getArticleList() {
     let i = 0;
     tagList = dataList.map((tagData: any) => {
       i++;
-      return tagData
+      if (tagData == "all" && withoutAll == true) {
+        tagData = "no tag";
+      }
+
+      return tagData;
     });
     // console.log(tagList);
 
@@ -84,9 +88,9 @@ export async function getArticleList() {
 /**
  * addExample
  * take in an example object to post them into our API database.
- * 
+ *
  * @param article example object being parsed to JSON to send along with POST API request.
- * @returns 
+ * @returns
  */
 export async function addArticle(article: Article) {
   try {
@@ -101,10 +105,9 @@ export async function addArticle(article: Article) {
         article.articleImageLink,
         article.articleTag
       )
-    )
+    );
     console.log(bodyPOST);
-    
-    
+
     const response = await fetch(
       "https://personal-website-by-duyhung2h-default-rtdb.asia-southeast1.firebasedatabase.app/articles/items.json",
       {
@@ -120,12 +123,14 @@ export async function addArticle(article: Article) {
     const data = await response.json();
     console.log(data);
     if (!response.ok) {
-      displayAlertErrorPopup("Something went wrong!")
+      displayAlertErrorPopup("Something went wrong!");
       throw new Error("Something went wrong!");
     }
+    // redirect 
+    window.location.href = 'articles?function=add_article_success'
     return data;
   } catch (error: any) {
-    displayAlertErrorPopup(error)
+    displayAlertErrorPopup(error);
     return error;
   }
 }
@@ -133,11 +138,11 @@ export async function addArticle(article: Article) {
 /**
  * createExample
  * Turn example data strings into JSON-formatted data
- * 
- * @param title 
- * @param shortDesc 
- * @param desc 
- * @returns 
+ *
+ * @param title
+ * @param shortDesc
+ * @param desc
+ * @returns
  */
 export const createArticle = (
   title: string,
@@ -152,7 +157,7 @@ export const createArticle = (
     articleLikeCount: 0,
     articleDesc: desc,
     articleImageLink: imageLink,
-    articleTag: articleTag
+    articleTag: articleTag,
   };
 };
 

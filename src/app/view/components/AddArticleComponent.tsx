@@ -42,7 +42,7 @@ const AddArticleComponent = (props: any) => {
   const [tags, setTags] = useState([""]);
   // get tag list
   useEffect(() => {
-    getTagList().then((data) => setTags(data));
+    getTagList(true).then((data) => setTags(data));
   }, []);
 
   async function handleSelectorChangeTag(event: any) {
@@ -117,7 +117,7 @@ const AddArticleComponent = (props: any) => {
       ? JSON.parse(localStorage["addNewArticle_imageLink"])
       : "https://lh5.googleusercontent.com/37KZ8tSRuvBXqMcIPbYSnXMcYzDIwOohsAP3LvFGo0ukNbcOtOW8kyKR737uUog7XhBK-hC71H-bT6F3MXTjI9W8XXzgjeYU0U0MPiXJf6Yn4HcV6wllih_khJ-IJMQc56hFMb-s"
   );
-  const [selectorValueTag, setSelectorValueTag] = useState("all");
+  const [selectorValueTag, setSelectorValueTag] = useState("no tag");
 
   // click "Add new post" button
   function submitHandler(event: any) {
@@ -145,7 +145,7 @@ const AddArticleComponent = (props: any) => {
       JSON.stringify(imageLinkValue)
     );
     let tagValue: string[];
-    if (selectorValueTag == "all") {
+    if (selectorValueTag == "no tag") {
       tagValue = [""];
     } else {
       tagValue = [selectorValueTag];
@@ -161,8 +161,6 @@ const AddArticleComponent = (props: any) => {
     );
     console.log(example);
     props.onAddArticle(example);
-    // redirect 
-    window.location.href = 'articles?function=add_article_success'
   }
 
   const [state] = useReducer(reducer, initialState);
@@ -194,7 +192,7 @@ const AddArticleComponent = (props: any) => {
             title="yes"
             onChange={handleSelectorChangeTag}
             value={selectorValueTag}
-            defaultValue="all"
+            defaultValue="no tag"
             className="float-right"
           >
             {tags.map((item, index) => (
