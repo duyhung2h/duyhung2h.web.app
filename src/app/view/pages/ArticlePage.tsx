@@ -21,7 +21,6 @@ import { Article } from "../../model/Article";
 import AddArticleComponent from "../components/AddArticleComponent";
 import ViewArticleComponent from "../components/ViewArticleComponent";
 import {
-  displayAlertErrorPopup,
   displayAlertInfoPopup,
   displayAlertSuccessPopup,
 } from "../small_components/AlertInfoPopup";
@@ -60,7 +59,6 @@ const GetArticlePage = () => {
       displayAlertSuccessPopup("Article successfully added!");
     }
     if (functionName == "add_article") {
-      // displayAlertSuccessPopup("functionName == add_article");
       initialOverlayAddArticleState = true;
       initialOverlayState = true;
     }
@@ -82,7 +80,7 @@ const GetArticlePage = () => {
   // set state values
   let eList: any[] = [];
 
-  const [exampleList, setExampleList] = useState(eList);
+  const [articleList, setArticleList] = useState(eList);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showOverlay, setShowOverlay] = useState(initialOverlayState);
@@ -95,10 +93,10 @@ const GetArticlePage = () => {
   const [articleViewId, setArticleViewId] = useState(initialArticleViewId);
 
   const [allValues, setAllValues] = useState({
-    selectorValue: "exampleTitle",
+    selectorValue: "articleTitle",
     selectorValueAsc: "asc",
     selectorValueTag: initialSelectorValueTag,
-    examplePageC: {},
+    articlePageC: {},
   });
 
   // watch for page state changes
@@ -119,10 +117,9 @@ const GetArticlePage = () => {
     overlayUnrender();
     viewAdd();
   }
-  // console.log(allValues);
-  // console.log(exampleList);
+
   /**
-   * from example list turn each example item into JSX
+   * from article list turn each article item into JSX
    *
    * @function useCallback(): hook to avoid infinite loop by using useState after useEffect. Will reference old state values, unless state values is referenced in []
    * @function fetch(): fetch data through API, first argument string to the API address, second argument for adding various options
@@ -130,7 +127,7 @@ const GetArticlePage = () => {
    */
   const getArticleListContent = useCallback(
     async (
-      filter: string = "exampleTitle",
+      filter: string = "articleTitle",
       asc: string = "asc",
       tag: string = allValues.selectorValueTag
     ) => {
@@ -141,33 +138,31 @@ const GetArticlePage = () => {
       try {
         let list = await getArticleList();
         console.log(list);
-        list = sortList(filter, asc, tag, list) || list;
+        list = sortList(filter, asc, tag, list) 
+        // || list;
+        console.log(list);
 
-        setExampleList(list);
+        setArticleList(list);
 
         // get articles on the list
-        let examplePageContent = list.map((element) => {
+        let articlePageContent = list.map((element) => {
           return (
             <ArticleItemPanel key={element.articleId}>
               <GetArticleComponent articleObject={element} />
             </ArticleItemPanel>
           );
         });
-        console.log(examplePageContent);
+        console.log(articlePageContent);
         if (showOverlay) {
         } else {
           window.history.pushState(null, "null", `articles?tagName=${tag}`);
         }
         setAllValues({
-          examplePageC: examplePageContent,
+          articlePageC: articlePageContent,
           selectorValue: filter,
           selectorValueAsc: asc,
           selectorValueTag: tag,
         });
-        // if (showOverlayAddArticle) {
-        //   window.history.pushState(null, "null", `articles?function=add_article`);
-
-        // }
       } catch (error: any) {
         setError(error["message"]);
       }
@@ -176,7 +171,7 @@ const GetArticlePage = () => {
     [showOverlay]
   );
 
-  // initial fetch examples on site load (and run again if list changes)
+  // initial fetch articles on site load (and run again if list changes)
   useEffect(() => {
     getArticleListContent();
     // displayAlertInfoPopup("run again if list changes");
@@ -185,10 +180,17 @@ const GetArticlePage = () => {
   const titleStyle = {
     minHeight: "4.5rem",
   };
-  // create JSX for each article component
+  /**
+   * GetArticleComponent
+   * 
+   * create JSX for each article component
+   * 
+   * @param props 
+   * @returns 
+   */
   function GetArticleComponent(props: any) {
     const articleObject: Article = props.articleObject;
-    // handle for clicking an example item -> show a popup article
+    // handle for clicking an articles item -> show a popup article
     const articlePageHandler = () => {
       displayAlertInfoPopup(
         "Page scroll shifted to default position! Article page"
@@ -241,13 +243,14 @@ const GetArticlePage = () => {
     displayAlertInfoPopup(
       "Page scroll shifted to default position! Add article page"
     );
-    // let myWindow=window.open("https://raw.githubusercontent.com/gist/creaktive/781249/raw/2ea60f845a536a29ba15ca235cb52c465cdf4e4c/trollface.png", "", "width=250, height=200");
     window.scrollTo(0, 0);
 
     setShowOverlayAddArticle(true);
   };
 
   /**
+   * @param OVERLAY
+   * 
    * show add article overlay!
    */
   function viewAdd() {
@@ -266,16 +269,17 @@ const GetArticlePage = () => {
     }
   }
   // watch to render overlay view
-  // useEffect(() => {
-  //   overlayUnrender();
-  //   viewAdd();
-  // }, [showOverlayAddArticle]);
+  useEffect(() => {
+    overlayUnrender();
+    viewAdd();
+  }, [showOverlayAddArticle]);
 
   /**
+   * @param OVERLAY
+   * 
    * show view article overlay!
    */
   function viewArticle() {
-    // setShowOverlay(true)
     if (showOverlayViewArticle === true) {
       console.log("showOverlayViewArticle == true");
       backdrop_root.render(
@@ -299,7 +303,7 @@ const GetArticlePage = () => {
   }, [showOverlayViewArticle]);
 
   function overlayUnrender() {
-    console.log(allValues.examplePageC);
+    console.log(allValues.articlePageC);
     window.history.pushState(
       null,
       "null",
@@ -323,14 +327,11 @@ const GetArticlePage = () => {
   }
 
   function onTagClick(tagName: any) {
-    // if(showOverlay){
-    //   setShowOverlay(true)
-    // }
     console.log(tagName);
 
     window.history.pushState(null, "null", "articles?tagName=" + tagName);
     setAllValues({
-      examplePageC: allValues.examplePageC,
+      articlePageC: allValues.articlePageC,
       selectorValue: allValues.selectorValue,
       selectorValueAsc: allValues.selectorValueAsc,
       selectorValueTag: tagName,
@@ -341,7 +342,6 @@ const GetArticlePage = () => {
    * get parameter: Check if there's an "tagName" parameter in the URL! If not, default to "all"
    */
   async function getTagByParam() {
-    // setShowOverlay(true)
     let tagName = allValues.selectorValueTag;
     let tagNameParam = "all";
     try {
@@ -417,10 +417,10 @@ const GetArticlePage = () => {
           title="yes"
           onChange={handleSelectorChange}
           value={allValues.selectorValue}
-          defaultValue="exampleTitle"
+          defaultValue="articleTitle"
         >
-          <option value="exampleTitle">Name</option>
-          <option value="exampleLikeCount">Stars</option>
+          <option value="articleTitle">Name</option>
+          <option value="articleLikeCount">Stars</option>
           <option value="date">Date</option>
         </select>
         <select
@@ -459,8 +459,8 @@ const GetArticlePage = () => {
     </>
   );
 
-  if (exampleList.length > 0) {
-    content = <>{allValues.examplePageC}</>;
+  if (articleList.length > 0) {
+    content = <>{allValues.articlePageC}</>;
   }
 
   if (error) {
@@ -470,16 +470,13 @@ const GetArticlePage = () => {
   if (isLoading) {
     content = <p>Loading...</p>;
   }
-  // console.log(exampleList);
-  // FINAL: compile all components into an example page
-  // const articlePage =
-
   // TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST
   let test = false.toString();
   useEffect(() => {
     console.log(allValues);
   }, [allValues]);
 
+  // FINAL: compile all components into an article page
   return (
     <>
       <RoundButton onClick={() => addArticleButtonHandler()}>+</RoundButton>

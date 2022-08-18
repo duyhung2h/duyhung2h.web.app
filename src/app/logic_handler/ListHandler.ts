@@ -7,26 +7,56 @@ export function sortList(
   list: Article[]
 ) {
   try {
+    console.log(tag);
+    console.log(asc);
+    sortName = sortName;
+    console.log(sortName);
+
+    // filter by tag
     if (tag !== "all") {
       const backupList: Article[] = Object.assign([], list);
-      list = []
+      list = [];
       backupList.forEach((item: Article, index) => {
-        try{
-          console.log(item.articleTag);
+        try {
+          // console.log(item.articleTag);
+          console.log(item[sortName]);
           if (item.articleTag[0] == tag) {
-            list.push(item)
+            list.push(item);
           }
-        }catch{}
+        } catch {}
       });
     }
-    if (asc === "asc") {
-      list?.sort((a: any, b: any) => (a[sortName] > b[sortName] ? 1 : -1));
+    // filter by name, other attributes, etc...
+    console.log(list);
+
+    // var sortedArray: any[] = list
+    // sortedArray = list.sort((a: any, b: any) => {
+    //   if (a[sortName] > b[sortName]) {
+    //     return 1;
+    //   }
+
+    //   if (a[sortName] < b[sortName]) {
+    //     return -1;
+    //   }
+
+    //   return 0;
+    // });
+    // list = sortedArray;
+
+    if (asc == "asc") {
+      list?.sort((a: Article, b: Article) =>
+        a[sortName] < b[sortName] ? -1 : a[sortName] > b[sortName] ? 1 : 0
+      );
     } else {
-      list?.sort((a: any, b: any) => (a[sortName] > b[sortName] ? -1 : 1));
+      list?.sort((a: Article, b: Article) =>
+        a[sortName] < b[sortName] ? 1 : a[sortName] > b[sortName] ? -1 : 0
+      );
     }
+    console.log(list);
+    return list;
   } catch (error) {
     console.log(error);
     console.log("list is empty to sort!");
+    return list;
   }
-  return list;
 }

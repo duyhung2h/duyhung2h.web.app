@@ -27,7 +27,7 @@ export class Article{
 	}
 
     /**
-     * Getter exampleTitle
+     * Getter articleTitle
      * @return {string}
      */
 	public get articleTitle(): string {
@@ -59,7 +59,7 @@ export class Article{
 	}
 
     /**
-     * Getter exampleLikeCount
+     * Getter articleLikeCount
      * @return {number}
      */
 	public get articleLikeCount(): number {
@@ -83,7 +83,7 @@ export class Article{
 	}
 
     /**
-     * Setter exampleTitle
+     * Setter articleTitle
      * @param {string} value
      */
 	public set articleTitle(value: string) {
@@ -115,7 +115,7 @@ export class Article{
 	}
 
     /**
-     * Setter exampleLikeCount
+     * Setter articleLikeCount
      * @param {number} value
      */
 	public set articleLikeCount(value: number) {
