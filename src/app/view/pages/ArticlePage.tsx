@@ -21,6 +21,7 @@ import { Article } from "../../model/Article";
 import AddArticleComponent from "../components/AddArticleComponent";
 import ViewArticleComponent from "../components/ViewArticleComponent";
 import {
+  displayAlertErrorPopup,
   displayAlertInfoPopup,
   displayAlertSuccessPopup,
 } from "../small_components/AlertInfoPopup";
@@ -35,6 +36,22 @@ const overlay_root = ReactDOM.createRoot(
   document.getElementById("overlay-root") || new HTMLElement()
 );
 const GetArticlePage = () => {
+  let initialArticleViewId = -1;
+  let initialOverlayState = false;
+  let initialOverlayViewArticleState = false;
+  let initialOverlayAddArticleState = false;
+  let initialSelectorValueTag = "all";
+  // get parameter: Check if there's an "articleId" parameter in the URL!
+
+  try {
+    let params = new URL(window.location.href).searchParams;
+    initialArticleViewId = Number(params.get("article_id"));
+  } catch (error) {}
+  if (initialArticleViewId > 0) {
+    initialOverlayViewArticleState = true;
+    initialOverlayState = true;
+  }
+  // get parameter: Check if there's an "function" parameter in the URL!
   try {
     let params = new URL(window.location.href).searchParams;
     let functionName = params.get("function");
@@ -42,43 +59,72 @@ const GetArticlePage = () => {
     if (functionName == "add_article_success") {
       displayAlertSuccessPopup("Article successfully added!");
     }
+    if (functionName == "add_article") {
+      // displayAlertSuccessPopup("functionName == add_article");
+      initialOverlayAddArticleState = true;
+      initialOverlayState = true;
+    }
   } catch (error) {}
-
-  let article_id = -1;
-  let initialOverlayViewArticleState = false;
-  // get parameter: Check if there's an "articleId" parameter in the URL!
+  // get parameter: Check if there's an "tagName" parameter in the URL!
   try {
     let params = new URL(window.location.href).searchParams;
-    article_id = Number(params.get("article_id"));
+    let tagName = String(params.get("tagName"));
+    console.log(tagName);
+    console.log(initialSelectorValueTag);
+
+    if (tagName == "" || tagName == "null") {
+      initialSelectorValueTag = "all"
+    } else {
+      initialSelectorValueTag = tagName;
+    }
   } catch (error) {}
-  if (article_id > 0) {
-    initialOverlayViewArticleState = true;
-  }
+
+  // set state values
   let eList: any[] = [];
+
   const [exampleList, setExampleList] = useState(eList);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [showOverlayAddArticle, setShowOverlayAddArticle] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(initialOverlayState);
+  const [showOverlayAddArticle, setShowOverlayAddArticle] = useState(
+    initialOverlayAddArticleState
+  );
   const [showOverlayViewArticle, setShowOverlayViewArticle] = useState(
     initialOverlayViewArticleState
   );
-  const [articleViewId, setArticleViewId] = useState(article_id);
-  if (initialOverlayViewArticleState == true) {
-    viewArticle();
-  }
+  const [articleViewId, setArticleViewId] = useState(initialArticleViewId);
 
   const [allValues, setAllValues] = useState({
     selectorValue: "exampleTitle",
     selectorValueAsc: "asc",
-    selectorValueTag: "all",
+    selectorValueTag: initialSelectorValueTag,
     examplePageC: {},
   });
+
+  // watch for page state changes
+  useEffect(() => {
+    if (showOverlayAddArticle || showOverlayViewArticle) {
+      setShowOverlay(true);
+    } else {
+      setShowOverlay(false);
+    }
+  }, [showOverlayViewArticle, showOverlayAddArticle]);
+
+  // after initial set of state value, change state value depends on certain condition
+  if (initialOverlayViewArticleState == true) {
+    overlayUnrender();
+    viewArticle();
+  }
+  if (initialOverlayAddArticleState == true) {
+    overlayUnrender();
+    viewAdd();
+  }
   // console.log(allValues);
   // console.log(exampleList);
   /**
    * from example list turn each example item into JSX
    *
-   * @function useCallback(): hook to avoid infinite loop by using useState after useEffect
+   * @function useCallback(): hook to avoid infinite loop by using useState after useEffect. Will reference old state values, unless state values is referenced in []
    * @function fetch(): fetch data through API, first argument string to the API address, second argument for adding various options
    * @function then(): promise function to handle function after a request is finished
    */
@@ -86,8 +132,10 @@ const GetArticlePage = () => {
     async (
       filter: string = "exampleTitle",
       asc: string = "asc",
-      tag: string = "all"
+      tag: string = allValues.selectorValueTag
     ) => {
+      console.log(tag);
+
       setIsLoading(true);
       setError(null);
       try {
@@ -106,25 +154,33 @@ const GetArticlePage = () => {
           );
         });
         console.log(examplePageContent);
-        window.history.pushState(null, "null", `articles?tagName=${tag}`);
+        if (showOverlay) {
+        } else {
+          window.history.pushState(null, "null", `articles?tagName=${tag}`);
+        }
         setAllValues({
           examplePageC: examplePageContent,
           selectorValue: filter,
           selectorValueAsc: asc,
           selectorValueTag: tag,
         });
+        // if (showOverlayAddArticle) {
+        //   window.history.pushState(null, "null", `articles?function=add_article`);
+
+        // }
       } catch (error: any) {
         setError(error["message"]);
       }
       setIsLoading(false);
     },
-    []
+    [showOverlay]
   );
 
-  // initial fetch examples on site load
+  // initial fetch examples on site load (and run again if list changes)
   useEffect(() => {
     getArticleListContent();
-  }, [getArticleListContent]);
+    // displayAlertInfoPopup("run again if list changes");
+  }, []);
 
   const titleStyle = {
     minHeight: "4.5rem",
@@ -134,18 +190,14 @@ const GetArticlePage = () => {
     const articleObject: Article = props.articleObject;
     // handle for clicking an example item -> show a popup article
     const articlePageHandler = () => {
-      window.history.pushState(
-        null,
-        "null",
-        `articles?article_id=${articleObject.articleId}`
+      displayAlertInfoPopup(
+        "Page scroll shifted to default position! Article page"
       );
-      displayAlertInfoPopup("Page scroll shifted to default position!");
       window.scrollTo(0, 0);
 
       setShowOverlayViewArticle(true);
       setArticleViewId(Number(articleObject.articleId));
     };
-    console.log(articleObject);
     return (
       <BackgroundPanel borderRadius={15} disableBorder={true} borderWidth={1}>
         <CardImageWrap
@@ -186,16 +238,20 @@ const GetArticlePage = () => {
   const addArticleButtonHandler = () => {
     console.log("addArticleButtonHandler clicked");
     window.history.pushState(null, "null", "articles?function=add_article");
-    displayAlertInfoPopup("Page scroll shifted to default position!");
+    displayAlertInfoPopup(
+      "Page scroll shifted to default position! Add article page"
+    );
     // let myWindow=window.open("https://raw.githubusercontent.com/gist/creaktive/781249/raw/2ea60f845a536a29ba15ca235cb52c465cdf4e4c/trollface.png", "", "width=250, height=200");
     window.scrollTo(0, 0);
 
     setShowOverlayAddArticle(true);
   };
+
   /**
    * show add article overlay!
    */
-  useEffect(() => {
+  function viewAdd() {
+    // setShowOverlay(true)
     if (showOverlayAddArticle === true) {
       console.log("showOverlayAddArticle == true");
       backdrop_root.render(
@@ -208,17 +264,18 @@ const GetArticlePage = () => {
         <AddArticleComponent onAddArticle={addArticle}></AddArticleComponent>
       );
     }
-    if (showOverlayAddArticle === false) {
-      console.log("showOverlay == false");
-      backdrop_root.render(<></>);
-      overlay_root.render(<></>);
-    }
-  }, [showOverlayAddArticle]);
+  }
+  // watch to render overlay view
+  // useEffect(() => {
+  //   overlayUnrender();
+  //   viewAdd();
+  // }, [showOverlayAddArticle]);
 
   /**
    * show view article overlay!
    */
   function viewArticle() {
+    // setShowOverlay(true)
     if (showOverlayViewArticle === true) {
       console.log("showOverlayViewArticle == true");
       backdrop_root.render(
@@ -234,46 +291,82 @@ const GetArticlePage = () => {
         ></ViewArticleComponent>
       );
     }
+  }
+  // watch to render overlay view
+  useEffect(() => {
+    overlayUnrender();
+    viewArticle();
+  }, [showOverlayViewArticle]);
+
+  function overlayUnrender() {
+    console.log(allValues.examplePageC);
+    window.history.pushState(
+      null,
+      "null",
+      `articles?tagName=${allValues.selectorValueTag}`
+    );
     if (showOverlayViewArticle === false) {
       console.log("showOverlayViewArticle == false");
       backdrop_root.render(<></>);
       overlay_root.render(<></>);
     }
+    if (showOverlayAddArticle) {
+      window.history.pushState(null, "null", `articles?function=add_article`);
+    }
+    if (showOverlayViewArticle) {
+      window.history.pushState(
+        null,
+        "null",
+        `articles?article_id=${articleViewId}`
+      );
+    }
   }
-  useEffect(() => {
-    viewArticle();
-  }, [showOverlayViewArticle]);
 
   function onTagClick(tagName: any) {
+    // if(showOverlay){
+    //   setShowOverlay(true)
+    // }
     console.log(tagName);
 
     window.history.pushState(null, "null", "articles?tagName=" + tagName);
+    setAllValues({
+      examplePageC: allValues.examplePageC,
+      selectorValue: allValues.selectorValue,
+      selectorValueAsc: allValues.selectorValueAsc,
+      selectorValueTag: tagName,
+    });
     getTagByParam();
   }
   /**
-   * get parameter: Check if there's an "tagName" parameter in the URL!
+   * get parameter: Check if there's an "tagName" parameter in the URL! If not, default to "all"
    */
   async function getTagByParam() {
+    // setShowOverlay(true)
     let tagName = allValues.selectorValueTag;
     let tagNameParam = "all";
     try {
       let params = new URL(window.location.href).searchParams;
       tagNameParam = String(params.get("tagName"));
-      if (tagNameParam == "null") {
+      console.log(tagNameParam);
+
+      if (tagNameParam == "") {
         tagNameParam = "all";
+      } else if (tagNameParam == "null") {
+        return;
       }
-      // displayAlertInfoPopup(tagNameParam);
       if (allValues.selectorValueTag != tagNameParam) {
         if (tagName != "") {
           tagName = String(tagNameParam);
         } else {
           tagName = "all";
         }
-        // set list page value to useState
+        // displayAlertInfoPopup(
+        //   "getTagByParam tagNameParam:" + tagNameParam + "tagName: " + tagName
+        // );
         await getArticleListContent(
           allValues.selectorValue,
           allValues.selectorValueAsc,
-          tagNameParam
+          tagName
         );
       }
     } catch (error) {}
@@ -309,11 +402,11 @@ const GetArticlePage = () => {
     useEffect(() => {
       getTagList(false).then((data) => {
         setTags(data);
-        // getTagByParam();
       });
     }, [tags]);
     // get tag by Param
     useEffect(() => {
+      // displayAlertErrorPopup("get tag by Param");
       getTagByParam();
     }, [allValues]);
 
@@ -379,13 +472,32 @@ const GetArticlePage = () => {
   }
   // console.log(exampleList);
   // FINAL: compile all components into an example page
-  const articlePage = (
+  // const articlePage =
+
+  // TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST
+  let test = false.toString();
+  useEffect(() => {
+    console.log(allValues);
+  }, [allValues]);
+
+  return (
     <>
       <RoundButton onClick={() => addArticleButtonHandler()}>+</RoundButton>
 
       {/* filter options */}
       <MySelect />
-
+      {test == true.toString() && (
+        <>
+          <div>articleViewId: {articleViewId}</div>
+          <div>initialOverlayState: {initialOverlayState.toString()}</div>
+          <div>showOverlay: {showOverlay.toString()}</div>
+          <div>showOverlayAddArticle: {showOverlayAddArticle.toString()}</div>
+          <div>showOverlayViewArticle: {showOverlayViewArticle.toString()}</div>
+          <div>
+            allValues.selectorValueTag: {allValues.selectorValueTag.toString()}
+          </div>
+        </>
+      )}
       <div className="row  ">{content}</div>
       <Row>
         <Pagination
@@ -402,7 +514,6 @@ const GetArticlePage = () => {
       </Row>
     </>
   );
-  return articlePage;
 };
 
 export default GetArticlePage;

@@ -32,7 +32,7 @@ export const Tags = (props: any) => {
             <Tag
               marginLeft="9px"
               tagString={tag}
-              onClick={(event) => OnTagClick(queryString + "?tagName=" + tag)}
+              onClick={(event) => OnTagClick(tag)}
             >
               {tag}
             </Tag>
