@@ -29,20 +29,6 @@ export function sortList(
     // filter by name, other attributes, etc...
     console.log(list);
 
-    // var sortedArray: any[] = list
-    // sortedArray = list.sort((a: any, b: any) => {
-    //   if (a[sortName] > b[sortName]) {
-    //     return 1;
-    //   }
-
-    //   if (a[sortName] < b[sortName]) {
-    //     return -1;
-    //   }
-
-    //   return 0;
-    // });
-    // list = sortedArray;
-
     if (asc == "asc") {
       list?.sort((a: Article, b: Article) =>
         a[sortName] < b[sortName] ? -1 : a[sortName] > b[sortName] ? 1 : 0
