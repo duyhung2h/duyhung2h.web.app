@@ -12,6 +12,7 @@ import { displayAlertSuccessPopup } from "../../small_components/AlertInfoPopup"
 import GetArticlePage from "../ArticlePage";
 import SecretPage from "../SecretPage";
 import Home from "./../home";
+import AppContextProvider from "./AppContextProvider";
 export var AppContext = createContext<any>({});
 
 function App() {
@@ -30,38 +31,7 @@ function App() {
     <React.Fragment>
       <ThemeProvider theme={currentTheme}>
         <AppContext.Provider value={{ ...state, dispatch }}>
-          <AuthContextProvider>
-            <MainHeader />
-            <BackgroundPanel className="p-5 page__min-height">
-              <Route exact path={"/"}>
-                <Redirect to="/home" />
-              </Route>
-              <Route exact path={"/home"}>
-                <NavLink to="/">Main</NavLink> {">"}{" "}
-                <NavLink activeClassName={classes.active} to="/home">
-                  Homepage
-                </NavLink>
-                <Home />
-              </Route>
-              <Route exact path={"/articles"}>
-                <NavLink to="/">Main</NavLink> {">"}{" "}
-                <NavLink activeClassName={classes.active} to="/articles">
-                  Article Page
-                </NavLink>
-                {/* <Provider store={store}> */}
-                  <GetArticlePage />
-                {/* </Provider> */}
-              </Route>
-              <Route exact path={"/secret"}>
-                <NavLink to="/">Main</NavLink> {">"}{" "}
-                <NavLink activeClassName={classes.active} to="/secret">
-                  Secret Page
-                </NavLink>
-                <SecretPage />
-              </Route>
-            </BackgroundPanel>
-            <Footer />
-          </AuthContextProvider>
+          <AppContextProvider></AppContextProvider>
         </AppContext.Provider>
       </ThemeProvider>
     </React.Fragment>
