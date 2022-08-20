@@ -2,12 +2,40 @@
   "hosting": {
     "site": "duyhung2h",
     "public": "build",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewriteOld": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ],
     "rewrites": [
       {
         "source": "/public/sitemap.xml",
         "function": "buildSitemap"
       }
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "functions": {
+    "ignore": [
+      "node_modules",
+      ".git",
+      "firebase-debug.log",
+      "firebase-debug.*.log"
+    ],
+    "predeploy": [
+      "npm --prefix \"%RESOURCE_DIR%\" run lint"
+    ],
+    "backup": [
+      "npm --prefix \"%RESOURCE_DIR%\" run build"
     ]
   }
 }
