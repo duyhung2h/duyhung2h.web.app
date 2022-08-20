@@ -1,15 +1,14 @@
 import React, { useCallback, useEffect, useReducer, useState } from "react";
 import {
-  CardImage,
   CardImageBackground,
-  CardOverlayContainer,
+  CardOverlayContainer
 } from "../../../assets/styled_components/Panel";
 import { InputWrapComponent } from "../../../assets/styled_components/SmallComponents";
 import getArticleList from "../../db/article.service";
 import {
   getLocalStorageTheme,
   initialState,
-  reducer,
+  reducer
 } from "../../db/reducer/reducer";
 import { Article } from "../../model/Article";
 import { displayAlertErrorPopup } from "../small_components/AlertInfoPopup";

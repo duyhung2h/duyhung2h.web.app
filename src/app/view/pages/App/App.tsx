@@ -1,17 +1,8 @@
 import { createContext, useReducer } from "react";
-import { NavLink, Redirect, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
-import classes from "../../../../assets/scss/index.module.scss";
-import { BackgroundPanel } from "../../../../assets/styled_components/Panel";
 import { React } from "../../../../index";
-import { AuthContextProvider } from "../../../db/auth.service";
 import { initialState, reducer } from "../../../db/reducer/reducer";
-import Footer from "../../components/Footer";
-import MainHeader from "../../components/Header";
 import { displayAlertSuccessPopup } from "../../small_components/AlertInfoPopup";
-import GetArticlePage from "../ArticlePage";
-import SecretPage from "../SecretPage";
-import Home from "./../home";
 import AppContextProvider from "./AppContextProvider";
 export var AppContext = createContext<any>({});
 

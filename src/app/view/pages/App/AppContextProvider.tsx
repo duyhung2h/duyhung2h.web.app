@@ -1,52 +1,31 @@
-import { createContext, useReducer } from "react";
-import { NavLink, Redirect, Route } from "react-router-dom";
-import classes from "../../../../assets/scss/index.module.scss";
-import { BackgroundPanel } from "../../../../assets/styled_components/Panel";
-import { React } from "../../../../index";
-import { AuthContextProvider } from "../../../db/auth.service";
-import Footer from "../../components/Footer";
-import MainHeader from "../../components/Header";
-import { displayAlertSuccessPopup } from "../../small_components/AlertInfoPopup";
-import GetArticlePage from "../ArticlePage";
-import SecretPage from "../SecretPage";
-import Home from "./../home";
-export var AppContext = createContext<any>({});
+import React from "react";
+import { createContext } from "react";
+import { Route, Routes } from "react-router-dom";
+
+
+export var AppContext = createContext({});
 
 function AppContextProvider() {
-  // const notification = useSelector((state: RootState) => state.notification);
+  const Panel = require('../../../../assets/styled_components/Panel');
+  const Auth = require('../../../db/auth.service');
+  const Footer = require('../../components/Footer');
+  const Header = require('../../components/Header');
+  const GetArticlePage = require('../ArticlePage');
+  const SecretPage = require('../SecretPage');
+  const Home = require('./../home');
   return (
-    <AuthContextProvider>
-      <MainHeader />
-      <BackgroundPanel className="p-5 page__min-height">
-        <Route path={"/"}>
-          <Redirect to="/home" />
-        </Route>
-        <Route path={"/home"}>
-          <NavLink to="/">Main</NavLink> {">"}{" "}
-          <NavLink activeClassName={classes.active} to="/home">
-            Homepage
-          </NavLink>
-          <Home />
-        </Route>
-        <Route path={"/articles"}>
-          <NavLink to="/">Main</NavLink> {">"}{" "}
-          <NavLink activeClassName={classes.active} to="/articles">
-            Article Page
-          </NavLink>
-          {/* <Provider store={store}> */}
-          <GetArticlePage />
-          {/* </Provider> */}
-        </Route>
-        <Route path={"/secret"}>
-          <NavLink to="/">Main</NavLink> {">"}{" "}
-          <NavLink activeClassName={classes.active} to="/secret">
-            Secret Page
-          </NavLink>
-          <SecretPage />
-        </Route>
-      </BackgroundPanel>
-      <Footer />
-    </AuthContextProvider>
+    <Auth.AuthContextProvider>
+      <Header.MainHeader />
+      <Panel.BackgroundPanel className="p-5 page__min-height">
+      <Routes>
+        <Route path={"/"} element={<Home.Home />} />
+        <Route path={"/home"} element={<Home.Home />} />
+        <Route path={"/articles"} element={<GetArticlePage.GetArticlePage />} />
+        <Route path={"/secret"} element={<SecretPage.SecretPage />} />
+      </Routes>
+      </Panel.BackgroundPanel>
+      <Footer.Footer />
+    </Auth.AuthContextProvider>
   );
 }
 

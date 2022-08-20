@@ -1,5 +1,4 @@
 import React, { useImperativeHandle, useRef } from "react";
-import classes from "../../../assets/scss/index.module.scss";
 import { InputWrapComponent } from "../../../assets/styled_components/SmallComponents";
 
 /**
@@ -29,7 +28,6 @@ export const Input = React.forwardRef((props: any, ref: any) => {
   return (
     <InputWrapComponent
       className={`
-      ${classes.control} 
       ${props.isValid === false ? "invalid" : ""}
       `}
     >

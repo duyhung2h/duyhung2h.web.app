@@ -1,21 +1,18 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import { collapseTextChangeRangesAcrossMultipleVersions } from "typescript";
 import {
-  CardLogin,
-  CardOverlayContainer,
-  Span,
+  CardOverlayContainer
 } from "../../../assets/styled_components/Panel";
 import { InputWrapComponent } from "../../../assets/styled_components/SmallComponents";
 import { getTagList } from "../../db/article.service";
 import {
   getLocalStorageTheme,
   initialState,
-  reducer,
+  reducer
 } from "../../db/reducer/reducer";
 import { Article } from "../../model/Article";
 import {
   displayAlertErrorPopup,
-  displayAlertInfoPopup,
+  displayAlertInfoPopup
 } from "../small_components/AlertInfoPopup";
 import { SquareButtonProps } from "../small_components/ui/Button";
 import MyEditor from "./test_components/DraftJS";
@@ -30,8 +27,6 @@ const AddArticleComponent = (props: any) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const shortDescRef = useRef<HTMLInputElement>(null);
   const imageLinkRef = useRef<HTMLInputElement>(null);
-  const tagRef = useRef<HTMLInputElement>(null);
-  // const descRef = useRef<HTMLTextAreaElement>(null);
   const TextEditor = React.forwardRef((props, ref) => (
     <MyEditor id="desc" ref={ref}>
       {props}

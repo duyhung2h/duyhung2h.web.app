@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import MyEditor from "../components/test_components/DraftJS";
 
 export function test() {
@@ -9,7 +10,7 @@ export function test() {
   console.log(person2);
 }
 
-const SecretPage = () => {
+export const SecretPage = () => {
   test();
 
   // initial fetch movie on site load
@@ -17,11 +18,17 @@ const SecretPage = () => {
 
   return (
     <React.Fragment>
+      <NavLink to="/">Main</NavLink> {">"}{" "}
+      <NavLink
+        // style={({ isActive }) => (isActive ? classes.active : {})}
+        to="/secret"
+      >
+        Secret Page
+      </NavLink>
       <h1>Secret Page to test data</h1>
       <section>
         <MyEditor />
       </section>
-
       {/* <Provider store={store}>
         <Counter />
       </Provider>

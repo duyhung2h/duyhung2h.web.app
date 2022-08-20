@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Button } from "./ui/Button";
+import { SquareButton } from "./ui/Button";
 
 // Display a "Like" <button>
-function LikeButton(props: any) {
+function TagButton(props: any) {
   const [likeCount, setLikeCount] = useState(props.likeCount);
   const [liked, setLiked] = useState(props.liked);
   function changeLike() {
@@ -17,9 +17,9 @@ function LikeButton(props: any) {
   
   return (
     <> 
-      <Button onClick={() => changeLike()}><i className={`fa-star ` + (liked ? 'fa-solid' : 'fa-regular')}></i> {likeCount}</Button>
+      <SquareButton onClick={() => changeLike()}><i className={`fa-star ` + (liked ? 'fa-solid' : 'fa-regular')}></i> {likeCount}</SquareButton>
     </>
   );
 }
 
-export default LikeButton;
+export default TagButton;

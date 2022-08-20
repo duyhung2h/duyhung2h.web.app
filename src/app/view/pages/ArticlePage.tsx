@@ -2,17 +2,18 @@ import { Pagination, Row } from "antd";
 import "antd/dist/antd.css";
 import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
+import { NavLink } from "react-router-dom";
 import {
   ArticleItemPanel,
   BackgroundPanel,
   CardContentWrap,
   CardImage,
-  CardImageWrap,
+  CardImageWrap
 } from "../../../assets/styled_components/Panel";
 import {
   addArticle,
   getArticleList,
-  getTagList,
+  getTagList
 } from "../../db/article.service";
 import "../../logic_handler/ListHandler";
 import { sortList } from "../../logic_handler/ListHandler";
@@ -22,7 +23,7 @@ import AddArticleComponent from "../components/AddArticleComponent";
 import ViewArticleComponent from "../components/ViewArticleComponent";
 import {
   displayAlertInfoPopup,
-  displayAlertSuccessPopup,
+  displayAlertSuccessPopup
 } from "../small_components/AlertInfoPopup";
 import LikeButton from "../small_components/LikeButton";
 import { RoundButton } from "../small_components/ui/RoundButton";
@@ -34,7 +35,7 @@ const backdrop_root = ReactDOM.createRoot(
 const overlay_root = ReactDOM.createRoot(
   document.getElementById("overlay-root") || new HTMLElement()
 );
-const GetArticlePage = () => {
+export const GetArticlePage = () => {
   let initialArticleViewId = -1;
   let initialOverlayState = false;
   let initialOverlayViewArticleState = false;
@@ -71,7 +72,7 @@ const GetArticlePage = () => {
     console.log(initialSelectorValueTag);
 
     if (tagName == "" || tagName == "null") {
-      initialSelectorValueTag = "all"
+      initialSelectorValueTag = "all";
     } else {
       initialSelectorValueTag = tagName;
     }
@@ -138,7 +139,7 @@ const GetArticlePage = () => {
       try {
         let list = await getArticleList();
         console.log(list);
-        list = sortList(filter, asc, tag, list) 
+        list = sortList(filter, asc, tag, list);
         // || list;
         console.log(list);
 
@@ -182,11 +183,11 @@ const GetArticlePage = () => {
   };
   /**
    * GetArticleComponent
-   * 
+   *
    * create JSX for each article component
-   * 
-   * @param props 
-   * @returns 
+   *
+   * @param props
+   * @returns
    */
   function GetArticleComponent(props: any) {
     const articleObject: Article = props.articleObject;
@@ -250,7 +251,7 @@ const GetArticlePage = () => {
 
   /**
    * @param OVERLAY
-   * 
+   *
    * show add article overlay!
    */
   function viewAdd() {
@@ -276,7 +277,7 @@ const GetArticlePage = () => {
 
   /**
    * @param OVERLAY
-   * 
+   *
    * show view article overlay!
    */
   function viewArticle() {
@@ -479,8 +480,14 @@ const GetArticlePage = () => {
   // FINAL: compile all components into an article page
   return (
     <>
+      <NavLink to="/">Main</NavLink> {">"}{" "}
+      <NavLink
+        // style={({ isActive }) => (isActive ? classes.active : {})}
+        to="/articles"
+      >
+        Article Page
+      </NavLink>
       <RoundButton onClick={() => addArticleButtonHandler()}>+</RoundButton>
-
       {/* filter options */}
       <MySelect />
       {test == true.toString() && (

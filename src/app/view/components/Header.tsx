@@ -1,12 +1,21 @@
 import React, { useContext, useEffect } from "react";
-import { NavLink, withRouter } from "react-router-dom";
-import classes from "../../../assets/scss/index.module.scss";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import "../../../assets/scss/page_scss/hamburger.scss";
 import { Header, LoginHidden } from "../../../assets/styled_components/Panel";
 import AuthContext, { getUserLocalstorage } from "../../db/auth.service";
 import LoginComponent from "./LoginComponent";
 
-const MainHeader = () => {
+export function withRouter(Component: any): typeof Component {
+  function ComponentWithRouterProp(props: any) {
+    let location = useLocation();
+    let navigate = useNavigate();
+    let params = useParams();
+    return <Component {...props} router={{ location, navigate, params }} />;
+  }
+  return ComponentWithRouterProp(Component.props);
+}
+
+export const MainHeader = () => {
   const authCtx = useContext(AuthContext);
   console.log(
     "AuthContext.Consumer(ctx) => ctx.isLoggedIn = " + authCtx.isLoggedIn
@@ -45,7 +54,10 @@ const MainHeader = () => {
             {authCtx.isLoggedIn && (
               <ul className="">
                 <li>
-                  <NavLink activeClassName={classes.active} to="/examples">
+                  <NavLink
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                    to="/examples"
+                  >
                     Examples
                   </NavLink>
                 </li>
@@ -60,17 +72,26 @@ const MainHeader = () => {
             </div>
           </li>
           <li>
-            <NavLink activeClassName={classes.active} to="/home">
+            <NavLink
+              className={({ isActive }) => (isActive ? "active" : "")}
+              to="/home"
+            >
               Home
             </NavLink>
           </li>
           <li>
-            <NavLink activeClassName={classes.active} to="/articles">
+            <NavLink
+              className={({ isActive }) => (isActive ? "active" : "")}
+              to="/articles"
+            >
               Articles
             </NavLink>
           </li>
           <li>
-            <NavLink activeClassName={classes.active} to="/secret">
+            <NavLink
+              className={({ isActive }) => (isActive ? "active" : "")}
+              to="/secret"
+            >
               Sekrit
             </NavLink>
           </li>
@@ -107,4 +128,4 @@ const MainHeader = () => {
   );
 };
 
-export default withRouter(MainHeader);
+export default MainHeader;

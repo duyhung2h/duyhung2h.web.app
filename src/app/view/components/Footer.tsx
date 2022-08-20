@@ -1,11 +1,14 @@
 import React from "react";
-import { NavLink, withRouter } from "react-router-dom";
-import classes from "../../../assets/scss/index.module.scss";
-import { Header, LoginHidden, Span } from "../../../assets/styled_components/Panel";
+import { NavLink } from "react-router-dom";
+import {
+  Header,
+  LoginHidden,
+  Span
+} from "../../../assets/styled_components/Panel";
 import { WEB_BRANCH, WEB_VER } from "../../constants";
 import { Nav } from "./ThemeSelector";
 
-const Footer = (props: any) => {
+export const Footer = (props: any) => {
   const { match, location, history } = props;
   return (
     <Header>
@@ -15,14 +18,17 @@ const Footer = (props: any) => {
             Website Version: {WEB_VER} | Branch: {WEB_BRANCH}
           </Span>
           <li>
-            <NavLink activeClassName={classes.active} to="/home">
+            <NavLink
+              className={({ isActive }) => (isActive ? "active" : "")}
+              to="/home"
+            >
               Home
             </NavLink>
           </li>
           <LoginHidden>
             <a>
               {/* <Provider store={store}> */}
-                <Nav></Nav>
+              <Nav></Nav>
               {/* </Provider> */}
             </a>
           </LoginHidden>
@@ -32,4 +38,4 @@ const Footer = (props: any) => {
   );
 };
 
-export default withRouter(Footer);
+export default Footer;

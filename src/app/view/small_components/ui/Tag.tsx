@@ -1,6 +1,5 @@
 import React from "react";
-import { BrowserRouter, NavLink, Route, Router } from "react-router-dom";
-import useNavigate from "react-use-navigate";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { displayAlertInfoPopup } from "../AlertInfoPopup";
 import { SquareButton } from "./Button";

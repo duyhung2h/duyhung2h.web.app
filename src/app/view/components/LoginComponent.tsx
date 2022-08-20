@@ -1,9 +1,9 @@
 import React, {
-  useContext,
-  useEffect,
-  useReducer,
-  useRef,
-  useState
+    useContext,
+    useEffect,
+    useReducer,
+    useRef,
+    useState
 } from "react";
 import { CardLogin, Span } from "../../../assets/styled_components/Panel";
 import AuthContext, { LoginFromAPI } from "../../db/auth.service";

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { getTagList } from "../../db/article.service";
 import { getInfoList } from "../../db/info.service";
 import InfoCardComponent from "../small_components/InfoCard";
 import { Tags } from "../small_components/ui/Tag";
 
-const Home = (props?: any) => {
+export const Home = (props?: any) => {
   const infoList = getInfoList();
   const [tags, setTags] = useState([""]);
   // get tag list
@@ -13,6 +14,13 @@ const Home = (props?: any) => {
   }, []);
   return (
     <React.Fragment>
+      <NavLink to="/">Main</NavLink> {">"}{" "}
+      <NavLink
+        // style={({ isActive }) => (isActive ? classes.active : {})}
+        to="/home"
+      >
+        Homepage
+      </NavLink>
       <h1>Hello friends, I am duyhung2h</h1>
       <p>
         This is my haven, where I can express myself, post my online tutorials
@@ -35,7 +43,7 @@ const Home = (props?: any) => {
         Below here you can filter articles by tags, or browse my recent
         articles.
       </p>
-      <Tags tagList={tags} props={props}/>
+      <Tags tagList={tags} props={props} />
       <div>
         <iframe
           src={`https://discord.com/widget?id=944992591345225800&theme=dark`}

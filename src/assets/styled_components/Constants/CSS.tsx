@@ -1,6 +1,6 @@
 import { css } from "styled-components";
-import { Color } from "./Color";
 import img from "../../images/bg.jpg";
+import { Color } from "./Color";
 
 export type Variables = {
   borderRadius?: number;

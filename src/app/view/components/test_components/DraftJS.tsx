@@ -1,17 +1,12 @@
-import { Draft } from "@reduxjs/toolkit";
 import {
-  AtomicBlockUtils,
-  Editor,
-  EditorState,
-  ContentState,
-  RichUtils,
-  convertToRaw,
+    AtomicBlockUtils, ContentState, convertToRaw, Editor,
+    EditorState, RichUtils
 } from "draft-js";
 import React, { useRef, useState } from "react";
 import "../../../../assets/css/draftjs.css";
 import {
-  displayAlertErrorPopup,
-  displayAlertInfoPopup,
+    displayAlertErrorPopup,
+    displayAlertInfoPopup
 } from "../../small_components/AlertInfoPopup";
 
 /**

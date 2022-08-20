@@ -8,7 +8,7 @@ import {
   OVERLAY_CONTAINER,
   PProp,
   TEXT_COMPONENT,
-  Variables,
+  Variables
 } from "./Constants/CSS";
 
 export const P = styled.p`
@@ -221,3 +221,5 @@ export const CardLogin = styled(InfoCard)`
 export const CardOverlayContainer = styled(InfoCard)`
   ${OVERLAY_CONTAINER}
 `;
+
+export default P
