@@ -9,14 +9,14 @@
     ],
     "rewriteOld": [
       {
-        "source": "**",
-        "destination": "/index.html"
+        "source": "/public/sitemap.xml",
+        "function": "buildSitemap"
       }
     ],
     "rewrites": [
       {
-        "source": "/public/sitemap.xml",
-        "function": "buildSitemap"
+        "source": "**",
+        "destination": "/index.html"
       }
     ]
   },
@@ -31,10 +31,8 @@
       "firebase-debug.log",
       "firebase-debug.*.log"
     ],
-    "predeploy": [
-      "npm --prefix \"%RESOURCE_DIR%\" run lint"
-    ],
     "backup": [
+      "npm --prefix \"%RESOURCE_DIR%\" run lint",
       "npm --prefix \"%RESOURCE_DIR%\" run build"
     ]
   }
