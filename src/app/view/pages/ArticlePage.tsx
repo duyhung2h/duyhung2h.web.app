@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet";
 import { NavLink } from "react-router-dom";
 import {
   ArticleItemPanel,
+  ArticleItemPanelWrap,
   BackgroundPanel,
   CardContentWrap,
   CardImage,
@@ -545,7 +546,7 @@ export const GetArticlePage = () => {
     content = <p>Loading...</p>;
   }
   // TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST
-  let test = true.toString();
+  let test = false.toString();
   useEffect(() => {
     console.log(allValues);
   }, [allValues]);
@@ -580,7 +581,7 @@ export const GetArticlePage = () => {
           <div>fullArticleList: {fullArticleList.toString()}</div>
         </>
       )}
-      <div className="row  ">{content}</div>
+      <ArticleItemPanelWrap className="row  ">{content}</ArticleItemPanelWrap>
       <Row>
         <Pagination
           defaultCurrent={1}

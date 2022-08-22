@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import img from "../../assets/images/bg.jpg";
 import { Color } from "./Constants/Color";
 import {
@@ -8,7 +8,7 @@ import {
   OVERLAY_CONTAINER,
   PProp,
   TEXT_COMPONENT,
-  Variables
+  Variables,
 } from "./Constants/CSS";
 
 export const P = styled.p`
@@ -168,6 +168,20 @@ export const ControlWrap = styled(CardWrap)`
   margin: 1rem 0;
   display: block;
 `;
+export const popout = keyframes`
+from{
+  transform:scale(0);
+  -webkit-transform:scale(0);
+}
+60%{
+  transform:scale(1.12);
+  -webkit-transform:scale(1.12);
+}
+to{
+  transform:scale(1);
+  -webkit-transform:scale(1);
+  }
+`;
 export const ArticleItemPanel = styled.div`
   padding: 5%;
   @media (max-width: 768px) and (min-width: 0px) {
@@ -186,7 +200,10 @@ export const ArticleItemPanel = styled.div`
     overflow: hidden;
     max-height: 5ch;
   }
+  animation: ${popout} 0.6s ease;
+  -webkit-animation: ${popout} 0.6s ease;
 `;
+export const ArticleItemPanelWrap = styled.div``;
 export const Select = styled.select`
   color: ${(props) => props.theme.textColor};
   color: ${(props: PProp) => props.color};
@@ -222,4 +239,4 @@ export const CardOverlayContainer = styled(InfoCard)`
   ${OVERLAY_CONTAINER}
 `;
 
-export default P
+export default P;
