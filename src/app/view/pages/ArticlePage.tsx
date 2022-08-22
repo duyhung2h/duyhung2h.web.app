@@ -451,12 +451,14 @@ export const GetArticlePage = () => {
     async function handleSelectorChange(e: any) {
       // set list page value to useState
       const newAllValue = allValues;
+      newAllValue.articleList = fullArticleList;
       newAllValue.selectorFilter = e.target.value;
       await getArticleListContent(newAllValue, pageNumberValue.currentPage);
     }
     async function handleSelectorChangeAsc(e: any) {
       // set list page value to useState
       const newAllValue = allValues;
+      newAllValue.articleList = fullArticleList;
       newAllValue.selectorValueAsc = e.target.value;
       await getArticleListContent(newAllValue, pageNumberValue.currentPage);
     }
