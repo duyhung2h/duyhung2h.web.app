@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { NavLink } from "react-router-dom";
 import { getTagList } from "../../db/article.service";
 import { getInfoList } from "../../db/info.service";
@@ -14,6 +15,9 @@ export const Home = (props?: any) => {
   }, []);
   return (
     <React.Fragment>
+      <Helmet>
+        <title>Home</title>
+      </Helmet>
       <NavLink to="/">Main</NavLink> {">"}{" "}
       <NavLink
         // style={({ isActive }) => (isActive ? classes.active : {})}

@@ -2,18 +2,19 @@ import { Pagination, Row } from "antd";
 import "antd/dist/antd.css";
 import React, { useCallback, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
+import { Helmet } from "react-helmet";
 import { NavLink } from "react-router-dom";
 import {
   ArticleItemPanel,
   BackgroundPanel,
   CardContentWrap,
   CardImage,
-  CardImageWrap
+  CardImageWrap,
 } from "../../../assets/styled_components/Panel";
 import {
   addArticle,
   getArticleList,
-  getTagList
+  getTagList,
 } from "../../db/article.service";
 import "../../logic_handler/ListHandler";
 import { sortList } from "../../logic_handler/ListHandler";
@@ -23,7 +24,7 @@ import AddArticleComponent from "../components/AddArticleComponent";
 import ViewArticleComponent from "../components/ViewArticleComponent";
 import {
   displayAlertInfoPopup,
-  displayAlertSuccessPopup
+  displayAlertSuccessPopup,
 } from "../small_components/AlertInfoPopup";
 import LikeButton from "../small_components/LikeButton";
 import { RoundButton } from "../small_components/ui/RoundButton";
@@ -79,9 +80,10 @@ export const GetArticlePage = () => {
   } catch (error) {}
 
   // set state values
-  let eList: any[] = [];
+  let eList: Article[] = [];
 
-  const [articleList, setArticleList] = useState(eList);
+  const [fullArticleList, setFullArticleList] = useState(eList);
+  const [fullArticleListFiltered, setFullArticleListFiltered] = useState(eList);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [showOverlay, setShowOverlay] = useState(initialOverlayState);
@@ -94,11 +96,69 @@ export const GetArticlePage = () => {
   const [articleViewId, setArticleViewId] = useState(initialArticleViewId);
 
   const [allValues, setAllValues] = useState({
-    selectorValue: "articleTitle",
+    selectorFilter: "articleTitle",
     selectorValueAsc: "asc",
     selectorValueTag: initialSelectorValueTag,
-    articlePageC: {},
+    articleList: eList,
   });
+  const [articlePageC, setArticlePageC] = useState({});
+  // set state, page number
+  const maxArticlePerPage = 2;
+  const [pageNumberValue, setPageNumberValue] = useState({
+    currentPage: 1,
+    maxPage: 3,
+  });
+
+  useEffect(() => {
+    setPageNumber(fullArticleList, pageNumberValue.currentPage);
+  }, []);
+
+  // initial fetch articles on site load (and run again if list changes)
+  useEffect(() => {
+    // fetch initial list
+    const fetchData = async () => {
+      return await getArticleList();
+    };
+    fetchData().then((list_data) => {
+      const contentValue = allValues;
+      contentValue.articleList = list_data;
+      console.log(contentValue.articleList);
+
+      getArticleListContent(contentValue, 1);
+      setFullArticleList(list_data);
+    });
+  }, []);
+  /**
+   * Set page number (by clicking < >, or when article list updated) and change displayed article list according to page number
+   *
+   * @param fullArticleList
+   * @param currentPage
+   */
+  async function setPageNumber(
+    fullArticleList: Article[],
+    currentPage: number
+  ) {
+    const maxPage = Math.ceil(fullArticleList.length / maxArticlePerPage);
+    setPageNumberValue({
+      currentPage: currentPage,
+      maxPage: maxPage,
+    });
+    // displayAlertInfoPopup(
+    //   "Max page: " + maxPage + " | Current page: " + currentPage
+    // );
+    return 0;
+  }
+  /**
+   * On change current page (interracting with pagination)
+   *
+   * @param currentPage
+   */
+  async function onPageChange(currentPage: number) {
+    // change displayed article list according to page number
+    const newAllValue = allValues;
+    newAllValue.articleList = fullArticleList
+    await getArticleListContent(allValues, currentPage);
+  }
 
   // watch for page state changes
   useEffect(() => {
@@ -128,25 +188,35 @@ export const GetArticlePage = () => {
    */
   const getArticleListContent = useCallback(
     async (
-      filter: string = "articleTitle",
-      asc: string = "asc",
-      tag: string = allValues.selectorValueTag
+      contentValue: {
+        selectorFilter: string;
+        selectorValueAsc: string;
+        selectorValueTag: string;
+        articleList: Article[];
+      },
+      currentPage: number
     ) => {
-      console.log(tag);
-
       setIsLoading(true);
       setError(null);
       try {
-        let list = await getArticleList();
-        console.log(list);
-        list = sortList(filter, asc, tag, list);
-        // || list;
-        console.log(list);
+        console.log(contentValue.articleList);
+        const newArticleListFiltered = sortList(
+          contentValue.selectorFilter,
+          contentValue.selectorValueAsc,
+          contentValue.selectorValueTag,
+          contentValue.articleList
+        );
+        // || contentValue.list;
+        console.log(newArticleListFiltered);
+        setPageNumber(newArticleListFiltered, currentPage);
 
-        setArticleList(list);
+        const newArticleListSinglePage = newArticleListFiltered.slice(
+          (currentPage - 1) * maxArticlePerPage,
+          currentPage * maxArticlePerPage
+        );
 
-        // get articles on the list
-        let articlePageContent = list.map((element) => {
+        // get articles on the contentValue.list
+        let articlePageContent = newArticleListSinglePage.map((element) => {
           return (
             <ArticleItemPanel key={element.articleId}>
               <GetArticleComponent articleObject={element} />
@@ -154,29 +224,40 @@ export const GetArticlePage = () => {
           );
         });
         console.log(articlePageContent);
+        // change address name
         if (showOverlay) {
         } else {
-          window.history.pushState(null, "null", `articles?tagName=${tag}`);
+          window.history.pushState(
+            null,
+            "null",
+            `articles?tagName=${contentValue.selectorValueTag}`
+          );
         }
+        console.log(articlePageContent);
+
+        // FINAL: set page content and article list
         setAllValues({
-          articlePageC: articlePageContent,
-          selectorValue: filter,
-          selectorValueAsc: asc,
-          selectorValueTag: tag,
+          selectorFilter: contentValue.selectorFilter,
+          selectorValueAsc: contentValue.selectorValueAsc,
+          selectorValueTag: contentValue.selectorValueTag,
+          articleList: newArticleListSinglePage,
         });
+        setArticlePageC(articlePageContent);
+        setFullArticleListFiltered(newArticleListFiltered);
       } catch (error: any) {
         setError(error["message"]);
       }
       setIsLoading(false);
     },
-    [showOverlay]
+    [
+      showOverlay,
+      allValues,
+      fullArticleList,
+      allValues.articleList,
+      setAllValues,
+      getArticleList,
+    ]
   );
-
-  // initial fetch articles on site load (and run again if list changes)
-  useEffect(() => {
-    getArticleListContent();
-    // displayAlertInfoPopup("run again if list changes");
-  }, []);
 
   const titleStyle = {
     minHeight: "4.5rem",
@@ -304,7 +385,6 @@ export const GetArticlePage = () => {
   }, [showOverlayViewArticle]);
 
   function overlayUnrender() {
-    console.log(allValues.articlePageC);
     window.history.pushState(
       null,
       "null",
@@ -328,15 +408,7 @@ export const GetArticlePage = () => {
   }
 
   function onTagClick(tagName: any) {
-    console.log(tagName);
-
     window.history.pushState(null, "null", "articles?tagName=" + tagName);
-    setAllValues({
-      articlePageC: allValues.articlePageC,
-      selectorValue: allValues.selectorValue,
-      selectorValueAsc: allValues.selectorValueAsc,
-      selectorValueTag: tagName,
-    });
     getTagByParam();
   }
   /**
@@ -364,11 +436,12 @@ export const GetArticlePage = () => {
         // displayAlertInfoPopup(
         //   "getTagByParam tagNameParam:" + tagNameParam + "tagName: " + tagName
         // );
-        await getArticleListContent(
-          allValues.selectorValue,
-          allValues.selectorValueAsc,
-          tagName
-        );
+        const newAllValue = allValues;
+        newAllValue.selectorValueTag = tagName;
+        newAllValue.articleList = fullArticleList;
+        console.log(newAllValue);
+
+        await getArticleListContent(newAllValue, 1);
       }
     } catch (error) {}
   }
@@ -377,27 +450,25 @@ export const GetArticlePage = () => {
     const [tags, setTags] = useState([""]);
     async function handleSelectorChange(e: any) {
       // set list page value to useState
-      await getArticleListContent(
-        e.target.value,
-        allValues.selectorValueAsc,
-        allValues.selectorValueTag
-      );
+      const newAllValue = allValues;
+      newAllValue.selectorFilter = e.target.value;
+      await getArticleListContent(newAllValue, pageNumberValue.currentPage);
     }
     async function handleSelectorChangeAsc(e: any) {
       // set list page value to useState
-      await getArticleListContent(
-        allValues.selectorValue,
-        e.target.value,
-        allValues.selectorValueTag
-      );
+      const newAllValue = allValues;
+      newAllValue.selectorValueAsc = e.target.value;
+      await getArticleListContent(newAllValue, pageNumberValue.currentPage);
     }
     async function handleSelectorChangeTag(e: any) {
       // set list page value to useState
-      await getArticleListContent(
-        allValues.selectorValue,
-        allValues.selectorValueAsc,
-        e.target.value
-      );
+      const newAllValue = allValues;
+      // const newAllValue = JSON.parse(JSON.stringify(allValues));
+      newAllValue.selectorValueTag = e.target.value;
+      newAllValue.articleList = fullArticleList;
+      console.log(newAllValue);
+
+      await getArticleListContent(newAllValue, 1);
     }
     // get tag list
     useEffect(() => {
@@ -417,7 +488,7 @@ export const GetArticlePage = () => {
         <select
           title="yes"
           onChange={handleSelectorChange}
-          value={allValues.selectorValue}
+          value={allValues.selectorFilter}
           defaultValue="articleTitle"
         >
           <option value="articleTitle">Name</option>
@@ -460,8 +531,8 @@ export const GetArticlePage = () => {
     </>
   );
 
-  if (articleList.length > 0) {
-    content = <>{allValues.articlePageC}</>;
+  if (allValues.articleList.length > 0) {
+    content = <>{articlePageC}</>;
   }
 
   if (error) {
@@ -472,7 +543,7 @@ export const GetArticlePage = () => {
     content = <p>Loading...</p>;
   }
   // TESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTESTTEST
-  let test = false.toString();
+  let test = true.toString();
   useEffect(() => {
     console.log(allValues);
   }, [allValues]);
@@ -480,6 +551,9 @@ export const GetArticlePage = () => {
   // FINAL: compile all components into an article page
   return (
     <>
+      <Helmet>
+        <title>Articles</title>
+      </Helmet>
       <NavLink to="/">Main</NavLink> {">"}{" "}
       <NavLink
         // style={({ isActive }) => (isActive ? classes.active : {})}
@@ -500,14 +574,20 @@ export const GetArticlePage = () => {
           <div>
             allValues.selectorValueTag: {allValues.selectorValueTag.toString()}
           </div>
+          <div>allValues.articleList: {allValues.articleList.toString()}</div>
+          <div>fullArticleList: {fullArticleList.toString()}</div>
         </>
       )}
       <div className="row  ">{content}</div>
       <Row>
         <Pagination
-          simple
-          defaultCurrent={2}
-          total={50}
+          defaultCurrent={1}
+          current={pageNumberValue.currentPage}
+          pageSize={maxArticlePerPage}
+          defaultPageSize={maxArticlePerPage}
+          total={fullArticleListFiltered.length}
+          onChange={(current) => onPageChange(current)}
+          // hideOnSinglePage={true}
           style={{
             display: "block",
             margin: "0 auto",

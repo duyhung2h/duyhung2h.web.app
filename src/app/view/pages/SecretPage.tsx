@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Helmet } from "react-helmet";
 import { NavLink } from "react-router-dom";
 import MyEditor from "../components/test_components/DraftJS";
 
@@ -18,6 +19,9 @@ export const SecretPage = () => {
 
   return (
     <React.Fragment>
+      <Helmet>
+        <title>Secret</title>
+      </Helmet>
       <NavLink to="/">Main</NavLink> {">"}{" "}
       <NavLink
         // style={({ isActive }) => (isActive ? classes.active : {})}

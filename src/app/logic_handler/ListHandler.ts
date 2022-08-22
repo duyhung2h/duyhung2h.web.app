@@ -19,9 +19,9 @@ export function sortList(
       backupList.forEach((item: Article, index) => {
         try {
           // console.log(item.articleTag);
-          console.log(item[sortName]);
           if (item.articleTag[0] == tag) {
             list.push(item);
+            console.log(item[sortName]);
           }
         } catch {}
       });
