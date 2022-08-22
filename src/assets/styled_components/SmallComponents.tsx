@@ -1,12 +1,36 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Variables } from "./Constants/CSS";
+
+export const NO_ANIMATION = css`
+  ${(props: Variables) => props.borderRadius + "pxs"}; /* dummy text */
+  ${({ noAnimation }) =>
+    noAnimation == true &&
+    `
+    animation: none !important;
+    -webkit-animation: none !important;
+`}
+`;
+export const BackdropContainer = styled.div`
+  width: 100vw;
+  //   height: 100vh;
+  background-color: rgba(0,0,0,0.3);
+  position: fixed; /* Sit on top of the page content */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  ${NO_ANIMATION}
+`;
 
 export const InputWrapComponent = styled.div`
   padding: ${(props: Variables) => `${props.padding}%`};
   align-items: ${(props: Variables) => `${props.align}`};
+  ${NO_ANIMATION}
   border: none;
   label,
-  input, .DraftEditor-editorContainer {
+  input,
+  .DraftEditor-editorContainer {
     display: block;
   }
 
@@ -18,7 +42,8 @@ export const InputWrapComponent = styled.div`
   }
 
   input,
-  textarea, .DraftEditor-editorContainer {
+  textarea,
+  .DraftEditor-editorContainer {
     display: block;
     font: inherit;
     padding: 0.35rem 0.35rem;
@@ -27,7 +52,8 @@ export const InputWrapComponent = styled.div`
     width: 100%;
   }
 
-  input, .DraftEditor-editorContainer,
+  input,
+  .DraftEditor-editorContainer,
   textarea:focus {
     outline: none;
     border-color: #4f005f;
@@ -36,7 +62,8 @@ export const InputWrapComponent = styled.div`
 
   &.invalid {
     input,
-    textarea, .DraftEditor-editorContainer {
+    textarea,
+    .DraftEditor-editorContainer {
       border-color: red;
       background: #fbdada;
     }

@@ -13,6 +13,7 @@ export type Variables = {
   padding?: number;
   imgSrc?: string;
   backgroundLoop?: boolean;
+  noAnimation?: boolean;
 };
 export type PProp = {
   color?: string;

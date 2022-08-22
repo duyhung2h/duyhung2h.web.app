@@ -65,17 +65,17 @@ a {
 .width-100 {
   width: 100%;
 }
-.backdrop-container {
-  width: 100vw;
-  //   height: 100vh;
-  background-color: $backdrop_color;
-  position: fixed; /* Sit on top of the page content */
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
-}
+// .backdrop-container {
+//   width: 100vw;
+//   height: 100vh;
+//   background-color: $backdrop_color;
+//   position: fixed; /* Sit on top of the page content */
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+// }
 
 .thumbnail {
   position: absolute;

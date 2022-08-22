@@ -10,6 +10,7 @@ import {
   TEXT_COMPONENT,
   Variables,
 } from "./Constants/CSS";
+import { NO_ANIMATION } from "./SmallComponents";
 
 export const P = styled.p`
   ${TEXT_COMPONENT}
@@ -40,6 +41,7 @@ export const CardImage = styled.img`
   ${(props: Variables) => props.borderRadius + "pxs"}; /* dummy text */
 `;
 export const CardImageBackground = styled.div`
+  ${NO_ANIMATION}
   ${BORDER_COMPONENT}
   background-image: url(${(props: Variables) => props.imgSrc}) !important;
   background-repeat: ${(props: Variables) =>

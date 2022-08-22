@@ -12,6 +12,7 @@ import {
   CardImage,
   CardImageWrap,
 } from "../../../assets/styled_components/Panel";
+import { BackdropContainer } from "../../../assets/styled_components/SmallComponents";
 import {
   addArticle,
   getArticleList,
@@ -157,7 +158,7 @@ export const GetArticlePage = () => {
   async function onPageChange(currentPage: number) {
     // change displayed article list according to page number
     const newAllValue = allValues;
-    newAllValue.articleList = fullArticleList
+    newAllValue.articleList = fullArticleList;
     await getArticleListContent(allValues, currentPage);
   }
 
@@ -341,10 +342,9 @@ export const GetArticlePage = () => {
     if (showOverlayAddArticle === true) {
       console.log("showOverlayAddArticle == true");
       backdrop_root.render(
-        <div
-          className="backdrop-container"
+        <BackdropContainer noAnimation={true}
           onClick={() => setShowOverlayAddArticle(false)}
-        ></div>
+        ></BackdropContainer>
       );
       overlay_root.render(
         <AddArticleComponent onAddArticle={addArticle}></AddArticleComponent>
@@ -366,10 +366,9 @@ export const GetArticlePage = () => {
     if (showOverlayViewArticle === true) {
       console.log("showOverlayViewArticle == true");
       backdrop_root.render(
-        <div
-          className="backdrop-container"
+        <BackdropContainer noAnimation={true}
           onClick={() => setShowOverlayViewArticle(false)}
-        ></div>
+        ></BackdropContainer>
       );
       overlay_root.render(
         <ViewArticleComponent

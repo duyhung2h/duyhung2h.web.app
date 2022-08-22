@@ -75,8 +75,8 @@ const ViewArticleComponent = (props: any) => {
 
   return (
     <>
-    <InputWrapComponent padding={0}>
-      <CardImageBackground
+    <InputWrapComponent padding={0} noAnimation={true}>
+      <CardImageBackground noAnimation={true}
         imgSrc={`${articleValue.articleImageLink}`}
         backgroundLoop={true}
         borderRadius={15}
