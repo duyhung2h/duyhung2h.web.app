@@ -15,13 +15,17 @@ import {
 import { BackdropContainer } from "../../../assets/styled_components/SmallComponents";
 import {
   addArticle,
+  addNewIP,
   getArticleList,
+  getIPData,
+  getIPDataByIP,
   getTagList,
 } from "../../db/article.service";
 import "../../logic_handler/ListHandler";
 import { sortList } from "../../logic_handler/ListHandler";
 import { limitTextLength } from "../../logic_handler/TextHandler";
 import { Article } from "../../model/Article";
+import { IPData } from "../../model/IPData";
 import AddArticleComponent from "../components/AddArticleComponent";
 import ViewArticleComponent from "../components/ViewArticleComponent";
 import {
@@ -129,6 +133,46 @@ export const GetArticlePage = () => {
       getArticleListContent(contentValue, 1);
       setFullArticleList(list_data);
     });
+  }, []);
+  // fetch IP data
+  useEffect(() => {
+    const fetchData = async () => {
+      const r = await fetch(
+        "https://api.ipify.org?format=jsonp&callback=getIP"
+      );
+      return r.text();
+    };
+    const fetchDataList = async () => {
+      const IPdataList = await getIPData();
+      return IPdataList;
+    };
+    const checkIfIPExist = (IP: string, IPdataList: IPData[]) => {
+      const IPdata = getIPDataByIP(IP, IPdataList);
+      return IPdata;
+    };
+    try {
+      fetchDataList().then((dataList) => {
+        fetchData().then((data) => {
+          console.log(data);
+          const dataGet = checkIfIPExist(data, dataList);
+          console.log(dataGet);
+
+          let IPdata: IPData;
+          if (dataGet.IP != "") {
+            displayAlertSuccessPopup("Your IP: " + dataGet.IP);
+            console.log("Your IP: ");
+            console.log(dataGet);
+
+            IPdata = dataGet;
+          } else {
+            displayAlertSuccessPopup("New Signup!");
+            IPdata = new IPData(data, [-1]);
+            addNewIP(IPdata);
+          }
+          localStorage.setItem("IPData", JSON.stringify(IPdata));
+        });
+      });
+    } catch {}
   }, []);
   /**
    * Set page number (by clicking < >, or when article list updated) and change displayed article list according to page number
@@ -342,7 +386,8 @@ export const GetArticlePage = () => {
     if (showOverlayAddArticle === true) {
       console.log("showOverlayAddArticle == true");
       backdrop_root.render(
-        <BackdropContainer noAnimation={true}
+        <BackdropContainer
+          noAnimation={true}
           onClick={() => setShowOverlayAddArticle(false)}
         ></BackdropContainer>
       );
@@ -366,7 +411,8 @@ export const GetArticlePage = () => {
     if (showOverlayViewArticle === true) {
       console.log("showOverlayViewArticle == true");
       backdrop_root.render(
-        <BackdropContainer noAnimation={true}
+        <BackdropContainer
+          noAnimation={true}
           onClick={() => setShowOverlayViewArticle(false)}
         ></BackdropContainer>
       );
@@ -563,7 +609,10 @@ export const GetArticlePage = () => {
       >
         Article Page
       </NavLink>
-      <RoundButton onClick={() => addArticleButtonHandler()}>+</RoundButton>
+      {/* only show add article button when showOverlay = false */}
+      {showOverlay == false && (
+        <RoundButton onClick={() => addArticleButtonHandler()}>+</RoundButton>
+      )}
       {/* filter options */}
       <MySelect />
       {test == true.toString() && (

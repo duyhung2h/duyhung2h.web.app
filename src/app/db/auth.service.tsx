@@ -74,6 +74,20 @@ export function getUserLocalstorage() {
   }
   return user;
 }
+/**
+ * Get all article liked inside local storage
+ *
+ * @returns
+ */
+// export function getArticleLikedLocalstorage() {
+//   let user: any;
+//   try {
+//     user = JSON.parse(localStorage["user"]);
+//   } catch {
+//     user = new User(-1, "guest", "password", "");
+//   }
+//   return user;
+// }
 
 /**
  * AuthContext object for AuthContextProvider
@@ -108,9 +122,7 @@ export const AuthContextProvider = (props: any) => {
       // if(user._username )
       const awaitedUser = async () => {
         await LoginFromAPI(user._username, user._password).then((data) => {
-          // loginHandler(data._username, data._password, data._token)
           console.log(data);
-          // alert("LoginFromAPI")
           logout();
           login(user._username, user._password, data.idToken);
 

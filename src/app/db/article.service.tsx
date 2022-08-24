@@ -1,5 +1,6 @@
 import { environment } from "../../environments/environment";
 import { Article } from "../model/Article";
+import { IPData } from "../model/IPData";
 import { displayAlertErrorPopup } from "../view/small_components/AlertInfoPopup";
 
 /**
@@ -32,7 +33,7 @@ export async function getArticleList() {
         articleData.articleImageLink,
         articleData.articleLikeCount,
         articleData.articleTag,
-        i + "",
+        i + ""
       );
     });
     console.log(articleList);
@@ -126,8 +127,8 @@ export async function addArticle(article: Article) {
       displayAlertErrorPopup("Something went wrong!");
       throw new Error("Something went wrong!");
     }
-    // redirect 
-    window.location.href = 'articles?function=add_article_success'
+    // redirect
+    window.location.href = "articles?function=add_article_success";
     return data;
   } catch (error: any) {
     displayAlertErrorPopup(error);
@@ -160,5 +161,102 @@ export const createArticle = (
     articleTag: articleTag,
   };
 };
+
+/**
+ * 
+ * @param IPDataValue 
+ * @returns 
+ */
+export const createIP = (IPDataValue: IPData) => {
+  return {
+    IP: IPDataValue.IP,
+    LikedArticles: IPDataValue.LikedArticles,
+  };
+};
+/**
+ * addNewIP
+ * take in an example object to post them into our API database.
+ *
+ * @param article example object being parsed to JSON to send along with POST API request.
+ * @returns
+ */
+export async function addNewIP(IPData: IPData) {
+  try {
+    console.log(IPData);
+    const bodyPOST = JSON.stringify(createIP(IPData));
+    console.log(bodyPOST);
+
+    const response = await fetch(
+      `${environment.apiUrl}IPData.json`,
+      {
+        // mode: 'no-cors',
+        method: "POST",
+        body: bodyPOST,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+    if (!response.ok) {
+      displayAlertErrorPopup("Something went wrong!");
+      throw new Error("Something went wrong!");
+    }
+    return data;
+  } catch (error: any) {
+    displayAlertErrorPopup(error);
+    return error;
+  }
+}
+export function getIPDataByIP(IP: string, IPList: IPData[]) {
+  let IPFetch: IPData = new IPData("", [-1])
+  IPList.forEach((item: IPData, index) => {
+    try {
+      if (item.IP == IP) {
+        displayAlertErrorPopup("found IP")
+        IPFetch = item
+      }
+    } catch {}
+  });
+  return IPFetch
+}
+/**
+ * getIPData
+ * take data from API database through GET request to return a list of articles/posts.
+ *
+ * @returns list of posts/example
+ */
+export async function getIPData() {
+  let IPDataList: IPData[] = [];
+  try {
+    const response = await fetch(`${environment.apiUrl}IPData.json`, {
+      method: "GET",
+    });
+    if (!response.ok) {
+      throw new Error("Something went wrong!");
+    }
+
+    var dataListResponse = await response.json();
+    const dataList = Object.keys(dataListResponse).map((item) => dataListResponse[item]);
+
+    let i = 0;
+    IPDataList = dataList.map((data: IPData) => {
+      i++;
+      return new IPData(
+        data.IP,
+        data.LikedArticles,
+      );
+    });
+
+    return IPDataList;
+  } catch (error) {
+    // alert("load example database failed!");
+    console.log(error);
+
+    return IPDataList;
+  }
+}
 
 export default getArticleList;
