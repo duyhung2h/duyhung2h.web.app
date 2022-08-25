@@ -21,6 +21,7 @@ import {
   getIPDataByIP,
   getTagList,
 } from "../../db/article.service";
+import { getLocalStorageIPData } from "../../db/reducer/reducer";
 import "../../logic_handler/ListHandler";
 import { sortList } from "../../logic_handler/ListHandler";
 import { limitTextLength } from "../../logic_handler/TextHandler";
@@ -32,7 +33,7 @@ import {
   displayAlertInfoPopup,
   displayAlertSuccessPopup,
 } from "../small_components/AlertInfoPopup";
-import LikeButton from "../small_components/LikeButton";
+import LikeButton, { checkLike } from "../small_components/LikeButton";
 import { RoundButton } from "../small_components/ui/RoundButton";
 import { Tags } from "../small_components/ui/Tag";
 
@@ -159,17 +160,22 @@ export const GetArticlePage = () => {
 
           let IPdata: IPData;
           if (dataGet.IP != "") {
-            displayAlertSuccessPopup("Your IP: " + dataGet.IP);
+            // displayAlertSuccessPopup("Your IP: " + dataGet.IP);
             console.log("Your IP: ");
             console.log(dataGet);
 
             IPdata = dataGet;
+            localStorage.setItem("IPData", JSON.stringify(IPdata));
           } else {
             displayAlertSuccessPopup("New Signup!");
-            IPdata = new IPData(data, [-1]);
-            addNewIP(IPdata);
+            IPdata = new IPData("", data, [-1]);
+            //assign void ID into new IPData first, then fetch ID if ID check is null
+            addNewIP(IPdata).then((newDataResponse) => {     
+              IPdata = new IPData(newDataResponse.name, data, [-1]);
+              localStorage.setItem("IPData", JSON.stringify(IPdata));    
+              console.log(IPdata);     
+            });
           }
-          localStorage.setItem("IPData", JSON.stringify(IPdata));
         });
       });
     } catch {}
@@ -351,7 +357,7 @@ export const GetArticlePage = () => {
           <p className="example__short-desc">
             {limitTextLength(articleObject.articleShortDesc, 40)}
           </p>
-          <LikeButton likeCount={articleObject.articleLikeCount} />
+          <LikeButton articleObject={articleObject} liked={checkLike(Number(articleObject.articleId), getLocalStorageIPData()) != -1 ? true : false}/>
           <Tags
             tagList={articleObject.articleTag}
             props={props}

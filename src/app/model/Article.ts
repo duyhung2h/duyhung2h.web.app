@@ -1,4 +1,5 @@
 export class Article{
+    private _coreId: string;
     private _articleId: string | undefined;
     private _articleTitle: string;
     private _articleShortDesc: string;
@@ -8,7 +9,8 @@ export class Article{
     private _articleTag: string[];
 
 
-	constructor(articleTitle: string, articleShortDesc: string, articleDesc: string, articleImageLink: string, articleLikeCount: number, articleTag: string[], articleId?: string) {
+	constructor(articleTitle: string, articleShortDesc: string, articleDesc: string, articleImageLink: string, articleLikeCount: number, articleTag: string[], coreId: string, articleId?: string) {
+		this._coreId = coreId;
 		this._articleId = articleId;
 		this._articleTitle = articleTitle;
 		this._articleShortDesc = articleShortDesc;
@@ -17,6 +19,24 @@ export class Article{
 		this._articleLikeCount = articleLikeCount;
 		this._articleTag = articleTag;
 	}
+
+
+    /**
+     * Getter coreId
+     * @return {string}
+     */
+	public get coreId(): string {
+		return this._coreId;
+	}
+
+    /**
+     * Setter coreId
+     * @param {string} value
+     */
+	public set coreId(value: string) {
+		this._coreId = value;
+	}
+
 
     /**
      * Getter exampleId

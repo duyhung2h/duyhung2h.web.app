@@ -20,7 +20,11 @@ export async function getArticleList() {
     }
 
     var data = await response.json();
-    const dataList = Object.keys(data.items).map((item) => data.items[item]);
+    const dataList = Object.keys(data.items).map((item) => {
+      let returnItem = data.items[item]
+      returnItem.coreId = item
+      return returnItem
+    });
     console.log(dataList);
 
     let i = 0;
@@ -33,6 +37,7 @@ export async function getArticleList() {
         articleData.articleImageLink,
         articleData.articleLikeCount,
         articleData.articleTag,
+        articleData.coreId,
         i + ""
       );
     });
@@ -99,13 +104,7 @@ export async function addArticle(article: Article) {
     console.log(article.articleTitle);
     console.log(article.articleShortDesc);
     const bodyPOST = JSON.stringify(
-      createArticle(
-        article.articleTitle,
-        article.articleShortDesc,
-        article.articleDesc,
-        article.articleImageLink,
-        article.articleTag
-      )
+      article
     );
     console.log(bodyPOST);
 
@@ -145,24 +144,54 @@ export async function addArticle(article: Article) {
  * @param desc
  * @returns
  */
-export const createArticle = (
-  title: string,
-  shortDesc: string,
-  desc: string,
-  imageLink: string,
-  articleTag: string[]
-) => {
+export const createArticle = (article: Article) => {
+  console.log(article);
+  
   return {
-    articleTitle: title,
-    articleShortDesc: shortDesc,
-    articleLikeCount: 0,
-    articleDesc: desc,
-    articleImageLink: imageLink,
-    articleTag: articleTag,
+    articleTitle: article.articleTitle,
+    articleShortDesc: article.articleShortDesc,
+    articleLikeCount: article.articleLikeCount,
+    articleDesc: article.articleDesc,
+    articleImageLink: article.articleImageLink,
+    articleTag: article.articleTag,
   };
 };
+/**
+ * updateArticle
+ * take an Article item then update it to the API
+ *
+ * @returns 
+ */
+export async function updateArticle(article: Article) {
+  try {
+    const bodyPUT = JSON.stringify(createArticle(article));
+    console.log(bodyPUT);
+
+    const response = await fetch(`${environment.apiUrl}articles/items/${article.coreId}.json`, {
+      method: "PUT",
+      body: bodyPUT,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    if (!response.ok) {
+      displayAlertErrorPopup("Something went wrong!");
+      throw new Error("Something went wrong!");
+    }
+    return data;
+  } catch (error) {
+    // alert("load example database failed!");
+    console.log(error);
+
+    return null;
+  }
+}
 
 /**
+ * Create new IP in case of IP doesn't exist
  * 
  * @param IPDataValue 
  * @returns 
@@ -175,9 +204,9 @@ export const createIP = (IPDataValue: IPData) => {
 };
 /**
  * addNewIP
- * take in an example object to post them into our API database.
+ * take in an IPData object to post them into our API database.
  *
- * @param article example object being parsed to JSON to send along with POST API request.
+ * @param IPData IPData object being parsed to JSON to send along with POST API request.
  * @returns
  */
 export async function addNewIP(IPData: IPData) {
@@ -210,12 +239,20 @@ export async function addNewIP(IPData: IPData) {
     return error;
   }
 }
+/**
+ * getIPDataByIP
+ * From the list of IP, get one specific IP (usually your PC IP). If IP is not found, register a new @IPData object to request to the API
+ * 
+ * @param IP 
+ * @param IPList 
+ * @returns fetched IP
+ */
 export function getIPDataByIP(IP: string, IPList: IPData[]) {
-  let IPFetch: IPData = new IPData("", [-1])
+  let IPFetch: IPData = new IPData("", "", [-1])
   IPList.forEach((item: IPData, index) => {
     try {
       if (item.IP == IP) {
-        displayAlertErrorPopup("found IP")
+        // displayAlertErrorPopup("found IP")
         IPFetch = item
       }
     } catch {}
@@ -224,9 +261,9 @@ export function getIPDataByIP(IP: string, IPList: IPData[]) {
 }
 /**
  * getIPData
- * take data from API database through GET request to return a list of articles/posts.
+ * take data from API database through GET request to return a list of IPData
  *
- * @returns list of posts/example
+ * @returns list of IPs
  */
 export async function getIPData() {
   let IPDataList: IPData[] = [];
@@ -239,23 +276,65 @@ export async function getIPData() {
     }
 
     var dataListResponse = await response.json();
-    const dataList = Object.keys(dataListResponse).map((item) => dataListResponse[item]);
+    console.log(dataListResponse);
+    const dataList = Object.keys(dataListResponse).map((item) => {
+      let returnItem = dataListResponse[item]
+      returnItem.Id = item
+      return returnItem
+    });
+    
 
     let i = 0;
     IPDataList = dataList.map((data: IPData) => {
       i++;
       return new IPData(
+        data.Id,
         data.IP,
         data.LikedArticles,
       );
     });
 
+    console.log(IPDataList);
+    
     return IPDataList;
   } catch (error) {
     // alert("load example database failed!");
     console.log(error);
 
     return IPDataList;
+  }
+}
+/**
+ * updateIPData
+ * take an IPData item then update it to the API
+ *
+ * @returns
+ */
+export async function updateIPData(IPData: IPData) {
+  try {
+    const bodyPUT = JSON.stringify(createIP(IPData));
+    console.log(bodyPUT);
+
+    const response = await fetch(`${environment.apiUrl}IPData/${IPData.Id}.json`, {
+      method: "PUT",
+      body: bodyPUT,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    if (!response.ok) {
+      displayAlertErrorPopup("Something went wrong!");
+      throw new Error("Something went wrong!");
+    }
+    return data;
+  } catch (error) {
+    // alert("load example database failed!");
+    console.log(error);
+
+    return null;
   }
 }
 

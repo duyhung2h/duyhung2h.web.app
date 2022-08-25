@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "moduleResolution": "node",
+  "keywords": [
+    "google",
+    "firebase",
+    "react",
+    "duyhung2h"
+  ],
   "dependencies": {
     "@apollo/client": "^3.6.9",
     "@ckeditor/ckeditor5-build-classic": "^34.0.0",

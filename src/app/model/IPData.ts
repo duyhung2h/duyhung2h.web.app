@@ -1,41 +1,61 @@
 export class IPData {
+  private _Id: string;
   private _IP: string;
   private _LikedArticles: number[] = [];
 
-  constructor(IP: string, LikedArticles: number[]) {
-    this._IP = IP;
-    this._LikedArticles = LikedArticles;
-  }
 
-  /**
-   * Getter IP
-   * @return {string}
-   */
-  public get IP(): string {
-    return this._IP;
-  }
+	constructor(Id: string, IP: string, LikedArticles: number[] ) {
+		this._Id = Id;
+		this._IP = IP;
+		this._LikedArticles = LikedArticles;
+	}
 
-  /**
-   * Getter LikedArticles
-   * @return {number[]}
-   */
-  public get LikedArticles(): number[] {
-    return this._LikedArticles;
-  }
+    /**
+     * Getter Id
+     * @return {string}
+     */
+	public get Id(): string {
+		return this._Id;
+	}
 
-  /**
-   * Setter IP
-   * @param {string} value
-   */
-  public set IP(value: string) {
-    this._IP = value;
-  }
+    /**
+     * Getter IP
+     * @return {string}
+     */
+	public get IP(): string {
+		return this._IP;
+	}
 
-  /**
-   * Setter LikedArticles
-   * @param {number[]} value
-   */
-  public set LikedArticles(value: number[]) {
-    this._LikedArticles = value;
-  }
+    /**
+     * Getter LikedArticles
+     * @return {number[] }
+     */
+	public get LikedArticles(): number[]  {
+		return this._LikedArticles;
+	}
+
+    /**
+     * Setter Id
+     * @param {string} value
+     */
+	public set Id(value: string) {
+		this._Id = value;
+	}
+
+    /**
+     * Setter IP
+     * @param {string} value
+     */
+	public set IP(value: string) {
+		this._IP = value;
+	}
+
+    /**
+     * Setter LikedArticles
+     * @param {number[] } value
+     */
+	public set LikedArticles(value: number[] ) {
+		this._LikedArticles = value;
+	}
+  
 }

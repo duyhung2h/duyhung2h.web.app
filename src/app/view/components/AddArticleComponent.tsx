@@ -145,17 +145,19 @@ const AddArticleComponent = (props: any) => {
     } else {
       tagValue = [selectorValueTag];
     }
-    const example = new Article(
+    const newArticle = new Article(
       titleValue || " ",
       shortDescValue || " ",
       // descRef.current?.value || " ",
       contentValue || " ",
       imageLinkValue || " ",
       0,
-      tagValue
+      tagValue,
+      "",
+      ""
     );
-    console.log(example);
-    props.onAddArticle(example);
+    console.log(newArticle);
+    props.onAddArticle(newArticle);
   }
 
   const [state] = useReducer(reducer, initialState);

@@ -1,3 +1,4 @@
+import { IPData } from "../../model/IPData";
 import { displayAlertErrorPopup } from "../../view/small_components/AlertInfoPopup";
 import { theme } from "./theme";
 
@@ -15,6 +16,23 @@ export function getLocalStorageTheme(): any {
     }
   }
   return JSON.parse(JSON.stringify(localTheme))
+}
+// save state to localStorage
+export function getLocalStorageIPData(): IPData {
+  let IPdata: IPData = new IPData("", "", [-1])
+  const data = window.localStorage.getItem("IPData");
+  if (data != null) {
+    try {
+      IPdata.IP = JSON.parse(data)._IP;
+      IPdata.Id = JSON.parse(data)._Id;
+      IPdata.LikedArticles = JSON.parse(data)._LikedArticles;
+      console.log(IPdata);
+      
+    } catch (error) {
+      displayAlertErrorPopup("Non existant IPData!")
+    }
+  }
+  return IPdata
 }
 
 // export function getCurrent
