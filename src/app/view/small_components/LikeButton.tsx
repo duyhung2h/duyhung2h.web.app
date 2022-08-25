@@ -6,11 +6,15 @@ import { SquareButtonProps } from "./ui/Button";
 
 export function checkLike(articleId_check: number, IPData: IPData) {
   let returnIndex = -1
-  IPData.LikedArticles.forEach((articleId: number, index) => {
-    if (articleId == articleId_check) {
-      returnIndex = index
-    }
-  });
+  try {
+    IPData.LikedArticles.forEach((articleId: number, index) => {
+      if (articleId == articleId_check) {
+        returnIndex = index
+      }
+    });
+  } catch (error) {
+    
+  }
   return returnIndex
 }
 /**

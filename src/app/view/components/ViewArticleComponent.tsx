@@ -30,7 +30,7 @@ const ViewArticleComponent = (props: any) => {
    * @function then(): promise function to handle function after a request is finished
    */
   const getArticleListContent = useCallback(async (articleId: string) => {
-    let article: Article = new Article("", "", "", "", -1, [""], "", new Date(), new Date(), "");
+    let article: Article = new Article("", "", "", "", -1, [""], "", new Date(new Date().getTime()), new Date(new Date().getTime()), "");
     try {
       let list = await getArticleList();
       console.log(list);
@@ -47,7 +47,7 @@ const ViewArticleComponent = (props: any) => {
     setArticleValue(article);
   }, []);
   // declare initial value
-  let article: Article = new Article("", "", "", "", -1, [""], "", new Date(), new Date(), "");
+  let article: Article = new Article("", "", "", "", -1, [""], "", new Date(new Date().getTime()), new Date(new Date().getTime()), "");
   const [articleValue, setArticleValue] = useState(article);
   const [articleTag, setArticleTag] = useState("");
   console.log(props.articleId);

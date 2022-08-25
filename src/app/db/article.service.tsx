@@ -21,9 +21,9 @@ export async function getArticleList() {
 
     var data = await response.json();
     const dataList = Object.keys(data.items).map((item) => {
-      let returnItem = data.items[item]
-      returnItem.coreId = item
-      return returnItem
+      let returnItem = data.items[item];
+      returnItem.coreId = item;
+      return returnItem;
     });
     console.log(dataList);
 
@@ -45,7 +45,6 @@ export async function getArticleList() {
     });
     console.log(articleList);
     console.log(new Date());
-    
 
     return articleList;
   } catch (error) {
@@ -107,9 +106,7 @@ export async function addArticle(article: Article) {
     console.log(article);
     console.log(article.articleTitle);
     console.log(article.articleShortDesc);
-    const bodyPOST = JSON.stringify(
-      article
-    );
+    const bodyPOST = JSON.stringify(createArticle(article));
     console.log(bodyPOST);
 
     const response = await fetch(
@@ -150,7 +147,7 @@ export async function addArticle(article: Article) {
  */
 export const createArticle = (article: Article) => {
   console.log(article);
-  
+
   return {
     articleTitle: article.articleTitle,
     articleShortDesc: article.articleShortDesc,
@@ -158,27 +155,32 @@ export const createArticle = (article: Article) => {
     articleDesc: article.articleDesc,
     articleImageLink: article.articleImageLink,
     articleTag: article.articleTag,
+    articleCreatedDate: article.createdDate,
+    articleLastUpdatedDate: article.lastUpdatedDate,
   };
 };
 /**
  * updateArticle
  * take an Article item then update it to the API
  *
- * @returns 
+ * @returns
  */
 export async function updateArticle(article: Article) {
   try {
     const bodyPUT = JSON.stringify(createArticle(article));
     console.log(bodyPUT);
 
-    const response = await fetch(`${environment.apiUrl}articles/items/${article.coreId}.json`, {
-      method: "PUT",
-      body: bodyPUT,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${environment.apiUrl}articles/items/${article.coreId}.json`,
+      {
+        method: "PUT",
+        body: bodyPUT,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await response.json();
     console.log(data);
     if (!response.ok) {
@@ -196,9 +198,9 @@ export async function updateArticle(article: Article) {
 
 /**
  * Create new IP in case of IP doesn't exist
- * 
- * @param IPDataValue 
- * @returns 
+ *
+ * @param IPDataValue
+ * @returns
  */
 export const createIP = (IPDataValue: IPData) => {
   return {
@@ -219,18 +221,15 @@ export async function addNewIP(IPData: IPData) {
     const bodyPOST = JSON.stringify(createIP(IPData));
     console.log(bodyPOST);
 
-    const response = await fetch(
-      `${environment.apiUrl}IPData.json`,
-      {
-        // mode: 'no-cors',
-        method: "POST",
-        body: bodyPOST,
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(`${environment.apiUrl}IPData.json`, {
+      // mode: 'no-cors',
+      method: "POST",
+      body: bodyPOST,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
     const data = await response.json();
     console.log(data);
     if (!response.ok) {
@@ -246,22 +245,22 @@ export async function addNewIP(IPData: IPData) {
 /**
  * getIPDataByIP
  * From the list of IP, get one specific IP (usually your PC IP). If IP is not found, register a new @IPData object to request to the API
- * 
- * @param IP 
- * @param IPList 
+ *
+ * @param IP
+ * @param IPList
  * @returns fetched IP
  */
 export function getIPDataByIP(IP: string, IPList: IPData[]) {
-  let IPFetch: IPData = new IPData("", "", [-1])
+  let IPFetch: IPData = new IPData("", "", [-1]);
   IPList.forEach((item: IPData, index) => {
     try {
       if (item.IP == IP) {
         // displayAlertErrorPopup("found IP")
-        IPFetch = item
+        IPFetch = item;
       }
     } catch {}
   });
-  return IPFetch
+  return IPFetch;
 }
 /**
  * getIPData
@@ -282,24 +281,22 @@ export async function getIPData() {
     var dataListResponse = await response.json();
     console.log(dataListResponse);
     const dataList = Object.keys(dataListResponse).map((item) => {
-      let returnItem = dataListResponse[item]
-      returnItem.Id = item
-      return returnItem
+      let returnItem = dataListResponse[item];
+      returnItem.Id = item;
+      return returnItem;
     });
-    
 
     let i = 0;
     IPDataList = dataList.map((data: IPData) => {
+      if (data.LikedArticles == undefined) {
+        data.LikedArticles = [-1]
+      }
       i++;
-      return new IPData(
-        data.Id,
-        data.IP,
-        data.LikedArticles,
-      );
+      return new IPData(data.Id, data.IP, data.LikedArticles);
     });
 
     console.log(IPDataList);
-    
+
     return IPDataList;
   } catch (error) {
     // alert("load example database failed!");
@@ -319,14 +316,17 @@ export async function updateIPData(IPData: IPData) {
     const bodyPUT = JSON.stringify(createIP(IPData));
     console.log(bodyPUT);
 
-    const response = await fetch(`${environment.apiUrl}IPData/${IPData.Id}.json`, {
-      method: "PUT",
-      body: bodyPUT,
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${environment.apiUrl}IPData/${IPData.Id}.json`,
+      {
+        method: "PUT",
+        body: bodyPUT,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await response.json();
     console.log(data);
     if (!response.ok) {
