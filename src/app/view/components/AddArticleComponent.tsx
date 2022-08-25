@@ -154,6 +154,8 @@ const AddArticleComponent = (props: any) => {
       0,
       tagValue,
       "",
+      new Date(), 
+      new Date(),
       ""
     );
     console.log(newArticle);

@@ -5,11 +5,13 @@ export class Article{
     private _articleShortDesc: string;
     private _articleDesc: string;
     private _articleImageLink: string;
+    private _createdDate: Date;
+    private _lastUpdatedDate: Date;
     private _articleLikeCount: number;
     private _articleTag: string[];
 
 
-	constructor(articleTitle: string, articleShortDesc: string, articleDesc: string, articleImageLink: string, articleLikeCount: number, articleTag: string[], coreId: string, articleId?: string) {
+	constructor(articleTitle: string, articleShortDesc: string, articleDesc: string, articleImageLink: string, articleLikeCount: number, articleTag: string[], coreId: string, createdDate: Date, lastUpdatedDate: Date, articleId?: string) {
 		this._coreId = coreId;
 		this._articleId = articleId;
 		this._articleTitle = articleTitle;
@@ -18,6 +20,40 @@ export class Article{
 		this._articleImageLink = articleImageLink;
 		this._articleLikeCount = articleLikeCount;
 		this._articleTag = articleTag;
+		this._createdDate = createdDate;
+		this._lastUpdatedDate = lastUpdatedDate;
+	}
+
+    /**
+     * Getter createdDate
+     * @return {Date}
+     */
+	public get createdDate(): Date {
+		return this._createdDate;
+	}
+
+    /**
+     * Getter lastUpdatedDate
+     * @return {Date}
+     */
+	public get lastUpdatedDate(): Date {
+		return this._lastUpdatedDate;
+	}
+
+    /**
+     * Setter createdDate
+     * @param {Date} value
+     */
+	public set createdDate(value: Date) {
+		this._createdDate = value;
+	}
+
+    /**
+     * Setter lastUpdatedDate
+     * @param {Date} value
+     */
+	public set lastUpdatedDate(value: Date) {
+		this._lastUpdatedDate = value;
 	}
 
 

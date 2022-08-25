@@ -38,10 +38,14 @@ export async function getArticleList() {
         articleData.articleLikeCount,
         articleData.articleTag,
         articleData.coreId,
+        new Date(articleData.articleCreatedDate),
+        new Date(articleData.articleLastUpdatedDate),
         i + ""
       );
     });
     console.log(articleList);
+    console.log(new Date());
+    
 
     return articleList;
   } catch (error) {
