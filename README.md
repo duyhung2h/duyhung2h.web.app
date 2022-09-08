@@ -1,6 +1,6 @@
 # Project dependencies / libs
 
-Dependencies: 
+## Dependencies: 
 - React
   - UseContext / UseReducer / UseState
   - Styled components
@@ -10,6 +10,6 @@ Dependencies:
 
 
 
-Firebase:
+## Firebase:
 - Project mien: aoe2moddingtutorial
 - Project realtime database: personal-website-by-duyhung2h
