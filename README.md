@@ -1,10 +1,13 @@
 # Project dependencies / libs
 
-React
+Dependencies: 
+- React
++ UseContext / UseReducer / UseState
++ Styled components
++ Some custom hook
+- localStorage
 
-UseContext / UseReducer / UseState
 
-Styled components (dang do)
 
 
 Firebase:
