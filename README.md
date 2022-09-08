@@ -2,9 +2,9 @@
 
 Dependencies: 
 - React
- - UseContext / UseReducer / UseState
- - Styled components
- - Some custom hook
+  - UseContext / UseReducer / UseState
+  - Styled components
+  - Some custom hook
 - localStorage
 
 
