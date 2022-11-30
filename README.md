@@ -1,12 +1,17 @@
 # Project dependencies / libs
 
-React
+## Frontend Dependencies: 
+- React
+  - UseContext (group of useState)
+  - UseReducer (theme, etc)
+  - UseState
+  - Styled components
+  - Some custom hook
+- localStorage
 
-UseContext / UseReducer / UseState
-
-Styled components (dang do)
 
 
-Firebase:
+
+## API: Firebase:
 - Project mien: aoe2moddingtutorial
 - Project realtime database: personal-website-by-duyhung2h
