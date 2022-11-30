@@ -1,17 +1,11 @@
 {
   "hosting": {
-    "site": "duyhung2h",
+    "target": "aoe2moddingtutorial",
     "public": "build",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ],
-    "rewriteOld": [
-      {
-        "source": "/public/sitemap.xml",
-        "function": "buildSitemap"
-      }
     ],
     "rewrites": [
       {
@@ -34,6 +28,7 @@
     "backup": [
       "npm --prefix \"%RESOURCE_DIR%\" run lint",
       "npm --prefix \"%RESOURCE_DIR%\" run build"
-    ]
+    ],
+    "source": "functions"
   }
 }

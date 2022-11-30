@@ -3,6 +3,14 @@
     "default": "aoe2moddingtutorial",
     "staging": "aoe2moddingtutorial"
   },
-  "targets": {},
+  "targets": {
+    "aoe2moddingtutorial": {
+      "hosting": {
+        "aoe2moddingtutorial": [
+          "duyhung2h"
+        ]
+      }
+    }
+  },
   "etags": {}
 }
