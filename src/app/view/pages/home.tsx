@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { NavLink } from "react-router-dom";
+import { InfoCard } from "../../../assets/styled_components/Panel";
 import { getTagList } from "../../db/article.service";
 import { getInfoList } from "../../db/info.service";
 import InfoCardComponent from "../small_components/InfoCard";
@@ -44,20 +45,19 @@ export const Home = (props?: any) => {
       })}
       <h1>Articles</h1>
       <p>
-        Below here you can filter articles by tags, or browse my recent
+        Below here you can filter articles by tags (by clicking on the tags), or browse my recent
         articles.
       </p>
       <Tags tagList={tags} props={props} />
       <div>
-        <iframe
-          src={`https://discord.com/widget?id=944992591345225800&theme=dark`}
-          width={350}
-          height={300}
-          allowTransparency={true}
-          frameBorder={0}
-          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"
-          title="discord overlay"
-        ></iframe>
+        <InfoCard
+          borderRadius={10}
+          disableBorderShadow={true}
+          className="col-8 info_card__left"
+          disableBorder={true}
+        >
+          Featured Posts
+        </InfoCard>
       </div>
     </React.Fragment>
   );
