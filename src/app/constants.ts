@@ -1,2 +1,2 @@
-export const WEB_VER = "#122"
-export const WEB_BRANCH = "backupReactTypescript/main"
+export const WEB_VER = "#136"
+export const WEB_BRANCH = "duyhung2h.web.app/main"
