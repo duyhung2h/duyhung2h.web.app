@@ -1,5 +1,14 @@
 # Project dependencies / libs
 
+
+## How to install:
+
+```
+yarn install
+npm install
+```
+
+
 ## Frontend Dependencies: 
 - React
   - UseContext (group of useState)
