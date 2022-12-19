@@ -1,7 +1,10 @@
 import { environment } from "../../environments/environment";
 import { Article } from "../model/Article";
 import { IPData } from "../model/IPData";
-import { displayAlertErrorPopup } from "../view/small_components/AlertInfoPopup";
+import {
+  displayAlertErrorPopup,
+  displayAlertInfoPopup,
+} from "../view/small_components/AlertInfoPopup";
 
 /**
  * getExampleList
@@ -40,6 +43,7 @@ export async function getArticleList() {
         articleData.coreId,
         new Date(articleData.articleCreatedDate),
         new Date(articleData.articleLastUpdatedDate),
+        articleData.articleViewCount,
         i + ""
       );
     });
@@ -53,6 +57,49 @@ export async function getArticleList() {
 
     return articleList;
   }
+}
+
+/**
+ * getArticleById
+ * take data from API database through GET request
+ * to return a list of articles/posts.
+ *
+ * @param id: parameter to fetch article by that id.
+ * @returns list of posts/example
+ */
+export async function getArticleById(id?: string) {
+  let articleList: Article[] | void;
+  let returnData;
+
+  articleList = await getArticleList().then((list_data) => {
+    for (let articleData of list_data) {
+      if (articleData?.articleId == id) {
+        displayAlertInfoPopup(articleData.articleId + "");
+        returnData = articleData;
+      }
+    }
+  });
+
+  return returnData;
+}
+
+/**
+ * updateArticleViewCount
+ * take data from API database through GET request to return a list of articles/posts.
+ *
+ * @returns
+ */
+export async function updateArticleViewCount(id?: string) {
+  let articleAwait = await getArticleById(id).then(
+    (returnedArticle: Article) => {
+      returnedArticle.articleViewCount = returnedArticle.articleViewCount + 1;
+      
+      displayAlertInfoPopup(
+        "View count: " + returnedArticle.articleViewCount
+      );
+      updateArticle(returnedArticle);
+    }
+  );
 }
 
 /**
@@ -157,8 +204,10 @@ export const createArticle = (article: Article) => {
     articleTag: article.articleTag,
     articleCreatedDate: article.createdDate,
     articleLastUpdatedDate: article.lastUpdatedDate,
+    articleViewCount: article.articleViewCount
   };
 };
+
 /**
  * updateArticle
  * take an Article item then update it to the API
@@ -169,6 +218,8 @@ export async function updateArticle(article: Article) {
   try {
     const bodyPUT = JSON.stringify(createArticle(article));
     console.log(bodyPUT);
+    
+    displayAlertErrorPopup("updateArticle(article: Article)" + article.articleViewCount);
 
     const response = await fetch(
       `${environment.apiUrl}articles/items/${article.coreId}.json`,
@@ -208,6 +259,7 @@ export const createIP = (IPDataValue: IPData) => {
     LikedArticles: IPDataValue.LikedArticles,
   };
 };
+
 /**
  * addNewIP
  * take in an IPData object to post them into our API database.
@@ -289,7 +341,7 @@ export async function getIPData() {
     let i = 0;
     IPDataList = dataList.map((data: IPData) => {
       if (data.LikedArticles == undefined) {
-        data.LikedArticles = [-1]
+        data.LikedArticles = [-1];
       }
       i++;
       return new IPData(data.Id, data.IP, data.LikedArticles);

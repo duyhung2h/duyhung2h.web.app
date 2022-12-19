@@ -156,6 +156,7 @@ const AddArticleComponent = (props: any) => {
       "",
       new Date(), 
       new Date(),
+      0,
       ""
     );
     console.log(newArticle);

@@ -30,7 +30,7 @@ const ViewArticleComponent = (props: any) => {
    * @function then(): promise function to handle function after a request is finished
    */
   const getArticleListContent = useCallback(async (articleId: string) => {
-    let article: Article = new Article("", "", "", "", -1, [""], "", new Date(new Date().getTime()), new Date(new Date().getTime()), "");
+    let article: Article = new Article("", "", "", "", -1, [""], "", new Date(new Date().getTime()), new Date(new Date().getTime()), 0, "");
     try {
       let list = await getArticleList();
       console.log(list);
@@ -47,7 +47,7 @@ const ViewArticleComponent = (props: any) => {
     setArticleValue(article);
   }, []);
   // declare initial value
-  let article: Article = new Article("", "", "", "", -1, [""], "", new Date(new Date().getTime()), new Date(new Date().getTime()), "");
+  let article: Article = new Article("", "", "", "", -1, [""], "", new Date(new Date().getTime()), new Date(new Date().getTime()), 0, "");
   const [articleValue, setArticleValue] = useState(article);
   const [articleTag, setArticleTag] = useState("");
   console.log(props.articleId);
@@ -87,8 +87,7 @@ const ViewArticleComponent = (props: any) => {
       themeId={currentTheme.id}
       theme={currentTheme}
       borderRadius={15}
-      borderWidth={1}
-    >
+      borderWidth={1}>
       <InputWrapComponent padding={5}>
         <SquareButtonProps type="submit">
           Back to Article lists

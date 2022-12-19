@@ -16,10 +16,13 @@ import { BackdropContainer } from "../../../assets/styled_components/SmallCompon
 import {
   addArticle,
   addNewIP,
+  getArticleById,
   getArticleList,
   getIPData,
   getIPDataByIP,
   getTagList,
+  updateArticle,
+  updateArticleViewCount,
 } from "../../db/article.service";
 import { getLocalStorageIPData } from "../../db/reducer/reducer";
 import "../../logic_handler/ListHandler";
@@ -170,10 +173,10 @@ export const GetArticlePage = () => {
             displayAlertSuccessPopup("New Signup!");
             IPdata = new IPData("", data, [-1]);
             //assign void ID into new IPData first, then fetch ID if ID check is null
-            addNewIP(IPdata).then((newDataResponse) => {     
+            addNewIP(IPdata).then((newDataResponse) => {
               IPdata = new IPData(newDataResponse.name, data, [-1]);
-              localStorage.setItem("IPData", JSON.stringify(IPdata));    
-              console.log(IPdata);     
+              localStorage.setItem("IPData", JSON.stringify(IPdata));
+              console.log(IPdata);
             });
           }
         });
@@ -317,7 +320,7 @@ export const GetArticlePage = () => {
   /**
    * GetArticleComponent
    *
-   * create JSX for each article component
+   * create JSX for each article component (outside the article page)
    *
    * @param props
    * @returns
@@ -325,7 +328,7 @@ export const GetArticlePage = () => {
   function GetArticleComponent(props: any) {
     const articleObject: Article = props.articleObject;
     // handle for clicking an articles item -> show a popup article
-    const articlePageHandler = () => {
+    async function articlePageHandler() {
       displayAlertInfoPopup(
         "Page scroll shifted to default position! Article page"
       );
@@ -333,6 +336,9 @@ export const GetArticlePage = () => {
 
       setShowOverlayViewArticle(true);
       setArticleViewId(Number(articleObject.articleId));
+
+      // update article view by one
+      updateArticleViewCount(articleObject.articleId + "")
     };
     return (
       <BackgroundPanel borderRadius={15} disableBorder={true} borderWidth={1}>
@@ -357,12 +363,25 @@ export const GetArticlePage = () => {
           <p className="example__short-desc">
             {limitTextLength(articleObject.articleShortDesc, 40)}
           </p>
-          <LikeButton articleObject={articleObject} liked={checkLike(Number(articleObject.articleId), getLocalStorageIPData()) != -1 ? true : false}/>
+          <LikeButton
+            articleObject={articleObject}
+            liked={
+              checkLike(
+                Number(articleObject.articleId),
+                getLocalStorageIPData()
+              ) != -1
+                ? true
+                : false
+            }
+          />
           <Tags
             tagList={articleObject.articleTag}
             props={props}
             onTagClick={onTagClick}
           />
+          <span className="float-right">
+            View(s): {articleObject.articleViewCount}
+          </span>
         </CardContentWrap>
       </BackgroundPanel>
     );
