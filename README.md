@@ -1,6 +1,5 @@
 # Project dependencies / libs
 
-
 ## How to install:
 
 ```
@@ -17,6 +16,8 @@ npm install
   - Styled components
   - Some custom hook
 - localStorage
+
+Node version: v16.14.0
 
 
 
